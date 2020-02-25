@@ -17,7 +17,6 @@
     position: relative;
     z-index: 1;
     background: rgba(0, 0, 0, 0.6);
-    /* max-width: 360px; */
     margin: 0 auto 100px;
     padding: 45px;
     text-align: center;
@@ -41,18 +40,15 @@
     margin: 0 15px 15px 15px;
 }
 
-/* .input-full  {
-    width: 100% !important;
-    margin: 0 0 15px !important;
-    background-color: #000000;
-} */
+.error {
+    color: #EF3B3A;
+    margin: auto;
+}
 
 .form button {
     font-family: "Roboto", sans-serif;
     text-transform: uppercase;
     outline: 0;
-    /* background: #4CAF50; */
-    /* background: #00D363; */
     background: #00ab50;
     width: 100%;
     border: 0;
@@ -70,7 +66,6 @@
 }
 
 .form button:hover,.form button:active,.form button:focus {
-    /* background: #43A047; */
     background: #009445;
 }
 .form .message {
@@ -116,12 +111,6 @@
     color: #EF3B3A;
 }
 body {
-    /* background: #76b852; fallback for old browsers */
-    /* background: -webkit-linear-gradient(right, #76b852, #8DC26F);
-    background: -moz-linear-gradient(right, #76b852, #8DC26F);
-    background: -o-linear-gradient(right, #76b852, #8DC26F);
-    background: linear-gradient(to left, #76b852, #8DC26F); */
-
     background: url('../img/login-reg-background.jpg') no-repeat center center fixed; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
