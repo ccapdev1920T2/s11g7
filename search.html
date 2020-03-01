@@ -4,15 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ANIMOSIS - Search</title>
-    <link rel="stylesheet" href="css/student.css">
     <link href="https://fonts.googleapis.com/css?family=EB+Garamond|Lato&display=swap" rel="stylesheet"> 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/student.css">
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </head>
-<body>
-<body>
+<body class="dlsu-tint min-vh-100 d-flex flex-column">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center justify-content-center" style="font-family: 'EB Garamond', serif;" href="search.html">
@@ -40,55 +39,18 @@
             </div>
         </div>
     </nav>
-    <div class="container" id="content">
-        <div class="row">
+    <div class="d-flex align-items-center flex-fill">
+        <div class="container box py-5" id="searchform">
             <div class="col-12">
-                <form class="form">
+                <form class="form" id="search-course" action="searchresult.html">
                     <h1>Search courses</h1>
                     <div class="input-group">
-                        <input class="form-control form-control-lg" type="text" placeholder="Search courses (e.g. CCAPDEV, MOBIDEV)..." id="courses" name="courses"> 
+                        <input class="form-control form-control-lg" type="text" placeholder="Type a course code... (e.g. CCAPDEV, MOBIDEV)" id="courses" name="courses"> 
                         <div class="input-group-append" id="search">
-                            <button class="btn btn-primary" type="button">Search</button>
+                            <input class="btn btn-success" type="submit" value="Search">
                         </div>
                     </div>
                 </form>
-            </div>
-            <div class="col-12" id="search-results">
-                <h1 class="d-flex justify-content-left">Search results</h1>
-                <div class="card table-responsive">
-                    <table class="table table-light table-striped table-hover">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th scope="col-1"></th>
-                                <th scope="col-1">Code</th>
-                                <th scope="col-1">Section</th>
-                                <th scope="col-3">Course Name</th>
-                                <th scope="col-1">Day</th>
-                                <th scope="col-1">Timeslot</th>
-                                <th scope="col-1">Room</th>
-                                <th scope="col-1">Slots</th>
-                                <th scope="col-2">Professor</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td scope="col-1">
-                                    <div class="form-check">
-                                        <input class="form-check-input position-static" type="checkbox">
-                                    </div>
-                                </td>
-                                <td scope="col-1">CCAPDEV</th>
-                                <td scope="col-1">S11</th>
-                                <td scope="col-3">Web Application Development</th>
-                                <td scope="col-1">MW</td>
-                                <td scope="col-1">1100-1230</th>
-                                <td scope="col-1">G304B</td>
-                                <td scope="col-1">20/43</td>
-                                <td scope="col-3">Arren Antioquia</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
             </div>
         </div>
     </div>
