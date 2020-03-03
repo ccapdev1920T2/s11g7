@@ -13,15 +13,15 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
     <!--Full Calendar-->
-    <link href='fullcalendar/packages/core/main.css' rel='stylesheet' />
-    <link href='fullcalendar/packages/daygrid/main.css' rel='stylesheet' />
-    <link href='fullcalendar/packages/timegrid/main.css' rel='stylesheet' />
-    <link href='fullcalendar/packages/bootstrap/main.css' rel='stylesheet' />
+    <link href='assets/js/fullcalendar/packages/core/main.css' rel='stylesheet' />
+    <link href='assets/js/fullcalendar/packages/daygrid/main.css' rel='stylesheet' />
+    <link href='assets/js/fullcalendar/packages/timegrid/main.css' rel='stylesheet' />
+    <link href='assets/js/fullcalendar/packages/bootstrap/main.css' rel='stylesheet' />
     <link href='https://use.fontawesome.com/releases/v5.0.6/css/all.css' rel='stylesheet'> 
-    <script src='fullcalendar/packages/core/main.js'></script>
-    <script src='fullcalendar/packages/daygrid/main.js'></script>
-    <script src='fullcalendar/packages/timegrid/main.js'></script>
-    <script src='fullcalendar/packages/bootstrap/main.js'></script>
+    <script src='assets/js/fullcalendar/packages/core/main.js'></script>
+    <script src='assets/js/fullcalendar/packages/daygrid/main.js'></script>
+    <script src='assets/js/fullcalendar/packages/timegrid/main.js'></script>
+    <script src='assets/js/fullcalendar/packages/bootstrap/main.js'></script>
 
     <!--jQuery-->
     <script
@@ -99,13 +99,13 @@
         })
     </script>
 
-    <link rel="stylesheet" href="css/student.css">
+    <link rel="stylesheet" href="assets/css/student.css">
 </head>
 <body class="dlsu-tint min-vh-100 d-flex flex-column">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center justify-content-center" style="font-family: 'EB Garamond', serif;" href="search.html">
-                <img src="img/dlsu-logo.png" style="height: 50px; margin-right: 10px">
+                <img src="assets/img/dlsu-logo.png" style="height: 50px; margin-right: 10px">
                 ANIMOSIS
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
@@ -129,8 +129,8 @@
             </div>
         </div>
     </nav>
-    <div class="align-items-center d-flex flex-fill">
-        <div class="container box">
+    <div class="align-items-center">
+        <div class="container box my-3">
             <div class="col-12 p-3">
                 <h1 class="d-flex justify-content-left">Your class schedule</h1>
                 <div id="calendar"></div>
@@ -142,7 +142,7 @@
                 <form class="form" action="manage_removesuccess.html">
                     <h1 class="d-flex justify-content-left">Courses</h1>
                     <div class="table-responsive">
-                        <table class="table table-sm table-light table-striped table-hover">
+                        <table class="table table-sm table-light table-striped table-hover text-center">
                             <thead class="thead-dark">
                                 <tr>
                                     <th scope="col-1"></th>
