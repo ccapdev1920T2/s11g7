@@ -1,10 +1,12 @@
 # animosis
 
-## 1) Project setup
+## Project setup
+
+### 1) Install node.js in project
 ```
 npm install
 ```
-### 2) Installation of custom plugins (bootstrap & fullcalendar)
+### 2) Install custom plugins (bootstrap & fullcalendar)
 ```
 npm install bootstrap jquery popper.js --save
 
