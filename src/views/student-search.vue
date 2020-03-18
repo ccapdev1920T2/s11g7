@@ -1,19 +1,19 @@
 <template>
-    <div>
+    <div class="main">
         <student-header></student-header>
-        <search-content></search-content>
+        <search-box></search-box>
     </div>
 </template>
 
 
 <script>
 import Header from '../components/student-header.vue'
-import searchContent from '../components/student-searchbox.vue'
+import searchBox from '../components/student-searchbox.vue'
 
 export default {
     components: {
         'student-header': Header,
-        'search-content': searchContent
+        'search-box': searchBox
     }
 }
 </script>

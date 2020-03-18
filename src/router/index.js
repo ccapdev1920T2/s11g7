@@ -3,19 +3,30 @@ import VueRouter from 'vue-router'
 
 import studentSearch from '../views/student-search.vue'
 import studentManage from '../views/student-manage.vue'
-
+import studentResults from '../views/student-results.vue'
+import loginStudent from '../views/student-login.vue'
 
 
 Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/student-search',
+    path: '/',
+    name: 'loginStudent',
+    component: loginStudent
+  },
+  {
+    path: '/search',
     name: 'Search',
     component: studentSearch
   },
   {
-    path: '/student-manage',
+    path: '/results',
+    name: 'Results',
+    component: studentResults
+  },
+  {
+    path: '/manage',
     name: 'Manage',
     component: studentManage
   }

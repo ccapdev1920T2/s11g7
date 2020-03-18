@@ -1,3 +1,32 @@
+<template >
+<div class="main">
+        <div class="login-page">
+        <div class="form">
+        <form class="login-form" action="search.html">
+            <input id="idnum" type="number" placeholder="ID Number"/>
+            <input id="password" type="password" placeholder="Password"/>
+            <button type="submit" id="login"><b>login</b></button>
+            <p class="message">Not registered? <a href="register.html">Create an account</a></p>
+            <!-- <p class="error"></p> -->
+        </form>
+        </div>
+    </div>
+    <div class="footer">
+        <p class="message"><a href="admin-login.html">Login as Admin</a></p>
+    </div>
+</div>
+</template>
+
+
+<script>
+
+export default {
+}
+</script>
+
+
+<style scoped>
+
 @import url(https://fonts.googleapis.com/css?family=Roboto:300);
 
 .login-page {
@@ -139,11 +168,9 @@
     background-color: rgb(45, 104, 47);;
 }
 
-
-
 .main{
-    height: 100vh;
-    background: url('../img/login-reg-background.jpg') no-repeat center center fixed; 
+    min-height: 100vh;
+    background: url('../assets/img/login-reg-background.jpg') no-repeat center center fixed; 
     
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -154,3 +181,4 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;      
 }
+</style>

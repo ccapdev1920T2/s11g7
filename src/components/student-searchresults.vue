@@ -1,18 +1,12 @@
 <template>
-    <div class="align-items-center">
-        <div class="container box my-3">
-            <div class="col-12 p-3">
-                <h1 class="d-flex justify-content-left">Your class schedule</h1>
-                <div id="calendar"></div>
-
-                <student-calendar></student-calendar>
-
-            </div>
-            <div class="col-12 p-3" id="search-results">
-                <form class="form" action="manage_removesuccess.html">
-                    <h1 class="d-flex justify-content-left">Courses</h1>
+    <div class="align-items-center d-flex flex-column flex-fill top">
+        
+        <div class="container box m-3">
+            <div class="col-12 py-3" id="search-results">
+                <form class="form" id="add-course" action="search_addsuccess.html">
+                    <h1 class="d-flex justify-content-left">Search results</h1>
                     <div class="table-responsive">
-                        <table class="table table-sm table-light table-striped table-hover text-center">
+                        <table class="rounded table table-light table-striped table-hover table-bordered text-center">
                             <thead class="thead-dark">
                                 <tr>
                                     <th scope="col-1"></th>
@@ -33,7 +27,6 @@
                                             <input class="form-check-input position-static" type="checkbox">
                                         </div>
                                     </td>
-                                    
                                     <td scope="col-1" > {{course.code}} </td>
                                     <td scope="col-1"> {{course.section}} </td>
                                     <td scope="col-3"> {{course.name}} </td>
@@ -46,26 +39,21 @@
                             </tbody>
                         </table>
                     </div>
-                    <input class="btn btn-danger" type="submit" value="Remove courses">  
+                    <input class="btn btn-success" type="submit" value="Add courses">
                 </form>
             </div>
         </div>
     </div>
+
 </template>
 
-
 <script>
-import studentCalendar from './student-calendar.vue'
-
 export default {
-    components:{
-        'student-calendar': studentCalendar
-    },
     data(){
-        return{
+        return {
             courses: [{
-                            code: "SUBJECT",
-                            section: "S99",
+                            code: "CCAPDEV",
+                            section: "S11",
                             name: "Course #123",
                             days: "MTWHFSS",
                             timeslot: "All Day",
@@ -86,7 +74,7 @@ export default {
                             prof: "Arren Antioquia"
                         },
                         {
-                            code: "CCAPDEV",
+                            code: "CCAPDEV2",
                             section: "S11",
                             name: "Web Application Development",
                             days: "MW",
@@ -96,7 +84,7 @@ export default {
                             totalSlots: "43",
                             prof: "Arren Antioquia"
                         }
-                        ]
+                    ]
         }
     }
 }
@@ -104,5 +92,7 @@ export default {
 
 
 <style scoped>
-
+.top{
+    margin-top: 50px;
+}
 </style>

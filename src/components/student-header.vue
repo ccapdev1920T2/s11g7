@@ -22,7 +22,7 @@
                 </ul>
                 <ul class="navbar-nav mt-2 mt-lg-0 justify-content-end">
                     <li class="nav-item">
-                        <a class="nav-link" href="student-login.html">Logout</a>
+                        <a class="nav-link"> <router-link :to="{name: 'loginStudent'}">Logout</router-link></a>
                     </li>
                 </ul>
             </div>
