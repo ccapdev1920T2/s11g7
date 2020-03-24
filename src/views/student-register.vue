@@ -1,32 +1,35 @@
-<template >
+<template>
 <div class="main">
-        <div class="login-page">
-        <div class="form">
-        <form class="login-form" action="search.html">
-            <input id="idnum" type="number" placeholder="ID Number"/>
-            <input id="password" type="password" placeholder="Password"/>
-            <button type="submit" id="login"><b>login</b></button>
-            <p class="message">Not registered? <a><router-link :to="{name: 'Register'}">Create an account</router-link></a></p>
-            <!-- <p class="error"></p> -->
-        </form>
-        </div>
+  <div class="register-page">
+    <div class="form">
+      <form class="register-form">
+        <input id="fullname" type="text" placeholder="Full Name"/>
+        <input id="idnum" type="number" placeholder="ID Number"/>
+
+        <input id="email" type="email" placeholder="E-mail Address"/>
+        <input id="birthday" type="date" placeholder="Birthday"/>
+
+        <input id="pass" type="password" placeholder="Password"/>
+        <input id="confirmpass" type="password" placeholder="Confirm Password"/>
+        
+        <button id="signup" type="button"><b>sign up</b></button>
+        <p class="message">Already registered? <a><router-link :to="{name: 'loginStudent'}">Sign In</router-link></a></p>
+        <p class="error"></p>
+      </form>
     </div>
-    <div class="footer">
-        <p class="message"><a href="admin-login.html">Login as Admin</a></p>
-    </div>
+  </div>
 </div>
+
 </template>
 
 
 <script>
-
 export default {
+  
 }
 </script>
 
-
 <style scoped>
-
 @import url(https://fonts.googleapis.com/css?family=Roboto:300);
 
 .login-page {
@@ -168,10 +171,11 @@ export default {
     background-color: rgb(45, 104, 47);;
 }
 
-.main{
+
+
+.main {
     min-height: 100vh;
     background: url('../assets/img/login-reg-background.jpg') no-repeat center center fixed; 
-    
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -181,4 +185,5 @@ export default {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;      
 }
+
 </style>
