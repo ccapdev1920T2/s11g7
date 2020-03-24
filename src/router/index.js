@@ -5,6 +5,7 @@ import studentSearch from '../views/student-search.vue'
 import studentManage from '../views/student-manage.vue'
 import studentResults from '../views/student-results.vue'
 import loginStudent from '../views/student-login.vue'
+import registerStudent from '../views/student-register.vue'
 
 
 Vue.use(VueRouter)
@@ -29,7 +30,13 @@ const routes = [
     path: '/manage',
     name: 'Manage',
     component: studentManage
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: registerStudent
   }
+    
   // {
   //   path: '/about',
   //   name: 'About',
