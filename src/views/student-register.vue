@@ -13,7 +13,7 @@
         <input id="confirmpass" type="password" placeholder="Confirm Password"/>
         
         <button id="signup" type="button"><b>sign up</b></button>
-        <p class="message">Already registered? <a><router-link :to="{name: 'loginStudent'}">Sign In</router-link></a></p>
+        <p class="message">Already registered? <router-link :to="{name: 'loginStudent'}">Sign In</router-link></p>
         <p class="error"></p>
       </form>
     </div>
@@ -31,12 +31,6 @@ export default {
 
 <style scoped>
 @import url(https://fonts.googleapis.com/css?family=Roboto:300);
-
-.login-page {
-    width: 360px;
-    padding: 8% 0 0;
-    margin: auto;
-}
 
 .register-page {
     width: 660px;
@@ -144,34 +138,6 @@ export default {
 .container .info span .fa {
     color: #EF3B3A;
 }
-
-.footer {
-    position: fixed;
-    text-align: right;
-    margin-right: 10px;
-    margin-bottom: 10px;
-    bottom: 0%;
-    width: 98%;
-}
-
-.footer a{
-    /* background-color: black; */
-    /* color: #4CAF50; */
-    background-color: rgb(57, 133, 60);
-    color:rgb(224, 224, 224);
-    padding: 5px;
-    padding-left: 7px;
-    padding-right: 7px;
-    border-radius: 4px;
-}
-
-.footer a:hover{
-    text-decoration: none;
-    color: rgb(224, 224, 224);
-    background-color: rgb(45, 104, 47);;
-}
-
-
 
 .main {
     min-height: 100vh;
