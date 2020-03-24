@@ -1,7 +1,7 @@
 <template>
     <div>
        <student-header></student-header>
-
+                     
         <div class="align-items-center">
             <div class="container box my-3">
                 <div class="col-12 p-3">
