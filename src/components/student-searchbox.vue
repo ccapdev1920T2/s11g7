@@ -1,7 +1,7 @@
 <template>
 
 <div>
-    <div class="d-flex align-items-center flex-fill aaa">
+    <div class="d-flex align-items-center flex-fill top">
         <div class="container box py-5" id="searchform">
             <div class="col-12">
                 <form class="form" id="search-course" action="searchresult.html">
@@ -9,7 +9,9 @@
                     <div class="input-group">
                         <input class="form-control form-control-lg" type="text" placeholder="Type a course code... (e.g. CCAPDEV, MOBIDEV)" id="courses" name="courses"> 
                         <div class="input-group-append" id="search">
-                            <input class="btn btn-success" type="submit" value="Search">
+                            <router-link :to="{name: 'Results'}"  class="btn btn-success">
+                            <span style="font-size:20px; vertical-align: middle;">Search</span>
+                            </router-link>
                         </div>
                     </div>
                 </form>
@@ -33,7 +35,8 @@ export default {
 
 
 <style scoped>
-.aaa{
-    margin-top: 150px;
+.top{
+    margin-top: 100px;
 }
+
 </style>

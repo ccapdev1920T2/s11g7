@@ -1,10 +1,36 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+<template>
+<div class="main">
+  <div class="register-page">
+    <div class="form">
+      <form class="register-form">
+        <input id="fullname" type="text" placeholder="Full Name"/>
+        <input id="idnum" type="number" placeholder="ID Number"/>
 
-.login-page {
-    width: 360px;
-    padding: 8% 0 0;
-    margin: auto;
+        <input id="email" type="email" placeholder="E-mail Address"/>
+        <input id="birthday" type="date" placeholder="Birthday"/>
+
+        <input id="pass" type="password" placeholder="Password"/>
+        <input id="confirmpass" type="password" placeholder="Confirm Password"/>
+        
+        <button id="signup" type="button"><b>sign up</b></button>
+        <p class="message">Already registered? <router-link :to="{name: 'loginStudent'}">Sign In</router-link></p>
+        <p class="error"></p>
+      </form>
+    </div>
+  </div>
+</div>
+
+</template>
+
+
+<script>
+export default {
+  
 }
+</script>
+
+<style scoped>
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
 
 .register-page {
     width: 660px;
@@ -113,38 +139,9 @@
     color: #EF3B3A;
 }
 
-.footer {
-    position: fixed;
-    text-align: right;
-    margin-right: 10px;
-    margin-bottom: 10px;
-    bottom: 0%;
-    width: 98%;
-}
-
-.footer a{
-    /* background-color: black; */
-    /* color: #4CAF50; */
-    background-color: rgb(57, 133, 60);
-    color:rgb(224, 224, 224);
-    padding: 5px;
-    padding-left: 7px;
-    padding-right: 7px;
-    border-radius: 4px;
-}
-
-.footer a:hover{
-    text-decoration: none;
-    color: rgb(224, 224, 224);
-    background-color: rgb(45, 104, 47);;
-}
-
-
-
-.main{
-    height: 100vh;
-    background: url('../img/login-reg-background.jpg') no-repeat center center fixed; 
-    
+.main {
+    min-height: 100vh;
+    background: url('../assets/img/login-reg-background.jpg') no-repeat center center fixed; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -154,3 +151,5 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;      
 }
+
+</style>

@@ -1,13 +1,40 @@
+<template >
+<div class="main">
+        <div class="login-page">
+        <div class="form">
+        <form class="login-form" action="search.html">
+            <input id="idnum" type="number" placeholder="ID Number"/>
+            <input id="password" type="password" placeholder="Password"/>
+            <button type="submit" id="login"><b>login</b></button>
+            <p class="message">Not registered? <router-link :to="{name: 'Register'}">Create an account</router-link></p>
+            <!-- <p class="error"></p> -->
+        </form>
+        </div>
+    </div>
+    <div class="footer"> 
+   
+        <p class="message"> <router-link :to="{name: 'loginAdmin'}">Login as Admin </router-link> </p>
+
+       
+         
+    </div>
+</div>
+</template>
+
+
+<script>
+
+export default {
+}
+</script>
+
+
+<style scoped>
+
 @import url(https://fonts.googleapis.com/css?family=Roboto:300);
 
 .login-page {
     width: 360px;
-    padding: 8% 0 0;
-    margin: auto;
-}
-
-.register-page {
-    width: 660px;
     padding: 8% 0 0;
     margin: auto;
 }
@@ -36,11 +63,6 @@
     border-radius: 6px;
 }
 
-.register-page .form input {
-    width: 43%;
-    margin: 0 15px 15px 15px;
-}
-
 .error {
     color: #EF3B3A;
     margin: auto;
@@ -60,11 +82,6 @@
     transition: all 0.3 ease;
     cursor: pointer;
     border-radius: 6px;
-}
-
-.register-form button{
-    width: 40%;
-    margin-top: 10px;
 }
 
 .form button:hover,.form button:active,.form button:focus {
@@ -114,7 +131,7 @@
 }
 
 .footer {
-    position: fixed;
+   position: fixed;
     text-align: right;
     margin-right: 10px;
     margin-bottom: 10px;
@@ -139,11 +156,9 @@
     background-color: rgb(45, 104, 47);;
 }
 
-
-
 .main{
-    height: 100vh;
-    background: url('../img/login-reg-background.jpg') no-repeat center center fixed; 
+    min-height: 100vh;
+    background: url('../assets/img/login-reg-background.jpg') no-repeat center center fixed; 
     
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -154,3 +169,4 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;      
 }
+</style>
