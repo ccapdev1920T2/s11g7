@@ -1,6 +1,6 @@
 # Database Schema
 
-![Database Schema]('./dbschema.png')
+![Database Schema]('https://github.com/jasonevangelista/CCAPDEV/blob/student/src/models/dbschema.png')
 
 ---
 [Edit the schema diagram here.](https://www.lucidchart.com/invitations/accept/a91dc9a8-4f31-4c0d-9ab3-94d85534b896)
