@@ -1,12 +1,17 @@
-import mongoose from 'mongoose'
+const mongoose = require('mongoose')
 
 let TermSchema = mongoose.Schema({
-    acadyearfrom: {
-        type: Number,
-        required: true
-    },
-    acadyearto: {
-        type: Number,
+    acadyear: {
+        type: {
+            from: {
+                type: Number,
+                required: true
+            },
+            to: {
+                type: Number,
+                required: true
+            }
+        },
         required: true
     },
     termno: {
@@ -15,4 +20,5 @@ let TermSchema = mongoose.Schema({
     }
 })
 
-module.exports('Term', TermSchema)
+module.exports = TermSchema
+// module.exports = mongoose.model('Term', TermSchema)

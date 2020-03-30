@@ -1,8 +1,8 @@
-import mongoose from 'mongoose'
-import Term from './Term'
-import ClassTime from './ClassTime'
+const mongoose = require('mongoose')
+const Term = require('./Term.js')
+const ClassTime = require('./ClassTime.js')
 
-let CourseSchema = mongoose.Schema({
+var CourseSchema = mongoose.Schema({
     code: {
         type: String,
         required: true
@@ -42,4 +42,4 @@ let CourseSchema = mongoose.Schema({
     }
 })
 
-module.exports('Course', CourseSchema)
+module.exports = mongoose.model('Course', CourseSchema)

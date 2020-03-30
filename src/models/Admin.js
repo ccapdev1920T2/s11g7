@@ -1,6 +1,6 @@
-import mongoose from 'mongoose'
+const mongoose = require('mongoose')
 
-let AdminSchema = mongoose.Schema({
+var AdminSchema = mongoose.Schema({
     username: {
         type: String,
         required: true
@@ -11,4 +11,4 @@ let AdminSchema = mongoose.Schema({
     }
 })
 
-module.exports('Admin', AdminSchema)
+module.exports = mongoose.model('Admin', AdminSchema)

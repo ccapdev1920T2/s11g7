@@ -1,25 +1,31 @@
-import mongoose from 'mongoose'
+//import mongoose from 'mongoose'
+const mongoose = require('mongoose')
 
-import Admin from './Admin'
-import ClassTime from './ClassTime'
-import Course from './Course'
-import Student from './Student'
-import Term from './Term'
+const Admin = require('./Admin.js')
+const Course = require('./Course.js')
+const Student = require('./Student.js')
+const Term = require('./Term.js')
 
-const url = 'mongodb://localhost:27017/ccapdev-mongoose'
+const url = 'mongodb://localhost:27017/animosis'
 const options = {
     useUnifiedTopology: true,
     useNewUrlParser: true
 }
 
 const database = {
-    connect: () => {
-        mongoose.connect(url, options, (error) => {
+    connect: async () => {
+        /* mongoose.connect(url, options, (error) => {
             if (error)
                 throw error
 
-            console.log('Connected to ' + url)
-        })
+            console.log('Connected to server')
+        }) */
+        try {
+            await mongoose.connect(url, options)
+            console.log('Connected to server')
+        } catch (err) {
+            throw err
+        }
     },
 
     insertOne: (model, doc) => {

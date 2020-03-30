@@ -1,5 +1,4 @@
-import mongoose from 'mongoose'
-import Course from './Course'
+const mongoose = require('mongoose')
 
 let StudentSchema = mongoose.Schema({
     firstname: {
@@ -36,9 +35,9 @@ let StudentSchema = mongoose.Schema({
         type: String,
         required: true
     },
-
+    
     courses: {
-        type: [Course],
+        type: mongoose.Schema.Types.ObjectId,
         required: true
     }
 })
