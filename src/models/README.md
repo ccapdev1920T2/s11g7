@@ -2,9 +2,8 @@
 
 ![Database Schema](dbschema.png)
 
----
 [Edit the schema diagram here.](https://www.lucidchart.com/invitations/accept/a91dc9a8-4f31-4c0d-9ab3-94d85534b896)
-
+---
 # Relation to Features
 
 | Feature | Student | Course | ClassTime | Term | Admin |
