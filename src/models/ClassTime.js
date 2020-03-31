@@ -33,7 +33,6 @@ var ClassTimeSchema = mongoose.Schema({
         type: String,
         required: true
     }
-
 })
 
 module.exports = ClassTimeSchema

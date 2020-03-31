@@ -4,7 +4,6 @@ const mongoose = require('mongoose')
 const Admin = require('./Admin.js')
 const Course = require('./Course.js')
 const Student = require('./Student.js')
-const Term = require('./Term.js')
 
 const url = 'mongodb://localhost:27017/animosis'
 const options = {
@@ -13,19 +12,19 @@ const options = {
 }
 
 const database = {
-    connect: async () => {
-        /* mongoose.connect(url, options, (error) => {
+    connect: () => {
+        mongoose.connect(url, options, (error) => {
             if (error)
                 throw error
 
             console.log('Connected to server')
-        }) */
-        try {
+        })
+        /*try {
             await mongoose.connect(url, options)
             console.log('Connected to server')
         } catch (err) {
             throw err
-        }
+        } */
     },
 
     insertOne: (model, doc) => {

@@ -5,14 +5,15 @@ let StudentSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    lastname: {
-        type: String,
-        required: true
-    }, 
     middlename: {
         type: String,
         required: false
     },
+    lastname: {
+        type: String,
+        required: true
+    }, 
+    
 
     address: {
         type: String,
@@ -37,8 +38,8 @@ let StudentSchema = mongoose.Schema({
     },
     
     courses: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true
+        type: [mongoose.Schema.Types.ObjectId],
+        required: false
     }
 })
 
