@@ -12,8 +12,8 @@
                                     <th scope="col-1"></th>
                                     <th scope="col-1">Code</th>
                                     <th scope="col-1">Section</th>
-                                    <th scope="col-3">Course Name</th>
-                                    <th scope="col-1">Day</th>
+                                    <th scope="col-2">Course Name</th>
+                                    <th scope="col-1">Days</th>
                                     <th scope="col-1">Timeslot</th>
                                     <th scope="col-1">Room</th>
                                     <th scope="col-1">Slots</th>
@@ -29,12 +29,12 @@
                                     </td>
                                     <td scope="col-1" > {{course.code}} </td>
                                     <td scope="col-1"> {{course.section}} </td>
-                                    <td scope="col-3"> {{course.name}} </td>
-                                    <td scope="col-1"> {{course.days}} </td>
-                                    <td scope="col-1"> {{course.timeslot}} </td>
-                                    <td scope="col-1"> {{course.room}} </td>
-                                    <td scope="col-1"> {{course.currSlots}} / {{course.totalSlots}}</td>
-                                    <td scope="col-3"> {{course.prof}} </td>
+                                    <td scope="col-2"> {{course.name}} </td>
+                                    <td scope="col-1"> {{getDays(course)}} </td>
+                                    <td scope="col-2"> {{getTimeSlot(course)}} </td>
+                                    <td scope="col-1"> {{getRoom(course)}} </td>
+                                    <td scope="col-1"> {{course.enrolled.length}} / {{course.slots}}</td>
+                                    <td scope="col-3"> {{course.professor}} </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -48,44 +48,37 @@
 </template>
 
 <script>
+// import server from '../../../server/server.js'
+
 export default {
     data(){
         return {
-            courses: [{
-                            code: "CCAPDEV",
-                            section: "S11",
-                            name: "Course #123",
-                            days: "MTWHFSS",
-                            timeslot: "All Day",
-                            room: "Room ABC",
-                            currSlots: "100",
-                            totalSlots: "1000",
-                            prof: "Professor X"
-                        },
-                        {
-                            code: "CCAPDEV",
-                            section: "S11",
-                            name: "Web Application Development",
-                            days: "MW",
-                            timeslot: "1100-1230",
-                            room: "G304B",
-                            currSlots: "20",
-                            totalSlots: "43",
-                            prof: "Arren Antioquia"
-                        },
-                        {
-                            code: "CCAPDEV2",
-                            section: "S11",
-                            name: "Web Application Development",
-                            days: "MW",
-                            timeslot: "1100-1230",
-                            room: "G304B",
-                            currSlots: "20",
-                            totalSlots: "43",
-                            prof: "Arren Antioquia"
-                        }
-                    ]
+
+            courses: []
         }
+    },
+    methods: {
+        getDays: (course) => {
+            var days = ''
+            for(var i = 0; i < course.classtimes.length; i++){
+                days += course.classtimes[i].day
+            }
+            return days
+        },
+        // assumes all classtimes have the same time
+        getTimeSlot: (course) =>{
+            return course.classtimes[0].time.from + '-' + course.classtimes[0].time.to
+        },
+        // assumes all classtimes have the same room
+        getRoom: (course) =>{
+            return course.classtimes[0].room
+        }
+    },
+    created(){
+        this.axios.get('http://localhost:5656/api/courses/').then((result)=>{
+            console.log(result.data)
+            this.courses = result.data
+        })
     }
 }
 </script>
