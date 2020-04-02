@@ -12,12 +12,14 @@
     "@fullcalendar/daygrid": "^4.4.0",
     "@fullcalendar/timegrid": "^4.4.0",
     "@fullcalendar/vue": "^4.4.0",
+    "axios": "^0.19.2",
     "bootstrap": "^4.4.1",
     "core-js": "^3.6.4",
     "jquery": "^3.4.1",
     "mongoose": "^5.9.6",
     "popper.js": "^1.16.1",
     "vue": "^2.6.11",
+    "vue-axios": "^2.1.5",
     "vue-router": "^3.1.5"
   },
   "devDependencies": {
