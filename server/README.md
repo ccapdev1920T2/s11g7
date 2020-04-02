@@ -1,6 +1,6 @@
 # Backend Server Setup
 
-This is the backend API server which connects to the MongoDB.
+This is the backend API server which connects to the MongoDB. Use axios to send requests for data and present them via Vue.
 
 To install node.js, run:
 ```
