@@ -1,35 +1,3 @@
-# animosis
+# [Machine Project Specifications](Group7%20S11%20MP%20Specifications.pdf)
 
-## Project setup
-
-### 1) Install node.js in project
-```
-npm install
-```
-### 2) Install custom plugins (bootstrap & fullcalendar)
-```
-npm install bootstrap jquery popper.js --save
-
-npm install --save @fullcalendar/vue @fullcalendar/core @fullcalendar/daygrid @fullcalendar/timegrid
-
-```
-
-### 3) Compiles and hot-reloads for development
-```
-npm run serve
-```
-### ---------------------------------
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
-
+The project is split into [client](./client) for the Vue frontend, and the [server](./server) for Node/Express/MongoDB backend. Please navigate to the respective folders to see their respective setup instructions.
