@@ -71,7 +71,7 @@ courseController = {
 
     /**
      * An admin user can edit the details of an existing course. 
-     * If any students have already enrolled in that course, 
+     * TODO: If any students have already enrolled in that course, 
      * all students will be dropped from that course.
      */
     editCourse: async (req, res) => {
@@ -85,7 +85,8 @@ courseController = {
     },
 
     /**
-     * Deletes the course specified by courseNum also drops any student
+     * Deletes the course specified by courseNum 
+     * TODO: Also drops all students enlisted.
      * enlisted in the course.
      */
     deleteCourse: async (req, res) => {
