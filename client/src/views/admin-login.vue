@@ -2,7 +2,7 @@
 <div class="main">
         <div class="login-page">
         <div class="form">
-        <form class="login-form" action="search.html">
+        <form class="login-form">
             <input id="idnum" type="number" placeholder="ID Number"/>
             <input id="password" type="password" placeholder="Password"/>
             <button type="submit" id="login"><b>login</b></button>
