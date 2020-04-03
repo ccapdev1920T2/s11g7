@@ -1,5 +1,6 @@
-const Student = require('../models/Student');
+const Student = require('../models/Student')
 const Course = require('../models/Course')
+const bcrypt = require('bcrypt')
 
 studentController = {
 
@@ -12,6 +13,7 @@ studentController = {
             res.json(students)
         } catch (err) {
             console.log(err)
+            res.status(500).json(err)
         }
     },
 
@@ -24,21 +26,25 @@ studentController = {
             res.json(student);
         } catch (err) {
             console.log(err);
+            res.status(500).json(err)
         }        
     },
 
     /**
-     * TODO: Implement routing.
      * Adds a student to the database.
      */
     registerStudent: async (req, res) => {
         try {
-            let student = new Student(req.body);
-            await student.save();
-            res.status(201).send(student);
+            studentForm = req.body
+            studentForm.password = await bcrypt.hash(studentForm.password, 10)
+            let student = await Student.create(studentForm)
+            res.status(201).send(student)
         } catch (err) {
-            console.log(err);
-            res.status(500)
+            console.log(err)
+            if (err.name == 'MongoError')
+                res.status(409).json(err)
+            else
+                res.status(500).json(err)
         }
     },
 
@@ -57,7 +63,7 @@ studentController = {
             res.json(courseData);
         } catch (err) {
             console.log(err);
-            res.status(500)
+            res.status(500).json(err)
         }
     },
 
@@ -65,14 +71,25 @@ studentController = {
      * TODO: Removes the given course number from the student's enrolled.
      */
     dropCourseOfStudent: async (req, res) => {
-        res.status(501)
+        res.status(501).json({ message: 'Feature to be implemented!' })
+    },
+
+    /**
+     * TODO: Enlists the students in the given course.
+     */
+    enlistCourseOfStudent: async (req, res) => {
+        res.status(501).json({ message: 'Feature to be implemented!' })
     },
 
     /**
      * TODO: Compares the login info with input and checks if authentication is correct.
      */
     getStudentLoginInfo: async (req, res) => {
-        res.status(501)
+        res.status(501).json({ message: 'Feature to be implemented!' })
+    },
+
+    dropAllStudentsFromCourse: (courseNum) => {
+
     }
 
 }

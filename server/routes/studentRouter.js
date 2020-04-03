@@ -7,20 +7,24 @@ const studentRouter = express.Router();
  */
 studentRouter.route('/')
     .get(studentController.getAllStudents)
-    .post(studentController.registerStudent)
 
 /**
  * Use a GET request on http://localhost:5656/students/:idnum to get
  * the specific student with the matching idnum.
  */
-studentRouter.route('/:idnum/')
+studentRouter.route('/:idnum')
     .get(studentController.getStudent)
 
 /**
  * Use a GET request on http://localhost:5656/students/:idnum to get all the courses
  * the specific student with the matching idnum is enrolled in.
  */
-studentRouter.route('/:idnum/courses/')
+studentRouter.route('/:idnum/courses')
     .get(studentController.getCoursesOfStudent)
+    .post(studentController.enlistCourseOfStudent)
+    .delete(studentController.dropCourseOfStudent)
+
+studentRouter.route('/register')
+    .post(studentController.registerStudent)
 
 module.exports = studentRouter
