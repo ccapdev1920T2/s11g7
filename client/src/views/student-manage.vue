@@ -18,7 +18,7 @@
                             :allDaySlot = "false"
                             :hiddenDays = '[0]'
                             :minTime = "'07:30:00'"
-                            :maxTime = "'22:30:00'"
+                            :maxTime = "'21:30:00'"
                             :height = "'auto'"
                             :columnHeaderFormat = "{
                                 weekday: 'short'
@@ -46,7 +46,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="course in courses" v-bind:key="course">
+                                    <tr v-for="(course, i) in courses" v-bind:key="i">
                                         <td scope="col-1">
                                             <div class="form-check">
                                                 <input class="form-check-input position-static" type="checkbox">
@@ -56,11 +56,11 @@
                                         <td scope="col-1" > {{course.code}} </td>
                                         <td scope="col-1"> {{course.section}} </td>
                                         <td scope="col-3"> {{course.name}} </td>
-                                        <td scope="col-1"> {{course.days}} </td>
-                                        <td scope="col-1"> {{course.timeslot}} </td>
-                                        <td scope="col-1"> {{course.room}} </td>
-                                        <td scope="col-1"> {{course.currSlots}} / {{course.totalSlots}}</td>
-                                        <td scope="col-3"> {{course.prof}} </td>
+                                        <td scope="col-1"> {{getDays(course)}} </td>
+                                        <td scope="col-1"> {{getTimeSlot(course)}} </td>
+                                        <td scope="col-1"> {{getRoom(course)}} </td>
+                                        <td scope="col-1"> {{course.enrolled.length}} / {{course.slots}}</td>
+                                        <td scope="col-3"> {{course.professor}} </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -93,83 +93,88 @@ export default {
     },
     data(){
         return{
-            courses: [{ /* for the manage courses part (hardcoded) */
-                code: "SUBJECT",
-                section: "S99",
-                name: "Course #123",
-                days: "MTWHFSS",
-                timeslot: "All Day",
-                room: "Room ABC",
-                currSlots: "100",
-                totalSlots: "1000",
-                prof: "Professor X"
-            },
+            courses: [ // sample
             {
-                code: "CCAPDEV",
-                section: "S11",
-                name: "Web Application Development",
-                days: "MW",
-                timeslot: "1100-1230",
-                room: "G304B",
-                currSlots: "20",
-                totalSlots: "43",
-                prof: "Arren Antioquia"
-            },
-            {
-                code: "CCAPDEV",
-                section: "S11",
-                name: "Web Application Development",
-                days: "MW",
-                timeslot: "1100-1230",
-                room: "G304B",
-                currSlots: "20",
-                totalSlots: "43",
-                prof: "Arren Antioquia"
+                classnum: 1544,
+                code: 'CCAPDEV', name: 'Web Application Development', 
+                section: 'S11', 
+                units: 3, 
+                term:   { 
+                            acadyear:
+                            {
+                                from: 2019,
+                                to: 2020
+                            },
+                            termno: 2
+                        }, 
+                classtimes: 
+                [
+                    {day: 'M', time:{from:'1100', to:'1230'}, room: 'G304B'}, {day: 'W', time:{from:'1100', to:'1230'}, room: 'G304B'}
+                ], 
+                enrolled: [], 
+                slots: 45, 
+                professor: 'ANTIOQUIA, ARREN MATTHEW CAPUCHINO'
             }
             ],
             calendarPlugins:[
                 dayGridPlugin,
                 timeGridPlugin
             ],
-            calendarEvents: [ /* for the calendar part (hardcoded) */
-                {
-                    title: 'GEETHIC',
-                    daysOfWeek: ['1', '3'],
-                    startTime: '07:30:00',
-                    endTime: '9:00:00'
-                },
-                {
-                    title: 'STALGCM',
-                    daysOfWeek: ['1', '3'],
-                    startTime: '09:15:00',
-                    endTime: '10:45:00'
-                },
-                {
-                    title: 'CCAPDEV',
-                    daysOfWeek: ['1', '3'],
-                    startTime: '11:00:00',
-                    endTime: '12:30:00'
-                },
-                {
-                    title: 'ST-MATH',
-                    daysOfWeek: ['2', '4'],
-                    startTime: '07:30:00',
-                    endTime: '9:00:00'
-                },
-                {
-                    title: 'CSARCH1',
-                    daysOfWeek: ['2', '4'],
-                    startTime: '11:00:00',
-                    endTime: '12:30:00'
-                },
-                {
-                    title: 'GESPORT',
-                    daysOfWeek: ['2'],
-                    startTime: '13:00:00',
-                    endTime: '15:00:00'
-                },
-            ]
+            calendarEvents: []
         }
+    },
+    methods: {
+        getDays: (course) => {
+            var days = ''
+            for(var i = 0; i < course.classtimes.length; i++){
+                days += course.classtimes[i].day
+            }
+            return days
+        },
+        // assumes all classtimes have the same time
+        getTimeSlot: (course) =>{
+            return course.classtimes[0].time.from + '-' + course.classtimes[0].time.to
+        },
+        // assumes all classtimes have the same room
+        getRoom: (course) =>{
+            return course.classtimes[0].room
+        },
+        convertToEvents: function(courses){
+            this.calendarEvents = []
+            for(var i = 0; i < courses.length; i++){
+                var course = courses[i]
+                for(var j = 0; j < course.classtimes.length; j++){
+                    var classTime = course.classtimes[j]
+                    this.calendarEvents.push({
+                        title: course.code,
+                        daysOfWeek: [this.determineDay(classTime.day)],
+                        startTime: this.parseTime(classTime.time.from),
+                        endTime: this.parseTime(classTime.time.to)
+                    })
+                }
+            }
+            console.log(this.calendarEvents)
+        },
+        determineDay: (day) =>{
+            if(day == 'M')
+                return '1'
+            else if(day == 'T')
+                return '2'
+            else if(day == 'W')
+                return '3'
+            else if(day == 'H')
+                return '4'
+            else if(day == 'F')
+                return '5'
+            else if(day == 'S')
+                return '6'
+        },
+        parseTime: (time) => {
+            return time[0] + time[1] + ":" + time[2] + time[3] + ":00"
+        }
+    },
+    created(){
+        this.convertToEvents(this.courses)
     }
 }
 </script>
