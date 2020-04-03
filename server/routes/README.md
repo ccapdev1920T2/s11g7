@@ -49,7 +49,7 @@ GET | Gets all courses that match the given ```courseCode```. (e.g. "CCAPDEV")
 Method | Description
 --- | ---
 GET | Returns the course corresponding to the given ```courseNum```.
-PATCH | Updates the course specified by ```courseNum```.
+PUT | Updates the course specified by ```courseNum```.
 DELETE | Deletes the course specified by ```courseNum```.
 
 ### ```api/courses/number/{courseNum}/students```

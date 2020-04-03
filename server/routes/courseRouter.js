@@ -22,7 +22,7 @@ courseRouter.route('/code/:courseCode')
  */
 courseRouter.route('/number/:courseNum')
     .get(courseController.getCoursesByNumber)
-    .patch(courseController.editCourse)
+    .put(courseController.editCourse)
     .delete(courseController.deleteCourse)
 
 /**
