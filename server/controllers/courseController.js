@@ -80,7 +80,7 @@ courseController = {
             courseInfo.enrolled = []
 
             let courseNum = req.params.courseNum
-            let dropped = await dropAllStudentsFromCourse(courseNum)
+            let dropped = await dropAllStudents(courseNum)
             let course = await Course.findOneAndUpdate({ classnum: courseNum }, courseInfo)
             res.status(200).json({ message: 'Updated course ' + courseNum + ', ' + dropped.length + ' students dropped' })
         } catch (err) {
@@ -99,7 +99,7 @@ courseController = {
     deleteCourse: async (req, res) => {
         try {
             let courseNum = req.params.courseNum
-            let dropped = await dropAllStudentsFromCourse(courseNum)
+            let dropped = await dropAllStudents(courseNum)
             await Course.deleteOne({ classnum: courseNum })
             res.status(200).json({ message: 'Deleted course ' + courseNum + ', ' + dropped.length + ' students dropped' })
         } catch (err) {
@@ -113,7 +113,7 @@ courseController = {
 
 }
 
-async function dropAllStudentsFromCourse(courseNum) {
+async function dropAllStudents(courseNum) {
     try {
         let { enrolled } = await Course.findOne({ classnum: courseNum }, { enrolled: 1 })
         let classList = await Student.find({ idnum: { $in: enrolled } })
