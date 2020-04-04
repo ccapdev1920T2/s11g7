@@ -76,10 +76,13 @@ courseController = {
      */
     editCourse: async (req, res) => {
         try {
+            let courseInfo = req.body
+            courseInfo.enrolled = []
+
             let courseNum = req.params.courseNum
             let dropped = await dropAllStudentsFromCourse(courseNum)
-            let course = await Course.findOneAndUpdate({ classnum: courseNum }, req.body)
-            res.status(200).json({ message: 'Updated course ' + courseNum + ', ' + dropped.length + 'students dropped' })
+            let course = await Course.findOneAndUpdate({ classnum: courseNum }, courseInfo)
+            res.status(200).json({ message: 'Updated course ' + courseNum + ', ' + dropped.length + ' students dropped' })
         } catch (err) {
             console.log(err)
             if (err.name == 'MongoError')
@@ -115,7 +118,7 @@ async function dropAllStudentsFromCourse(courseNum) {
         let { enrolled } = await Course.findOne({ classnum: courseNum }, { enrolled: 1 })
         let classList = await Student.find({ idnum: { $in: enrolled } })
         classList.forEach((student) => {
-            student.enrolled = student.enrolled.filter((course) => course != courseNum)
+            student.courses = student.courses.filter((course) => course != courseNum)
             student.save()
         })
         return classList
