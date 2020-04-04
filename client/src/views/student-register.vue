@@ -3,7 +3,7 @@
   <div class="register-page">
     <div class="form">
       <form class="register-form">
-        <input id="fullname" type="text" placeholder="Full Name"/>
+        <input id="fullname" type="text" placeholder="Full Name (First Middle Last)"/>
         <input id="idnum" type="number" placeholder="ID Number"/>
 
         <input id="email" type="email" placeholder="E-mail Address"/>
