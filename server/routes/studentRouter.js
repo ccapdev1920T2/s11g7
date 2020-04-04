@@ -21,8 +21,7 @@ studentRouter.route('/:idnum')
  */
 studentRouter.route('/:idnum/courses')
     .get(studentController.getCoursesOfStudent)
-    .post(studentController.enlistCourseOfStudent)
-    .delete(studentController.dropCourseOfStudent)
+    .patch(studentController.modifyCoursesOfStudent)
 
 studentRouter.route('/register')
     .post(studentController.registerStudent)

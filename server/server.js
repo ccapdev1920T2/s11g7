@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const app = express();
 const port = process.env.PORT || 5656;
 
-const studentRouter = require('./routes/studentRouter');
+const studentRouter = require('./routes/studentRouter')
 const courseRouter = require('./routes/courseRouter')
 
 const db = require('./models/db.js')
