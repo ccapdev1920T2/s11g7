@@ -8,7 +8,9 @@ const Student = require('./Student.js')
 const url = 'mongodb://localhost:27017/animosis'
 const options = {
     useUnifiedTopology: true,
-    useNewUrlParser: true
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useFindAndModify: false
 }
 
 const database = {
@@ -17,7 +19,7 @@ const database = {
             if (error)
                 throw error
 
-            console.log('Connected to server')
+            console.log('Connected to database ' + url)
         })
     },
 
