@@ -4,7 +4,7 @@ const Student = require('../models/Student')
 courseController = {
 
     /**
-     * Retrieves all possible courses.
+     * Retrieves all courses.
      */
     getAllCourses: async (req, res) => {
         try {
@@ -12,7 +12,7 @@ courseController = {
             res.json(courses)
         } catch (err) {
             console.log(err)
-            res.status(500)
+            res.status(500).send(err)
         }
     },
     
@@ -25,7 +25,7 @@ courseController = {
             res.json(courses)
         } catch (err) {
             console.log(err)
-            res.status(500)
+            res.status(500).send(err)
         }
     }, 
 
@@ -38,7 +38,7 @@ courseController = {
             res.json(courses)
         } catch (err) {
             console.log(err)
-            res.status(500)
+            res.status(500).send(err)
         }
     },
 
@@ -47,37 +47,60 @@ courseController = {
      */
     getClassList: async (req, res) => {
         try {
-            let { enrolled } = await Course.findOne({ classnum: req.params.courseNum }, { _id: 0, enrolled: 1 })
+            let { enrolled } = await Course.findOne({ classnum: req.params.courseNum }, { enrolled: 1 })
             let classList = await Student.find({ idnum: { $in: enrolled } })
             res.json(classList)
         } catch (err) {
             console.log(err)
-            res.status(500)
+            res.status(500).send(err)
         }
     },
 
     /**
-     * TODO: An admin user can edit the details of an existing course. 
-     * If a student has already enrolled in that course, 
+     * Adds a course to the database.
+     */
+    addCourse: async (req, res) => {
+        try {
+            let course = await Course.create(req.body)
+            res.status(201).send(course)
+        } catch (err) {
+            console.log(err)
+            res.status(500).send(err)
+        }
+    },
+
+    /**
+     * An admin user can edit the details of an existing course. 
+     * TODO: If any students have already enrolled in that course, 
      * all students will be dropped from that course.
      */
     editCourse: async (req, res) => {
-        res.status(501)
+        try {
+            let course = await Course.findOneAndUpdate({ classnum: req.params.courseNum }, req.body)
+            res.status(201).send(course)
+        } catch (err) {
+            console.log(err);
+            res.status(500).send(err)
+        }
     },
 
     /**
-     * TODO: Adds a student to the classlist of the course.
+     * Deletes the course specified by courseNum 
+     * TODO: Also drops all students enlisted.
+     * enlisted in the course.
      */
-    addStudentToCourse: async (req, res) => {
-        res.status(501)
-    },
+    deleteCourse: async (req, res) => {
+        try {
+            let courseNum = req.params.courseNum
 
-    /**
-     * TODO: Removes a student from the classlist of a course.
-     */
-    removeStudentFromCourse: async (req, res) => {
-        res.status(501)
+            await Course.deleteOne({ classnum: courseNum })
+            res.status(200).send('Deleted course ' + courseNum)
+        } catch (err) {
+            console.log(err)
+            res.status(500).send(err)
+        }
     }
+
 
 }
 

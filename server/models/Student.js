@@ -26,11 +26,13 @@ let StudentSchema = mongoose.Schema({
 
     email: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     idnum: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     password: {
         type: String,
