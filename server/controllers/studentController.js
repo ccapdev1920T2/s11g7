@@ -171,6 +171,7 @@ async function drop(student, course) {
 }
 
 /**
+ * TODO: Bug testing
  * Checks for any schedule conflicts between repeating schedules. One-time schedules are not checked.
  * @param {[Number]} courseList 
  */
