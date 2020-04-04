@@ -3,14 +3,17 @@
   <div class="register-page">
     <div class="form">
       <form class="register-form">
-        <input id="fullname" type="text" placeholder="Full Name (First Middle Last)"/>
-        <input id="idnum" type="number" placeholder="ID Number"/>
+        <input v-model="fullname" id="fullname" type="text" placeholder="Full Name (First  Middle  Last)"/>
 
-        <input id="email" type="email" placeholder="E-mail Address"/>
-        <input id="birthday" type="date" placeholder="Birthday"/>
+        <input v-model="idnum" id="idnum" type="text" placeholder="ID Number"/>
 
-        <input id="pass" type="password" placeholder="Password"/>
-        <input id="confirmpass" type="password" placeholder="Confirm Password"/>
+        <input v-model="address" id="address" type="text" placeholder="Address"/>
+
+        <input v-model="email" id="email" type="email" placeholder="E-mail Address"/>
+        <input v-model="birthdate" id="birthday" type="date" placeholder="Birthday"/>
+
+        <input v-model="password" id="pass" type="password" placeholder="Password"/>
+        <input v-model="confirmpass" id="confirmpass" type="password" placeholder="Confirm Password"/>
         
         <button id="signup" type="button"><b>sign up</b></button>
         <p class="message">Already registered? <router-link :to="{name: 'loginStudent'}">Sign In</router-link></p>
@@ -25,7 +28,37 @@
 
 <script>
 export default {
-  
+    data(){
+        return{
+            fullname: "",
+            confirmpass: "",
+
+            firstname: "",
+            middlename: "",
+            lastname: "",
+            address: "",
+            birthdate: "",
+            email: "",
+            idnum: 0,
+            password: ""
+           
+                //   {
+                //     firstname:"Emilie",
+                //     middlename:null,
+                //     lastname:"Truluck",
+                //     address:"4 Sugar Place",
+                //     birthdate:"09/08/1996",
+                //     email:"etruluck0@usatoday.com",
+                //     idnum:11857072,
+                //     password:"Na9slDq"
+                //   },
+        }
+    },
+    methods: {
+        // parseFullName(student, fullname){
+
+        // }
+    }
 }
 </script>
 
@@ -34,7 +67,7 @@ export default {
 
 .register-page {
     width: 660px;
-    padding: 8% 0 0;
+    padding-top: 5%;
     margin: auto;
 }
 
@@ -65,6 +98,10 @@ export default {
 .register-page .form input {
     width: 43%;
     margin: 0 15px 15px 15px;
+}
+
+#fullname {
+    width: 91%;
 }
 
 .error {
