@@ -23,16 +23,16 @@ let currentTerm =
 
 let courseData = [
     {
-        classnum: 1544,
-        code: 'CCAPDEV', name: 'Web Application Development', 
-        section: 'S11', 
-        units: 3, 
-        term: currentTerm, 
+        "classnum": 1544,
+        "code": 'CCAPDEV', name: 'Web Application Development', 
+        "section": 'S11', 
+        "units": 3, 
+        "term": currentTerm, 
         classtimes: 
         [
             {day: 'M', time:{from:'1100', to:'1230'}, room: 'G304B'}, {day: 'W', time:{from:'1100', to:'1230'}, room: 'G304B'}
         ], 
-        enrolled: [], 
+        enrolled: ["11828498"], 
         slots: 45, 
         professor: 'ANTIOQUIA, ARREN MATTHEW CAPUCHINO'
     },
@@ -69,7 +69,7 @@ let courseData = [
         [
             {day: 'M', time:{from:'0915', to:'1045'}, room: 'G211'}, {day: 'W', time:{from:'0915', to:'1045'}, room: 'G211'}
         ], 
-        enrolled: [], 
+        enrolled: ["11828498"], 
         slots: 38, 
         professor: 'REYES, ARVIN CHRISTOPHER C.'
     },
@@ -98,7 +98,11 @@ let studentData = [
         birthdate: "10/06/1999",
         email: "lance_teng@dlsu.edu.ph",
         idnum: 11828498,
-        password: "platinum123"
+        password: "platinum123",
+        courses: [
+            686,
+            1544
+        ]
     },
     {"firstname":"Emilie","middlename":null,"lastname":"Truluck","address":"4 Sugar Place","birthdate":"09/08/1996","email":"etruluck0@usatoday.com","idnum":11857072,"password":"Na9slDq"},
     {"firstname":"Dirk","middlename":null,"lastname":"Gyer","address":"593 Hudson Plaza","birthdate":"04/04/1993","email":"dgyer1@skyrock.com","idnum":11583673,"password":"ls2qXomojuR"},
