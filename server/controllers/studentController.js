@@ -36,7 +36,7 @@ studentController = {
     registerStudent: async (req, res) => {
         try {
             studentForm = req.body
-            studentForm.password = await bcrypt.hash(studentForm.password, 10)
+            studentForm.password = bcrypt.hashSync(studentForm.password, 10)
             let student = await Student.create(studentForm)
             res.status(201).send(student)
         } catch (err) {
