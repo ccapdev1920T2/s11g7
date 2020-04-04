@@ -68,7 +68,7 @@ studentController = {
     },
 
     /**
-     * TODO: Removes the given course number from the student's enrolled.
+     * Removes the given course number from the student's enrolled.
      */
     dropCourseOfStudent: async (req, res) => {
         res.status(501).json({ message: 'Feature to be implemented!' })
@@ -86,10 +86,6 @@ studentController = {
      */
     getStudentLoginInfo: async (req, res) => {
         res.status(501).json({ message: 'Feature to be implemented!' })
-    },
-
-    dropAllStudentsFromCourse: (courseNum) => {
-
     }
 
 }

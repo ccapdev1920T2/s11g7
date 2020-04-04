@@ -12,7 +12,7 @@ courseController = {
             res.json(courses)
         } catch (err) {
             console.log(err)
-            res.status(500).send(err)
+            res.status(500).json(err)
         }
     },
     
@@ -25,7 +25,7 @@ courseController = {
             res.json(courses)
         } catch (err) {
             console.log(err)
-            res.status(500).send(err)
+            res.status(500).json(err)
         }
     }, 
 
@@ -38,7 +38,7 @@ courseController = {
             res.json(courses)
         } catch (err) {
             console.log(err)
-            res.status(500).send(err)
+            res.status(500).json(err)
         }
     },
 
@@ -52,7 +52,7 @@ courseController = {
             res.json(classList)
         } catch (err) {
             console.log(err)
-            res.status(500).send(err)
+            res.status(500).json(err)
         }
     },
 
@@ -62,46 +62,66 @@ courseController = {
     addCourse: async (req, res) => {
         try {
             let course = await Course.create(req.body)
-            res.status(201).send(course)
+            res.status(201).json(course)
         } catch (err) {
             console.log(err)
-            res.status(500).send(err)
+            res.status(500).json(err)
         }
     },
 
     /**
      * An admin user can edit the details of an existing course. 
-     * TODO: If any students have already enrolled in that course, 
+     * If any students have already enrolled in that course, 
      * all students will be dropped from that course.
      */
     editCourse: async (req, res) => {
         try {
-            let course = await Course.findOneAndUpdate({ classnum: req.params.courseNum }, req.body)
-            res.status(201).send(course)
+            let courseNum = req.params.courseNum
+            let dropped = await dropAllStudentsFromCourse(courseNum)
+            let course = await Course.findOneAndUpdate({ classnum: courseNum }, req.body)
+            res.status(200).json({ message: 'Updated course ' + courseNum + ', ' + dropped.length + 'students dropped' })
         } catch (err) {
-            console.log(err);
-            res.status(500).send(err)
+            console.log(err)
+            if (err.name == 'MongoError')
+                res.status(409).json(err)
+            else
+                res.status(500).json(err)
         }
     },
 
     /**
      * Deletes the course specified by courseNum 
-     * TODO: Also drops all students enlisted.
-     * enlisted in the course.
+     * Also drops all students enlisted in the course.
      */
     deleteCourse: async (req, res) => {
         try {
             let courseNum = req.params.courseNum
-
+            let dropped = await dropAllStudentsFromCourse(courseNum)
             await Course.deleteOne({ classnum: courseNum })
-            res.status(200).send('Deleted course ' + courseNum)
+            res.status(200).json({ message: 'Deleted course ' + courseNum + ', ' + dropped.length + ' students dropped' })
         } catch (err) {
             console.log(err)
-            res.status(500).send(err)
+            if (err.name == 'MongoError')
+                res.status(409).json(err)
+            else
+                res.status(500).json(err)
         }
     }
 
+}
 
+async function dropAllStudentsFromCourse(courseNum) {
+    try {
+        let { enrolled } = await Course.findOne({ classnum: courseNum }, { enrolled: 1 })
+        let classList = await Student.find({ idnum: { $in: enrolled } })
+        classList.forEach((student) => {
+            student.enrolled = student.enrolled.filter((course) => course != courseNum)
+            student.save()
+        })
+        return classList
+    } catch (err) {
+        throw err
+    }
 }
 
 module.exports = courseController
