@@ -28,9 +28,21 @@
 
                     </div>
                     <div class="col-12 p-3" id="search-results">
-                        <form class="form" action="manage_removesuccess.html">
+                        <form class="form" @submit.prevent>
                             <h1 class="d-flex justify-content-left">Courses</h1>
                             <Spinner v-show="!coursesLoaded"/>
+                            <div class="alert alert-success" role="alert" v-show="showSuccessAlert">
+                                Courses successfully dropped!
+                                <button type="button" class="close" @click="showSuccessAlert = false">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="alert alert-warning" role="alert" v-show="showFailureAlert">
+                                A problem occurred when dropping courses! Please contact ITS for more information.
+                                <button type="button" class="close" @click="showFailureAlert = false">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
                             <div class="table-responsive" v-show="coursesLoaded">
                                 <table class="table table-sm table-light table-striped table-hover text-center">
                                     <thead class="thead-dark">
@@ -50,7 +62,7 @@
                                         <tr v-for="(course, i) in courses" v-bind:key="i">
                                             <td scope="col-1">
                                                 <div class="form-check">
-                                                    <input class="form-check-input position-static" type="checkbox">
+                                                    <input class="form-check-input position-static" type="checkbox" v-bind:value="course.classnum" v-model="coursesToDelete">
                                                 </div>
                                             </td>
                                             <td scope="col-1"> {{course.code}} </td>
@@ -64,7 +76,7 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                <input class="btn btn-danger" type="submit" value="Remove courses"> 
+                                <input class="btn btn-danger" type="submit" value="Remove courses" @click="dropCourses()"> 
                             </div>
                         </form>
                     </div>
@@ -85,7 +97,6 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import Spinner from './components/Spinner.vue'
 import Header from './components/student-header.vue'
-
 
 export default {
     components: {
@@ -123,7 +134,11 @@ export default {
                 timeGridPlugin
             ],
             calendarEvents: [],
-            coursesLoaded: false
+            coursesLoaded: false,
+            currentUser: "11828498",
+            coursesToDelete: [],
+            showSuccessAlert: false,
+            showFailureAlert: false
         }
     },
     methods: {
@@ -174,18 +189,41 @@ export default {
         },
         parseTime: (time) => {
             return time[0] + time[1] + ":" + time[2] + time[3] + ":00"
+        },
+        updateCourses: function() {
+            this.coursesLoaded = false
+            this.axios.get('http://localhost:5656/api/students/' + this.currentUser + '/courses')
+                .then((courses) => {
+                    this.courses = courses.data
+                    this.convertToEvents(this.courses)
+                    this.coursesLoaded = true
+                })
+                .catch((err) => console.log(err))
+        },
+        dropCourses: function() {
+            this.axios.patch('http://localhost:5656/api/students/' + this.currentUser + '/courses', 
+            {
+                action: "DROP",
+                courses: this.coursesToDelete
+            })
+            .then(() => {
+                this.coursesToDelete = []
+                this.coursesLoaded = false
+                this.updateCourses()
+                this.showFailureAlert = false
+                this.showSuccessAlert = true
+                this.coursesLoaded = true
+            })
+            .catch((err) => {
+                this.showFailureAlert = true
+                console.log(err)
+            })
         }
     },
     created() {
-        let currentUser = "11828498" // TODO: Implement user login
+        // TODO: Implement current login
         this.coursesLoaded = false
-        this.axios.get('http://localhost:5656/api/students/' + currentUser + '/courses')
-            .then((courses) => {
-                this.courses = courses.data
-                this.convertToEvents(this.courses)
-                this.coursesLoaded = true
-            })
-            .catch((err) => console.log(err))
+        this.updateCourses()
     }
 }
 </script>

@@ -69,7 +69,7 @@ export default {
             input: '',
             showResults: false,
             courses: [],
-            filteredCourses: []
+            filteredCourses: [],
         }
     },
     methods: {
@@ -94,6 +94,12 @@ export default {
             })
             this.showResults = true
         },
+        getCourses: function() {
+
+        },
+        enlist: function() {
+
+        }
     },
     created(){
         this.axios.get('http://localhost:5656/api/courses/').then((result)=>{

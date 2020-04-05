@@ -6,7 +6,7 @@
                     <input id="idnum" type="number" placeholder="Username"/>
                     <input id="password" type="password" placeholder="Password"/>
                     <router-link :to="{name: 'adminManage'}"><button type="submit" id="login"><b>login</b></button></router-link>
-                <p class="message"><router-link :to="{name: 'loginStudent'}">Login as Student</router-link></p>
+                    <p class="message"><router-link :to="{name: 'loginStudent'}">Login as Student</router-link></p>
                 </form>
             </div>
         </div>
