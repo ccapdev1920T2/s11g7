@@ -1,3 +1,5 @@
 # [Machine Project Specifications](Group7%20S11%20MP%20Specifications.pdf)
 
 The project is split into [client](./client) for the Vue frontend, and the [server](./server) for Node/Express/MongoDB backend. Please navigate to the respective folders to see their respective setup instructions.
+
+Please note that both the client and server must be ran in seperate command prompts to properly work.
