@@ -1,18 +1,16 @@
 <template >
 <div class="main">
         <div class="login-page">
-        <div class="form">
-        <form class="login-form">
-            <input id="idnum" type="number" placeholder="ID Number"/>
-            <input id="password" type="password" placeholder="Password"/>
-            <button type="submit" id="login"><b>login</b></button>
-            <!-- <p class="error"></p> -->
-        </form>
+            <div class="form">
+                <form class="login-form">
+                    <input id="idnum" type="number" placeholder="Username"/>
+                    <input id="password" type="password" placeholder="Password"/>
+                    <router-link :to="{name: 'adminManage'}"><button type="submit" id="login"><b>login</b></button></router-link>
+                    <p class="message"><router-link :to="{name: 'loginStudent'}">Login as Student</router-link></p>
+                </form>
+            </div>
         </div>
-    </div>
-    <div class="footer">
-        <p class="message"><router-link :to="{name: 'loginStudent'}">Login as Student</router-link></p>
-    </div>
+
 </div>
 </template>
 
@@ -39,7 +37,7 @@ export default {
     z-index: 1;
     background: rgba(0, 0, 0, 0.6);
     margin: 0 auto 100px;
-    padding: 45px;
+    padding: 45px 45px 20px 45px;
     text-align: center;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }

@@ -16,11 +16,26 @@
             </div>
         </div>
 
+        
         <div class="container box m-3" v-show="showResults">
             <div class="col-12 py-3" id="search-results">
-                <form class="form" id="add-course" action="search_addsuccess.html">
+                <Spinner v-show="!resultsReady"/>
+                <div class="alert alert-success" role="alert" v-show="showSuccessAlert">
+                    Course(s) successfully added!
+                    <button type="button" class="close" @click="showSuccessAlert = false">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="alert alert-danger" role="alert" v-show="showFailureAlert">
+                    A problem occurred when adding the course(s)! Please contact ITS for more information.
+                    <button type="button" class="close" @click="showFailureAlert = false">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form class="form" id="add-course" @submit.prevent v-show="resultsReady">
                     <h1 class="d-flex justify-content-left">Search results</h1>
-                    <div class="table-responsive">
+                    <p v-show="filteredCourses.length == 0">No results found.</p>
+                    <div class="table-responsive" v-show="filteredCourses.length > 0">
                         <table class="rounded table table-light table-striped table-hover table-bordered text-center">
                             <thead class="thead-dark">
                                 <tr>
@@ -39,7 +54,7 @@
                                 <tr v-for="(course, i) in filteredCourses" :key="i">
                                     <td scope="col-1">
                                         <div class="form-check">
-                                            <input class="form-check-input position-static" type="checkbox">
+                                            <input class="form-check-input position-static" type="checkbox" v-bind:value="course.classnum" v-model="coursesToEnlist">
                                         </div>
                                     </td>
                                     <td scope="col-1" > {{course.code}} </td>
@@ -54,22 +69,31 @@
                             </tbody>
                         </table>
                     </div>
-                    <input class="btn btn-success" type="submit" value="Add courses">
+                    <input class="btn btn-success" type="submit" value="Add courses" @click="enlistCourses()" v-bind:disabled="courses.length == 0 || coursesToEnlist == 0">
                 </form>
             </div>
         </div>
     </div>
-
 </template>
 
 <script>
+import Spinner from './Spinner.vue'
+
 export default {
-    data(){
+    components: {
+        Spinner
+    },
+    data() {
         return {
             input: '',
             showResults: false,
             courses: [],
-            filteredCourses: []
+            filteredCourses: [],
+            resultsReady: false,
+            coursesToEnlist: [],
+            showSuccessAlert: false,
+            showFailureAlert: false,
+            currentUser: "11828498"
         }
     },
     methods: {
@@ -94,12 +118,39 @@ export default {
             })
             this.showResults = true
         },
+        getCourses: function() {
+            this.resultsReady = false
+            this.axios.get('http://localhost:5656/api/courses/').then((result)=>{
+                console.log(result.data)
+                this.courses = result.data
+                this.resultsReady = true
+            })
+        },
+        enlistCourses: function() {
+            this.showSuccessAlert = false
+            this.showFailureAlert = false
+            this.resultsReady = false
+            
+            this.axios.patch('http://localhost:5656/api/students/' + this.currentUser + '/courses', 
+            {
+                action: "ENLIST",
+                courses: this.coursesToEnlist
+            })
+            .then(() => {
+                this.showSuccessAlert = true
+                console.log("succeeded!")
+            })
+            .catch((err) => {
+                this.showFailureAlert = true
+                console.log(err)
+            })
+            .finally(() => {
+                this.resultsReady = true
+            })
+        }
     },
     created(){
-        this.axios.get('http://localhost:5656/api/courses/').then((result)=>{
-            console.log(result.data)
-            this.courses = result.data
-        })
+        this.getCourses()
     }
 }
 </script>

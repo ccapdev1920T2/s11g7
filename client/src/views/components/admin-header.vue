@@ -2,7 +2,7 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
         <router-link :to="{name: 'adminManage'}" class="navbar-brand d-flex align-items-center justify-content-center" style="font-family: 'EB Garamond', serif;">
-            <img src="../assets/img/dlsu-logo.png" style="height: 50px; margin-right: 10px;">ANIMOSIS
+            <img src="../../assets/img/dlsu-logo.png" style="height: 50px; margin-right: 10px;">ANIMOSIS
         </router-link>
         
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">

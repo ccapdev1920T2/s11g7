@@ -36,7 +36,7 @@ studentController = {
     registerStudent: async (req, res) => {
         try {
             studentForm = req.body
-            studentForm.password = await bcrypt.hash(studentForm.password, 10)
+            studentForm.password = bcrypt.hashSync(studentForm.password, 10)
             let student = await Student.create(studentForm)
             res.status(201).send(student)
         } catch (err) {
@@ -68,17 +68,90 @@ studentController = {
     },
 
     /**
-     * TODO: Removes the given course number from the student's enrolled.
+     * Removes the given course number from the student's enrolled.
+     * The following parameters must be in the body:
+     * @param action Must either be "ENLIST" or "DROP".
+     * @param courses Must contain the appropriate courses to drop.
      */
-    dropCourseOfStudent: async (req, res) => {
-        res.status(501).json({ message: 'Feature to be implemented!' })
-    },
+    modifyCoursesOfStudent: async (req, res) => {
+        let conflictFound = false
+        let error = {
+            status: 500,
+            message: 'Internal server error occurred',
+            courses: []
+        }
 
-    /**
-     * TODO: Enlists the students in the given course.
-     */
-    enlistCourseOfStudent: async (req, res) => {
-        res.status(501).json({ message: 'Feature to be implemented!' })
+        try {
+            if ("action" in req.body && "courses" in req.body) {
+                let action = req.body.action
+                let courses = req.body.courses
+                let student = req.params.idnum
+
+                let studentDoc = await Student.findOne({ idnum: student }, { idnum: 1, courses: 1 })
+                let courseDocs = await Course.find({ classnum: { $in: courses } }, { classnum: 1, enrolled: 1, slots: 1 })
+
+                switch (action.toUpperCase()) {
+                    case "ENLIST": {
+                        courseDocs.forEach((course) => {
+                            if (studentDoc.courses.includes(course.classnum)) {
+                                conflictFound = true
+                                error.status = 409
+                                error.message = "Student can't enroll in the following courses."
+                                error.courses.push({
+                                    number: course.classnum,
+                                    reason: "Already enlisted"
+                                })
+                            } else if (course.enrolled.length >= course.slots) {
+                                conflictFound = true
+                                error.status = 409
+                                error.message = "Student can't enroll in the following courses."
+                                error.courses.push({
+                                    number: course.classnum,
+                                    reason: "Already full"
+                                })
+                            } else enlist(studentDoc, course)
+                        })
+                    } break
+
+                    case "DROP": {
+                        courseDocs.forEach((course) => {
+                            if (!studentDoc.courses.includes(course.classnum)) {
+                                conflictFound = true
+                                error.status = 409
+                                error.message = "Student can't drop the following courses."
+                                error.courses.push({
+                                    number: course.classnum,
+                                    reason: "Not enlisted"
+                                })
+                            } else drop(studentDoc, course)
+                        })
+                    } break
+
+                    default: {
+                        conflictFound = true
+                        error.status = 400
+                        error.message = "'action' must contain 'ENLIST' or 'DROP' only!"
+                        return
+                    }
+                }
+            } else {
+                conflictFound = true
+                error.status = 400
+                error.message = "Body must contain 'action' and 'courses'!"
+            }
+        } catch (err) {
+            console.log(err)
+            conflictFound = true
+            error = err
+        } finally {
+            if (conflictFound) {
+                res.status(error.status).json(error)
+            } else {
+                res.status(200).json({
+                    message: 'Action performed successfully'
+                })
+            }
+        }
     },
 
     /**
@@ -86,12 +159,97 @@ studentController = {
      */
     getStudentLoginInfo: async (req, res) => {
         res.status(501).json({ message: 'Feature to be implemented!' })
-    },
-
-    dropAllStudentsFromCourse: (courseNum) => {
-
     }
 
+}
+
+/**
+ * Enlists the given student in the given course.
+ * @param student Student to be enlisted.
+ * @param course Course number to enlist in.
+ */
+async function enlist(student, course) {
+    try {
+        student.courses.push(course.classnum)
+        course.enrolled.push(student.idnum)
+        await student.save()
+        await course.save() 
+    } catch (err) {
+        throw err
+    }
+}
+
+/**
+ * Drops the given student from the given course.
+ * @param student Student to be dropped.
+ * @param course Course number to drop.
+ */
+async function drop(student, course) {
+    try {
+        student.courses = student.courses.filter((c) => c != course.classnum)
+        course.enrolled = course.enrolled.filter((s) => s != student.idnum)
+        await student.save()
+        await course.save() 
+    } catch (err) {
+        throw err
+    }
+}
+
+/**
+ * TODO: Bug testing
+ * Checks for any schedule conflicts between repeating schedules. One-time schedules are not checked.
+ * @param {[Number]} courseList 
+ */
+async function scheduleConflicts(courseList) {
+    try {
+        let courseData = await Course.find({
+            classnum: {
+                $in: courseList
+            }
+        })
+
+        console.log(courseData)
+        let conflicts = []
+        
+        // Compare each schedule against each other
+        for (let i = 0; i < courseData.length; i++) {
+            for (let j = i + 1; j < courseData.length; j++) {
+                
+                let courseA = courseData[i].classtimes, courseB = courseData[j].classtimes
+
+                // Compare each of the classtimes between them
+                for (m = 0; m < courseA.length; m++) {
+                    for (n = 0; n < courseB.length; n++) {
+                        let schedA = courseA[m], schedB = courseB[n]
+
+                        // If both schedules are repeating
+                        if (/^[MTWHFSL]$/.test(schedA.day) &&
+                            /^[MTWHFSL]$/.test(schedB.day)) {
+
+                            if (schedA.day == schedB.day) {
+
+                                // If any schedules overlap
+                                if (schedA.time.to > schedB.time.from || 
+                                    schedB.time.to > schedA.time.from) {
+                                    
+                                    conflicts.push({
+                                        courseA: courseData[i],
+                                        courseB: courseData[j]
+                                    })
+                                    
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+        
+        return conflicts
+    } catch (err) {
+        throw err
+    }
 }
 
 module.exports = studentController
