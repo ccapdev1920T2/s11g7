@@ -1,7 +1,9 @@
-# Backend Server Setup
+# ANIMOSIS Backend
 
 This is the backend API server which connects to the MongoDB. Use axios to send requests for data and present them via Vue.
-Check the [```routes```](./routes) folder and their respective files for the router links and how to make HTTP requests from the server.
+Check the [```routes```](./routes) folder and their respective files for the router links and how to make HTTP requests from the server. Check the [```models```](./models) folder and their respective files to view the database setup for this API. *Note that authentication is not yet implemented.*
+
+# Server Setup
 
 To install node.js, run:
 ```
