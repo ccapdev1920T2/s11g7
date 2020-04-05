@@ -15,7 +15,7 @@ To run the server for development, navigate to this folder then type:
 npm run dev
 ```
 
-This will run the backend server at ```[http://localhost:5656](http://localhost:5656)```.
+This will run the backend server at [```http://localhost:5656```](http://localhost:5656).
 Note: Run this server in a seperate command prompt with the Vue server, then make requests to this server for the data.
 
 # Populate Database
