@@ -32,19 +32,20 @@
                             <h1 class="d-flex justify-content-left">Courses</h1>
                             <Spinner v-show="!coursesLoaded"/>
                             <div class="alert alert-success" role="alert" v-show="showSuccessAlert">
-                                Courses successfully dropped!
+                                Course(s) successfully dropped!
                                 <button type="button" class="close" @click="showSuccessAlert = false">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            <div class="alert alert-warning" role="alert" v-show="showFailureAlert">
-                                A problem occurred when dropping courses! Please contact ITS for more information.
+                            <div class="alert alert-danger" role="alert" v-show="showFailureAlert">
+                                A problem occurred when dropping the course(s)! Please contact ITS for more information.
                                 <button type="button" class="close" @click="showFailureAlert = false">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                             <div class="table-responsive" v-show="coursesLoaded">
-                                <table class="table table-sm table-light table-striped table-hover text-center">
+                                <p v-show="courses.length == 0"> You have no courses! </p>
+                                <table class="table table-sm table-light table-striped table-hover text-center" v-show="courses.length > 0">
                                     <thead class="thead-dark">
                                         <tr>
                                             <th scope="col-1"></th>
@@ -76,7 +77,7 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                <input class="btn btn-danger" type="submit" value="Remove courses" @click="dropCourses()"> 
+                                <input class="btn btn-danger" type="submit" value="Remove courses" @click="dropCourses()" v-bind:disabled="courses.length == 0 || coursesToDelete == 0"> 
                             </div>
                         </form>
                     </div>
@@ -201,6 +202,10 @@ export default {
                 .catch((err) => console.log(err))
         },
         dropCourses: function() {
+            this.showSuccessAlert = false
+            this.showFailureAlert = false
+            this.coursesLoaded = false
+            
             this.axios.patch('http://localhost:5656/api/students/' + this.currentUser + '/courses', 
             {
                 action: "DROP",
@@ -208,15 +213,15 @@ export default {
             })
             .then(() => {
                 this.coursesToDelete = []
-                this.coursesLoaded = false
                 this.updateCourses()
                 this.showFailureAlert = false
                 this.showSuccessAlert = true
-                this.coursesLoaded = true
             })
             .catch((err) => {
                 this.showFailureAlert = true
                 console.log(err)
+            }).finally(() => {
+                this.coursesLoaded = true
             })
         }
     },
