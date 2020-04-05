@@ -5,8 +5,7 @@
         <form class="login-form">
             <input id="idnum" type="number" placeholder="ID Number"/>
             <input id="password" type="password" placeholder="Password"/>
-            <button type="submit" id="login"><b>login</b></button>
-            <!-- <p class="error"></p> -->
+            <router-link :to="{name: 'adminManage'}"><button type="submit" id="login"><b>login</b></button></router-link>
         </form>
         </div>
     </div>

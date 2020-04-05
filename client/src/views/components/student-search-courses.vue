@@ -54,7 +54,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <input class="btn btn-success" type="submit" value="Add courses" @click="enlist">
+                    <input class="btn btn-success" type="submit" value="Add courses">
                 </form>
             </div>
         </div>
