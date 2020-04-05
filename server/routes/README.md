@@ -21,8 +21,7 @@ GET | Retrieves a specific student gives his/her ```idnum```.
 Method | Description
 --- | ---
 GET | Retrieves the courses that a student has enrolled in.
-PATCH | Performs enlistment or dropping of the course of the student ```idnum```. Body must include the following: ``` { action, course } ```. See [```studentController```](../controllers/studentController.js) for more details.
-DELETE | Drops the student from the given ```courseNum``` **included in the body**.
+PATCH | Performs enlistment or dropping of the course of the student ```idnum```. Body must include the following: ``` { action, courses } ```. See [```studentController```](../controllers/studentController.js) for more details.
 
 ### ```/api/students/register```
 
