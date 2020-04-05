@@ -7,12 +7,14 @@
                 <input id="password" type="password" placeholder="Password"/>
                 <router-link :to="{name: 'Search'}"><button type="submit" id="login"><b>login</b></button></router-link>
                 <p class="message">Not registered? <router-link :to="{name: 'Register'}">Create an account</router-link></p>
+                <p class="message admin"><router-link :to="{name: 'loginAdmin'}">Login as Admin</router-link></p>
             </form>
         </div>
     </div>
+    <!--
     <div class="footer"> 
         <p class="message"> <router-link :to="{name: 'loginAdmin'}">Login as Admin </router-link> </p>     
-    </div>
+    </div> -->
 </div>
 </template>
 
@@ -48,7 +50,7 @@ export default {
     z-index: 1;
     background: rgba(0, 0, 0, 0.6);
     margin: 0 auto 100px;
-    padding: 45px;
+    padding: 45px 45px 20px 45px;
     text-align: center;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
@@ -92,6 +94,11 @@ export default {
 }
 .form .message {
     margin: 15px 0 0;
+    color: #b3b3b3;
+    font-size: 12px;
+}
+.form .admin {
+    margin: 7px 0 0;
     color: #b3b3b3;
     font-size: 12px;
 }
