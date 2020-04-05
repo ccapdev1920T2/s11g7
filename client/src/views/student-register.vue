@@ -2,20 +2,20 @@
 <div class="main">
   <div class="register-page">
     <div class="form">
-      <form class="register-form">
+      <form class="register-form" v-on:submit.prevent="onSubmit">
         <input v-model="fullname" id="fullname" type="text" placeholder="Full Name (First  Middle  Last)"/>
 
-        <input v-model="idnum" id="idnum" type="text" placeholder="ID Number"/>
+        <input v-model="idnum" id="idnum" type="number" placeholder="ID Number"/>
 
         <input v-model="address" id="address" type="text" placeholder="Address"/>
 
         <input v-model="email" id="email" type="email" placeholder="E-mail Address"/>
-        <input v-model="birthdate" id="birthday" type="date" placeholder="Birthday"/>
+        <input v-model="birthdate" id="birthday" type="text" placeholder="Birthday" onfocus="(this.type='date')" onblur="(this.type='text')" />
 
         <input v-model="password" id="pass" type="password" placeholder="Password"/>
         <input v-model="confirmpass" id="confirmpass" type="password" placeholder="Confirm Password"/>
         
-        <button id="signup" type="button"><b>sign up</b></button>
+        <button id="signup" type="submit"><b>sign up</b></button>
         <p class="message">Already registered? <router-link :to="{name: 'loginStudent'}">Sign In</router-link></p>
         <p class="error"></p>
       </form>
@@ -37,9 +37,9 @@ export default {
             middlename: "",
             lastname: "",
             address: "",
-            birthdate: "",
+            birthdate: null,
             email: "",
-            idnum: 0,
+            idnum: "",
             password: ""
            
                 //   {
@@ -55,9 +55,58 @@ export default {
         }
     },
     methods: {
-        // parseFullName(student, fullname){
 
-        // }
+        
+        onSubmit(){ // still needs some validation
+            var student = { 
+                            firstname: "",
+                            middlename: "",
+                            lastname: "",
+                            address: "",
+                            birthdate: "",
+                            email: "",
+                            idnum: "",
+                            password: "",
+                            courses: []
+                           }
+
+            if(this.validPass(this.password, this.confirmpass)){
+                student = this.parseFullName(student, this.fullname)
+                student.address = this.address
+                student.birthdate = new Date(Date.parse(this.birthdate))
+                student.email = this.email
+                student.idnum = this.idnum.toString()
+            }
+
+            this.axios.post('http://localhost:5656/api/students/register', student).then((result) =>{
+                console.log(result)
+            }).catch((error)=>{
+                console.log(error)
+            })
+        },
+
+        parseFullName(student, fullname){
+            var names = fullname.split(" ")
+            
+            student.firstname = names[0]
+            if(names.length == 2){
+                student.middlename = null
+                student.lastname = names[1]
+            }
+            else if (names.length == 3){
+                student.middlename = names[1]
+                student.lastname = names[2]
+            }
+            else{
+                student.middlename = ""
+                student.lastname = ""
+            }
+            return student
+        },
+        validPass(pass, confirmpass){
+            return pass == confirmpass
+        }
+
     }
 }
 </script>
