@@ -2,17 +2,20 @@
 <div class="main">
   <div class="register-page">
     <div class="form">
-      <form class="register-form" @submit.prevent>
-        <input id="fullname" type="text" placeholder="Full Name"/>
-        <input id="idnum" type="number" placeholder="ID Number"/>
+      <form class="register-form" v-on:submit.prevent="onSubmit">
+        <input v-model="fullname" id="fullname" type="text" placeholder="Full Name (First  Middle  Last)"/>
 
-        <input id="email" type="email" placeholder="E-mail Address"/>
-        <input id="birthday" type="date" placeholder="Birthday"/>
+        <input v-model="idnum" id="idnum" type="number" placeholder="ID Number"/>
 
-        <input id="pass" type="password" placeholder="Password"/>
-        <input id="confirmpass" type="password" placeholder="Confirm Password"/>
+        <input v-model="address" id="address" type="text" placeholder="Address"/>
+
+        <input v-model="email" id="email" type="email" placeholder="E-mail Address"/>
+        <input v-model="birthdate" id="birthday" type="text" placeholder="Birthday" onfocus="(this.type='date')" onblur="(this.type='text')" />
+
+        <input v-model="password" id="pass" type="password" placeholder="Password"/>
+        <input v-model="confirmpass" id="confirmpass" type="password" placeholder="Confirm Password"/>
         
-        <button id="signup" type="button"><b>sign up</b></button>
+        <button id="signup" type="submit"><b>sign up</b></button>
         <p class="message">Already registered? <router-link :to="{name: 'loginStudent'}">Sign In</router-link></p>
         <p class="error"></p>
       </form>
@@ -25,8 +28,88 @@
 
 <script>
 export default {
-    name: "RegisterForm",
+    data(){
+        return{
+            name: "RegisterForm",
+            
+            fullname: "",
+            confirmpass: "",
 
+            firstname: "",
+            middlename: "",
+            lastname: "",
+            address: "",
+            birthdate: null,
+            email: "",
+            idnum: "",
+            password: ""
+           
+                //   {
+                //     firstname:"Emilie",
+                //     middlename:null,
+                //     lastname:"Truluck",
+                //     address:"4 Sugar Place",
+                //     birthdate:"09/08/1996",
+                //     email:"etruluck0@usatoday.com",
+                //     idnum:11857072,
+                //     password:"Na9slDq"
+                //   },
+        }
+    },
+    methods: {
+
+        
+        onSubmit(){ // still needs some validation
+            var student = { 
+                            firstname: "",
+                            middlename: "",
+                            lastname: "",
+                            address: "",
+                            birthdate: "",
+                            email: "",
+                            idnum: "",
+                            password: "",
+                            courses: []
+                           }
+
+            if(this.validPass(this.password, this.confirmpass)){
+                student = this.parseFullName(student, this.fullname)
+                student.address = this.address
+                student.birthdate = new Date(Date.parse(this.birthdate))
+                student.email = this.email
+                student.idnum = this.idnum.toString()
+            }
+
+            this.axios.post('http://localhost:5656/api/students/register', student).then((result) =>{
+                console.log(result)
+            }).catch((error)=>{
+                console.log(error)
+            })
+        },
+
+        parseFullName(student, fullname){
+            var names = fullname.split(" ")
+            
+            student.firstname = names[0]
+            if(names.length == 2){
+                student.middlename = null
+                student.lastname = names[1]
+            }
+            else if (names.length == 3){
+                student.middlename = names[1]
+                student.lastname = names[2]
+            }
+            else{
+                student.middlename = ""
+                student.lastname = ""
+            }
+            return student
+        },
+        validPass(pass, confirmpass){
+            return pass == confirmpass
+        }
+
+    }
 }
 </script>
 
@@ -35,7 +118,7 @@ export default {
 
 .register-page {
     width: 660px;
-    padding: 8% 0 0;
+    padding-top: 5%;
     margin: auto;
 }
 
@@ -66,6 +149,10 @@ export default {
 .register-page .form input {
     width: 43%;
     margin: 0 15px 15px 15px;
+}
+
+#fullname {
+    width: 91%;
 }
 
 .error {
