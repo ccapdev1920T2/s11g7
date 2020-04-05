@@ -5,7 +5,9 @@
         <form class="login-form">
             <input id="idnum" type="number" placeholder="ID Number"/>
             <input id="password" type="password" placeholder="Password"/>
-            <button type="submit" id="login"><b>login</b></button>
+            <!-- <button type="submit" id="login"><b>login</b></button> -->
+            <router-link :to="{name: 'Search'}" tag="button">login</router-link>
+
             <p class="message">Not registered? <router-link :to="{name: 'Register'}">Create an account</router-link></p>
             <!-- <p class="error"></p> -->
         </form>
