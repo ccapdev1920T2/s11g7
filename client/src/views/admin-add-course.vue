@@ -2,19 +2,23 @@
   <div>
     <admin-header></admin-header>
     <div class="rounded-0 border-dark px-2 px-md-5 py-5 mx-md-5 my-md-5" id="content" style="background-color: #ffffff; box-shadow: 20px 20px 50px 10px black;">
-        <form method="post" class="container-fluid" action="admin-addsuccess.html">
-            <h2 class="text-center">Add Course</h2>
+        <form method="post" class="container-fluid">
+            <h2 class="text-center mb-4">Add Course</h2>
 
             <div class="form-row">
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-3">
+                    <label class="text-left" for="CNum">Course Number</label>
+                    <input class="form-control" type="text" id="CNum" name="CNum" required="" placeholder="Course Number">
+                </div>
+                <div class="form-group col-md-3">
                     <label class="text-left" for="CCode">Course Code</label>
                     <input class="form-control" type="text" id="CCode" name="CCode" required="" placeholder="Course Code">
                 </div>
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-3">
                     <label class="text-left" for="CSection">Course Section</label>
                     <input class="form-control" type="text" id="CSection" name="CSection" placeholder="Section" required="">
                 </div>
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-3">
                     <label class="text-left" for="CSlots">Number of Slots</label>
                     <input class="form-control" type="number" id="CSlots" placeholder="Number of Slots" name="CSlots">
                 </div>
@@ -27,6 +31,26 @@
                 <label class="text-left" for="CProf">Tentative Professor</label>
                 <input class="form-control" type="text" id="CProf" name="CProf" placeholder="Tentative Professor" required="">
             </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label class="text-left" for="CUnits">No. of Units</label>
+                    <input class="form-control" type="number" id="CUnits" name="CUnits" required="" placeholder="No. of Units">
+                </div>
+                <div class="form-group col-md-3">
+                    <label class="text-left" for="AYStart">Academic Year Start</label>
+                    <input class="form-control" type="number" id="AYStart" name="AYStart" required="" placeholder="Year From">
+                </div>
+                <div class="form-group col-md-3">
+                    <label class="text-left" for="AYEnd">Academic Year End</label>
+                    <input class="form-control" type="number" id="AYEnd" name="AYEnd" required="" placeholder="Year To">
+                </div>
+                <div class="form-group col-md-3">
+                    <label class="text-left" for="TNo">Term No.</label>
+                    <input class="form-control" type="number" id="TNo" name="TNo" required="" placeholder="Term No.">
+                </div>
+            </div>
+
             <div class="form-row">
                 <div class="form-group col-md-3">
                     <label class="text-left" for="CRoom">Room</label>
@@ -54,7 +78,7 @@
                 <div class="form-check"><input class="form-check-input" type="checkbox" id="sunday"><label class="form-check-label" for="sunday">Sunday</label></div>
             </div>
             <button class="btn btn-success" id="submit" type="submit">Add Course</button>
-            <button class="btn btn-danger" id="submit" type="submit" v-if="edit==true">Add Course</button>
+            <button class="btn btn-danger" id="submit" type="submit" v-if="edit==true">Delete Course</button>
         </form>
     </div>
   </div>
@@ -65,14 +89,33 @@
 import Header from './components/admin-header.vue'
 
 export default {
-  components: {
+    components: {
     'admin-header': Header
-  },
-  data(){
-    return {
-      edit: false
+    },
+    data(){
+        return {
+            edit: false,
+            course:{
+                // classnum: 0,
+                // code: "",
+                // name: "",
+                // section: "",
+                units: 0,
+                term: {
+                    acadyear: {from: 0, to: 0},
+                    termno: 0
+                },
+                // classtimes: [{
+                    // day: "",
+                    // time: {from: "", to: ""},
+                    // room: ""
+                // }],
+                // enrolled: [],
+                // slots: 0,
+                // professor: ""
+            }
+        }
     }
-  }
 }
 </script>
 
