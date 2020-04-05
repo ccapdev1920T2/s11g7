@@ -1,11 +1,15 @@
 <template >
 <div class="main">
         <div class="login-page">
-        <div class="form">
-        <form class="login-form">
-            <input id="idnum" type="number" placeholder="Username"/>
-            <input id="password" type="password" placeholder="Password"/>
-        <p class="message"><router-link :to="{name: 'loginStudent'}">Login as Student</router-link></p>
+            <div class="form">
+                <form class="login-form">
+                    <input id="idnum" type="number" placeholder="Username"/>
+                    <input id="password" type="password" placeholder="Password"/>
+                <p class="message"><router-link :to="{name: 'loginStudent'}">Login as Student</router-link></p>
+                </form>
+            </div>
+        </div>
+
 </div>
 </template>
 
