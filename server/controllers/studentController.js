@@ -71,61 +71,86 @@ studentController = {
      * Removes the given course number from the student's enrolled.
      * The following parameters must be in the body:
      * @param action Must either be "ENLIST" or "DROP".
-     * @param course Must contain the appropriate 
+     * @param courses Must contain the appropriate courses to drop.
      */
     modifyCoursesOfStudent: async (req, res) => {
+        let conflictFound = false
+        let error = {
+            status: 500,
+            message: 'Internal server error occurred',
+            courses: []
+        }
+
         try {
-            if ("action" in req.body && "course" in req.body) {
+            if ("action" in req.body && "courses" in req.body) {
                 let action = req.body.action
-                let course = req.body.course
+                let courses = req.body.courses
                 let student = req.params.idnum
 
                 let studentDoc = await Student.findOne({ idnum: student }, { idnum: 1, courses: 1 })
-                let courseDoc = await Course.findOne({ classnum: course }, { classnum: 1, enrolled: 1, slots: 1 })
+                let courseDocs = await Course.find({ classnum: { $in: courses } }, { classnum: 1, enrolled: 1, slots: 1 })
 
                 switch (action.toUpperCase()) {
                     case "ENLIST": {
-                        if (studentDoc.courses.includes(course)) {
-                            res.status(409).json({
-                                message: "Student is already enlisted in that course!"
-                            })
-                            return
-                        } else if (courseDoc.enrolled.length >= courseDoc.slots) {
-                            res.status(409).json({
-                                message: "This course is already full!"
-                            })
-                            return
-                        } else await enlist(studentDoc, courseDoc)
+                        courseDocs.forEach((course) => {
+                            if (studentDoc.courses.includes(course.classnum)) {
+                                conflictFound = true
+                                error.status = 409
+                                error.message = "Student can't enroll in the following courses."
+                                error.courses.push({
+                                    number: course.classnum,
+                                    reason: "Already enlisted"
+                                })
+                            } else if (course.enrolled.length >= course.slots) {
+                                conflictFound = true
+                                error.status = 409
+                                error.message = "Student can't enroll in the following courses."
+                                error.courses.push({
+                                    number: course.classnum,
+                                    reason: "Already full"
+                                })
+                            } else enlist(studentDoc, course)
+                        })
                     } break
 
                     case "DROP": {
-                        if (!studentDoc.courses.includes(course)) {
-                            res.status(409).json({
-                                message: "Student is not enlisted in that course!"
-                            })
-                            return
-                        } else await drop(studentDoc, courseDoc)
+                        courseDocs.forEach((course) => {
+                            if (!studentDoc.courses.includes(course.classnum)) {
+                                conflictFound = true
+                                error.status = 409
+                                error.message = "Student can't drop the following courses."
+                                error.courses.push({
+                                    number: course.classnum,
+                                    reason: "Not enlisted"
+                                })
+                            } else drop(studentDoc, course)
+                        })
                     } break
 
                     default: {
-                        res.status(400).json({
-                            message: "'action' must contain 'ENLIST' or 'DROP' only!"
-                        })
+                        conflictFound = true
+                        error.status = 400
+                        error.message = "'action' must contain 'ENLIST' or 'DROP' only!"
                         return
                     }
                 }
-                res.status(200).json({
-                    message: action + ' successfully performed!'
-                })
-
             } else {
-                res.status(400).json({
-                    message: "Body must contain 'action' and 'course'!"
-                })
+                conflictFound = true
+                error.status = 400
+                error.message = "Body must contain 'action' and 'courses'!"
             }
         } catch (err) {
             console.log(err)
-            res.status(500).json(err)
+            conflictFound = true
+            error = err
+        } finally {
+            if (conflictFound) {
+                res.status(error.status).json(error)
+            } else {
+                res.status(200).json({
+                    message: 'Action performed successfully'
+                })
+            }
         }
     },
 
