@@ -101,7 +101,7 @@ courseController = {
             let courseNum = req.params.courseNum
             let dropped = await dropAllStudents(courseNum)
             await Course.deleteOne({ classnum: courseNum })
-            res.status(200).json({ message: 'Deleted course ' + courseNum + ', ' + dropped.length + ' students dropped' })
+            res.status(204).json({ message: 'Deleted course ' + courseNum + ', ' + dropped.length + ' students dropped' })
         } catch (err) {
             console.log(err)
             if (err.name == 'MongoError')
