@@ -5,7 +5,8 @@ const ClassTime = require('./ClassTime.js')
 var CourseSchema = mongoose.Schema({
     classnum: {
         type: Number,
-        required: true
+        required: true,
+        unique: true
     },
     code: {
         type: String,
