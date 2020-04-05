@@ -32,7 +32,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 #### Log in
 
-*Login is not yet implemented.* Clicking the login button will redirect to the manage courses page.
+*Login is not yet implemented.* Clicking the login button will redirect to the manage courses page. The student currently logged in is assumed have the ID 11828498.
 
 #### Register
 
