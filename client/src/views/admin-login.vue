@@ -5,15 +5,7 @@
         <form class="login-form">
             <input id="idnum" type="number" placeholder="Username"/>
             <input id="password" type="password" placeholder="Password"/>
-            <!-- <button type="submit" id="login"><b>login</b></button> -->
-            <router-link :to="{name: 'adminManage'}" tag="button">login</router-link>
-            <!-- <p class="error"></p> -->
-        </form>
-        </div>
-    </div>
-    <div class="footer">
         <p class="message"><router-link :to="{name: 'loginStudent'}">Login as Student</router-link></p>
-    </div>
 </div>
 </template>
 

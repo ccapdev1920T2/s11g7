@@ -21,7 +21,7 @@ GET | Retrieves a specific student gives his/her ```idnum```.
 Method | Description
 --- | ---
 GET | Retrieves the courses that a student has enrolled in.
-<!-- PATCH | Enlists the student in the given ```courseNum``` **included in the body**. -->
+PATCH | Performs enlistment or dropping of the course of the student ```idnum```. Body must include the following: ``` { action, course } ```. See [```studentController```](../controllers/studentController.js) for more details.
 DELETE | Drops the student from the given ```courseNum``` **included in the body**.
 
 ### ```/api/students/register```
@@ -37,6 +37,7 @@ POST | Adds a student to the database with the given data **in the body**.
 Method | Description
 --- | ---
 GET | Retrieves all courses.
+POST | Adds a course to the database with the given data **in the body**.
 
 ### ```/api/courses/code/{courseCode}```
 
@@ -49,10 +50,10 @@ GET | Gets all courses that match the given ```courseCode```. (e.g. "CCAPDEV")
 Method | Description
 --- | ---
 GET | Returns the course corresponding to the given ```courseNum```.
-PUT | Updates the course specified by ```courseNum```.
-DELETE | Deletes the course specified by ```courseNum```.
+PUT | Updates the course specified by ```courseNum``` and drops all students enlisted in it.
+DELETE | Deletes the course specified by ```courseNum``` and drops all students enlisted in it.
 
-### ```api/courses/number/{courseNum}/students```
+### ```/api/courses/number/{courseNum}/students```
 
 Method | Description
 --- | ---
@@ -60,4 +61,4 @@ GET | Returns the class list of students enrolled in course ```courseNum```.
 
 ## Features to Be Implemented
 
-- Enlist and dropping of courses
+- Enlistment and dropping of courses

@@ -18,7 +18,7 @@
 
         <div class="container box m-3" v-show="showResults">
             <div class="col-12 py-3" id="search-results">
-                <form class="form" id="add-course" action="search_addsuccess.html">
+                <form class="form" id="add-course" @submit.prevent>
                     <h1 class="d-flex justify-content-left">Search results</h1>
                     <div class="table-responsive">
                         <table class="rounded table table-light table-striped table-hover table-bordered text-center">

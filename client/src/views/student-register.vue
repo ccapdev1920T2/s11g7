@@ -30,6 +30,8 @@
 export default {
     data(){
         return{
+            name: "RegisterForm",
+            
             fullname: "",
             confirmpass: "",
 

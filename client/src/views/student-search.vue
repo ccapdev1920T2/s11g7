@@ -7,8 +7,8 @@
 
 
 <script>
-import Header from '../components/student-header.vue'
-import searchCourses from '../components/student-search-courses.vue'
+import Header from './components/student-header.vue'
+import searchCourses from './components/student-search-courses.vue'
 
 export default {
     components: {
