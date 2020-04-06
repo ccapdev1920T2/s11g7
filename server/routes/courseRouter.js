@@ -17,7 +17,7 @@ courseRouter.route('/code/:courseCode')
     .get(courseController.getCoursesByCode)
 
 /**
- * Use a GET request on http://localhost:/5656/api/courses/code/:courseNum to retrieve
+ * Use a GET request on http://localhost:5656/api/courses/number/:courseNum to retrieve
  * the specific course that matches the given courseNum
  */
 courseRouter.route('/number/:courseNum')
@@ -26,7 +26,7 @@ courseRouter.route('/number/:courseNum')
     .delete(courseController.deleteCourse)
 
 /**
- * Use a GET request on http://localhost:/5656/api/courses/code/:courseNum to retrieve
+ * Use a GET request on http://localhost:5656/api/courses/code/:courseNum to retrieve
  * all STUDENTS who are a part of the course.
  */
 courseRouter.route('/number/:courseNum/students')
