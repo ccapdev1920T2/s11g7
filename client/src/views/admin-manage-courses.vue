@@ -28,7 +28,7 @@
                 <td scope="col-1"> {{getRoom(course)}} </td>
                 <td scope="col-1"> {{course.enrolled.length}} / {{course.slots}}</td>
                 <td scope="col-2"> {{course.professor}} </td>
-              <td><router-link :to="{name: 'adminEdit'}" class="btn btn-primary" role="button">Manage</router-link></td>
+              <td><router-link :to="{name: 'adminEditCourse', params:{ classnum: course.classnum}}" class="btn btn-success" role="button">Manage</router-link></td>
             </tr>
             </tbody>
           </table>
@@ -64,7 +64,7 @@ export default {
     // assumes all classtimes have the same room
     getRoom: (course) =>{
         return course.classtimes[0].room
-    }
+    },
   },
   created(){
     this.axios.get('http://localhost:5656/api/courses/').then((result)=>{
