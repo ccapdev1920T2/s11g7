@@ -9,7 +9,6 @@ import studentManage from '../views/student-manage.vue'
 import adminLogin from '../views/admin-login.vue'
 import adminManage from '../views/admin-manage-courses.vue'
 import adminAdd from '../views/admin-add-course.vue'
-import adminEdit from '../views/admin-edit-course.vue'
 
 Vue.use(VueRouter)
 
@@ -48,9 +47,9 @@ const routes = [
     component: adminAdd
   },
   {
-    path: '/admin-edit',
-    name: 'adminEdit',
-    component: adminEdit
+    path: '/admin-edit/:classnum',
+    name: 'adminEditCourse',
+    component: adminAdd
   },
   {
     path: '/admin-manage',
