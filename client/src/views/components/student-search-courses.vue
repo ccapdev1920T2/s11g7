@@ -17,7 +17,7 @@
         </div>
 
         
-        <div class="container box m-3" v-show="showResults">
+        <div class="container box m-5" v-show="showResults">
             <div class="col-12 py-3" id="search-results">
                 <Spinner v-show="!resultsReady"/>
                 <div class="alert alert-success" role="alert" v-show="showSuccessAlert">
@@ -130,7 +130,7 @@ export default {
             this.showSuccessAlert = false
             this.showFailureAlert = false
             this.resultsReady = false
-            
+
             this.axios.patch('http://localhost:5656/api/students/' + this.currentUser + '/courses', 
             {
                 action: "ENLIST",

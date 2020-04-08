@@ -7,8 +7,8 @@
 
 
 <script>
-import Header from './components/student-header.vue'
-import searchCourses from './components/student-search-courses.vue'
+import Header from '../components/student-header.vue'
+import searchCourses from '../components/student-search-courses.vue'
 
 export default {
     components: {
@@ -22,7 +22,7 @@ export default {
 <style scoped>
 
 body {
-    background-image: url('../assets/img/dlsu.png');
+    background-image: url('../../assets/img/dlsu.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;

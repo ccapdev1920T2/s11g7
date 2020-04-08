@@ -85,7 +85,7 @@
 
 
 <script>
-import Header from './components/admin-header.vue'
+import Header from '../components/admin-header.vue'
 
 export default {
     components: {

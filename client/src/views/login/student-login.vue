@@ -168,7 +168,7 @@ export default {
 
 .main{
     min-height: 100vh;
-    background: url('../assets/img/login-reg-background.jpg') no-repeat center center fixed; 
+    background: url('../../assets/img/login-reg-background.jpg') no-repeat center center fixed; 
     
     -webkit-background-size: cover;
     -moz-background-size: cover;

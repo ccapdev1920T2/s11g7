@@ -1,6 +1,6 @@
 <template>
     <div>
-       <student-header></student-header> 
+        <student-header></student-header> 
         <div class="align-items-center">
             <div class="container box my-3">
                 <div>
@@ -96,8 +96,8 @@ require('@fullcalendar/timegrid/main.min.css')
 import FullCalendar from '@fullcalendar/vue'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
-import Spinner from './components/Spinner.vue'
-import Header from './components/student-header.vue'
+import Spinner from '../components/Spinner.vue'
+import Header from '../components/student-header.vue'
 
 export default {
     components: {
@@ -236,7 +236,7 @@ export default {
 
 <style scoped>
 
-@import '../assets/css/student.css';
+@import '../../assets/css/student.css';
 @import '~@fullcalendar/core/main.css';
 @import '~@fullcalendar/daygrid/main.css';
 </style>
