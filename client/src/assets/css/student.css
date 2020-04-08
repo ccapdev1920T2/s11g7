@@ -1,9 +1,19 @@
+
+@import url('https://fonts.googleapis.com/css?family=EB+Garamond|Lato&display=swap');
+
 body {
+    background: url('../img/dlsu.png') no-repeat center center fixed; 
+    
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+/*
     background-image: url('../img/dlsu.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    min-height: 100vh;
+    min-height: 100vh; */
     font-family: 'Lato', sans-serif;
 }
 

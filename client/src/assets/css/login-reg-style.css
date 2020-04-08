@@ -154,3 +154,15 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;      
 }
+
+#firstname {
+    width: 40%;
+}
+
+#middlename {
+    width: 15%;
+}
+
+#lastname {
+    width: 26%
+}
