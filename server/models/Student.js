@@ -12,7 +12,7 @@ let StudentSchema = mongoose.Schema({
     lastname: {
         type: String,
         required: true
-    }, 
+    },
     
 
     address: {
