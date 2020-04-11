@@ -20,7 +20,7 @@
             </thead>
             <tbody style="text-align: center;">
             <tr v-for="(course, i) in courses" v-bind:key="i">
-              <td scope="col-1" > {{course.code}} </td>
+                <td scope="col-1" > {{course.code}} </td>
                 <td scope="col-2"> {{course.name}} </td>
                 <td scope="col-1"> {{course.section}} </td>
                 <td scope="col-1"> {{getDays(course)}} </td>
@@ -28,7 +28,7 @@
                 <td scope="col-1"> {{getRoom(course)}} </td>
                 <td scope="col-1"> {{course.enrolled.length}} / {{course.slots}}</td>
                 <td scope="col-2"> {{course.professor}} </td>
-              <td><router-link :to="{name: 'adminEdit'}" class="btn btn-primary" role="button">Manage</router-link></td>
+              <td><router-link :to="{name: 'adminEdit'}" class="btn btn-success" role="button">Manage</router-link></td>
             </tr>
             </tbody>
           </table>
