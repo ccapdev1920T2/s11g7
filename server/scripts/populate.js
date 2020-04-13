@@ -30,20 +30,20 @@ let courseData = [
         "term": currentTerm, 
         classtimes: 
         [
-            {day: 'M', time:{from:'1100', to:'1230'}, room: 'G304B'}, {day: 'W', time:{from:'1100', to:'1230'}, room: 'G304B'}
+            {day: 'M', time:{from:'11:00', to:'12:30'}, room: 'G304B'}, {day: 'W', time:{from:'11:00', to:'12:30'}, room: 'G304B'}
         ], 
         enrolled: ["11828498"], 
         slots: 45, 
         professor: 'ANTIOQUIA, ARREN MATTHEW CAPUCHINO'
     },
 
-    {classnum: 1543, code: 'CCAPDEV', name: 'Web Application Development', section: 'S14', units: 3, term: currentTerm, classtimes: [{day: 'T', time:{from:'1100', to:'1230'}, room: 'G304B'}, {day: 'H', time:{from:'1100', to:'1230'}, room: 'G304B'}], enrolled: [], slots: 45, professor: 'CHUA, UNISSE CHUA'},
+    {classnum: 1543, code: 'CCAPDEV', name: 'Web Application Development', section: 'S14', units: 3, term: currentTerm, classtimes: [{day: 'T', time:{from:'11:00', to:'12:30'}, room: 'G304B'}, {day: 'H', time:{from:'11:00', to:'12:30'}, room: 'G304B'}], enrolled: [], slots: 45, professor: 'CHUA, UNISSE CHUA'},
 
-    {classnum: 606, code: 'CCAPDEV', name: 'Web Application Development', section: 'S12', units: 3, term: currentTerm, classtimes: [{day: 'M', time:{from:'1430', to:'1600'}, room: 'G304B'}, {day: 'W', time:{from:'1430', to:'1600'}, room: 'G304B'}], enrolled: [], slots: 45, professor: 'ANTIOQUIA, ARREN MATTHEW CAPUCHINO'},
+    {classnum: 606, code: 'CCAPDEV', name: 'Web Application Development', section: 'S12', units: 3, term: currentTerm, classtimes: [{day: 'M', time:{from:'14:30', to:'16:00'}, room: 'G304B'}, {day: 'W', time:{from:'14:30', to:'16:00'}, room: 'G304B'}], enrolled: [], slots: 45, professor: 'ANTIOQUIA, ARREN MATTHEW CAPUCHINO'},
 
-    {classnum: 1542, code: 'CCAPDEV', name: 'Web Application Development', section: 'S15', units: 3, term: currentTerm, classtimes: [{day: 'T', time:{from:'1430', to:'1600'}, room: 'G304B'}, {day: 'H', time:{from:'1430', to:'1600'}, room: 'G304B'}], enrolled: [], slots: 45, professor: 'CHUA, UNISSE CHUA'},
+    {classnum: 1542, code: 'CCAPDEV', name: 'Web Application Development', section: 'S15', units: 3, term: currentTerm, classtimes: [{day: 'T', time:{from:'14:30', to:'16:00'}, room: 'G304B'}, {day: 'H', time:{from:'14:30', to:'16:00'}, room: 'G304B'}], enrolled: [], slots: 45, professor: 'CHUA, UNISSE CHUA'},
 
-    {classnum: 3721, code: 'CCAPDEV', name: 'Web Application Development', section: 'X22', units: 3, term: currentTerm, classtimes: [{day: 'T', time:{from:'1100', to:'1230'}, room: 'MRELBA'}, {day: 'H', time:{from:'1100', to:'1230'}, room: 'MRELBA'}], enrolled: [], slots: 43, professor: 'ANTIOQUIA, ARREN MATTHEW CAPUCHINO'},
+    {classnum: 3721, code: 'CCAPDEV', name: 'Web Application Development', section: 'X22', units: 3, term: currentTerm, classtimes: [{day: 'T', time:{from:'11:00', to:'12:30'}, room: 'MRELBA'}, {day: 'H', time:{from:'11:00', to:'12:30'}, room: 'MRELBA'}], enrolled: [], slots: 43, professor: 'ANTIOQUIA, ARREN MATTHEW CAPUCHINO'},
 
     {
         classnum: 620,
@@ -53,7 +53,7 @@ let courseData = [
         term: currentTerm, 
         classtimes: 
         [
-            {day: 'M', time:{from:'1100', to:'1230'}, room: 'G208'}, {day: 'W', time:{from:'1100', to:'1230'}, room: 'G208'}
+            {day: 'M', time:{from:'11:00', to:'12:30'}, room: 'G208'}, {day: 'W', time:{from:'11:00', to:'12:30'}, room: 'G208'}
         ], 
         enrolled: [], 
         slots: 38, 
@@ -67,7 +67,7 @@ let courseData = [
         term: currentTerm, 
         classtimes: 
         [
-            {day: 'M', time:{from:'0915', to:'1045'}, room: 'G211'}, {day: 'W', time:{from:'0915', to:'1045'}, room: 'G211'}
+            {day: 'M', time:{from:'09:15', to:'10:45'}, room: 'G211'}, {day: 'W', time:{from:'09:15', to:'10:45'}, room: 'G211'}
         ], 
         enrolled: ["11828498"], 
         slots: 38, 
@@ -81,7 +81,7 @@ let courseData = [
         term: currentTerm, 
         classtimes: 
         [
-            {day: 'M', time:{from:'1100', to:'1230'}, room: 'G206'}, {day: 'W', time:{from:'1100', to:'1230'}, room: 'G206'}
+            {day: 'M', time:{from:'11:00', to:'12:30'}, room: 'G206'}, {day: 'W', time:{from:'11:00', to:'12:30'}, room: 'G206'}
         ], 
         enrolled: [], 
         slots: 38, 

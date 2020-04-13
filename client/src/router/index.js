@@ -1,14 +1,15 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import studentLogin from '../views/student-login.vue'
-import studentRegister from '../views/student-register.vue'
-import studentSearch from '../views/student-search.vue'
-import studentManage from '../views/student-manage.vue'
+import studentLogin from '../views/login/student-login.vue'
+import studentRegister from '../views/login/student-register.vue'
+import adminLogin from '../views/login/admin-login.vue'
 
-import adminLogin from '../views/admin-login.vue'
-import adminManage from '../views/admin-manage-courses.vue'
-import adminAddEditDelete from '../views/admin-add-edit-delete-course.vue'
+import studentSearch from '../views/student/student-search.vue'
+import studentManage from '../views/student/student-manage.vue'
+
+import adminManage from '../views/admin/admin-manage-courses.vue'
+import adminAddEditDelete from '../views/admin/admin-add-edit-delete-course.vue'
 
 Vue.use(VueRouter)
 

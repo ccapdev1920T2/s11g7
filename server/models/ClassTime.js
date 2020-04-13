@@ -10,22 +10,25 @@ const mongoose = require('mongoose')
  */
 var ClassTimeSchema = mongoose.Schema({
     
+    date: {
+        type: String,
+        required: false
+    },
     day: {
         type: String,
-        required: true,
-        match: /^[MTWHFSL]$|^\d{1,2}\/\d{1,2}$/
+        required: true
     },
     time: {
         type: {
             from: {
                 type: String,
                 required: true,
-                match: /^([01]\d|2[0-3])([0-5]\d)$/
+                match: /^([01]\d|2[0-3]):([0-5]\d)$/
             },
             to: {
                 type: String,
                 required: true,
-                match: /^([01]\d|2[0-3])([0-5]\d)$/
+                match: /^([01]\d|2[0-3]):([0-5]\d)$/
             }
         }
     },

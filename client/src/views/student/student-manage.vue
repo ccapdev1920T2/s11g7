@@ -1,86 +1,86 @@
 <template>
     <div>
-       <student-header></student-header> 
-        <div class="align-items-center">
-            <div class="container box my-3">
-                <div>
-                    <div class="col-12 p-3">
-                        <h1 class="d-flex justify-content-left">Your class schedule</h1>
-                        <Spinner v-show="!coursesLoaded"/>
-                        <div id="calendar" v-show="coursesLoaded">
-                            <FullCalendar
-                                defaultView = "timeGridWeek"
-                                :plugins = "calendarPlugins"
-                                :header = "false"
-                                :events = "calendarEvents"
-                                :eventColor = "'rgb(0, 112, 60)'"
-                                :eventTextColor = "'white'"
-                                :allDaySlot = "false"
-                                :hiddenDays = '[0]'
-                                :minTime = "'07:30:00'"
-                                :maxTime = "'21:30:00'"
-                                :height = "'auto'"
-                                :columnHeaderFormat = "{
-                                    weekday: 'short'
-                                }"
-                            />
-                        </div>
-
+        <student-header></student-header> 
+        <div class="px-lg-5 py-lg-5 py-3 align-items-center">
+            <div class="box my-3 p-3">
+                <div class="col-12 p-3">
+                    <h1 class="d-flex justify-content-left">Your class schedule</h1>
+                    <Spinner v-show="!coursesLoaded"/>
+                    <div id="calendar" v-show="coursesLoaded">
+                        <FullCalendar
+                            defaultView = "timeGridWeek"
+                            :plugins = "calendarPlugins"
+                            :header = "false"
+                            :events = "calendarEvents"
+                            :eventColor = "'rgb(0, 112, 60)'"
+                            :eventTextColor = "'white'"
+                            :allDaySlot = "false"
+                            :hiddenDays = '[0]'
+                            :minTime = "'07:30:00'"
+                            :maxTime = "'21:30:00'"
+                            :height = "'auto'"
+                            :columnHeaderFormat = "{
+                                weekday: 'short'
+                            }"
+                        />
                     </div>
-                    <div class="col-12 p-3" id="search-results">
-                        <form class="form" @submit.prevent>
-                            <h1 class="d-flex justify-content-left">Courses</h1>
-                            <Spinner v-show="!coursesLoaded"/>
-                            <div class="alert alert-success" role="alert" v-show="showSuccessAlert">
-                                Course(s) successfully dropped!
-                                <button type="button" class="close" @click="showSuccessAlert = false">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="alert alert-danger" role="alert" v-show="showFailureAlert">
-                                A problem occurred when dropping the course(s)! Please contact ITS for more information.
-                                <button type="button" class="close" @click="showFailureAlert = false">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="table-responsive" v-show="coursesLoaded">
-                                <p v-show="courses.length == 0"> You have no courses! </p>
-                                <table class="table table-sm table-light table-striped table-hover text-center" v-show="courses.length > 0">
-                                    <thead class="thead-dark">
-                                        <tr>
-                                            <th scope="col-1"></th>
-                                            <th scope="col-1">Code</th>
-                                            <th scope="col-1">Section</th>
-                                            <th scope="col-3">Course Name</th>
-                                            <th scope="col-1">Day</th>
-                                            <th scope="col-1">Timeslot</th>
-                                            <th scope="col-1">Room</th>
-                                            <th scope="col-1">Slots</th>
-                                            <th scope="col-2">Professor</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="(course, i) in courses" v-bind:key="i">
-                                            <td scope="col-1">
+                </div>
+                <div class="col-12 p-3">
+                    <form class="form" @submit.prevent>
+                        <h1 class="d-flex justify-content-left">Courses</h1>
+                        <Spinner v-show="!coursesLoaded"/>
+                        <div class="alert alert-success" role="alert" v-show="showSuccessAlert">
+                            Course(s) successfully dropped!
+                            <button type="button" class="close" @click="showSuccessAlert = false">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="alert alert-danger" role="alert" v-show="showFailureAlert">
+                            A problem occurred when dropping the course(s)! Please contact ITS for more information.
+                            <button type="button" class="close" @click="showFailureAlert = false">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="table-responsive" v-show="coursesLoaded">
+                            <p v-show="courses.length == 0"> You have no courses! </p>
+                            <table class="table table-sm table-light table-hover text-center" v-show="courses.length > 0">
+                                <thead class="thead">
+                                    <tr>
+                                        <th scope="col-1"></th>
+                                        <th scope="col-1">Code</th>
+                                        <th scope="col-1">Section</th>
+                                        <th scope="col-3">Course Name</th>
+                                        <th scope="col-1">Day</th>
+                                        <th scope="col-1">Timeslot</th>
+                                        <th scope="col-1">Room</th>
+                                        <th scope="col-1">Slots</th>
+                                        <th scope="col-2">Professor</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template v-for="(course, i) in courses">
+                                        <tr v-for="(ct, j) in course.classtimes" :key="j" :class="i % 2 == 0 ? 'odd' : ''">
+                                            <td v-if="j == 0" :rowspan="course.classtimes.length" scope="col">
                                                 <div class="form-check">
                                                     <input class="form-check-input position-static" type="checkbox" v-bind:value="course.classnum" v-model="coursesToDelete">
                                                 </div>
                                             </td>
-                                            <td scope="col-1"> {{course.code}} </td>
-                                            <td scope="col-1"> {{course.section}} </td>
-                                            <td scope="col-3"> {{course.name}} </td>
-                                            <td scope="col-1"> {{getDays(course)}} </td>
-                                            <td scope="col-1"> {{getTimeSlot(course)}} </td>
-                                            <td scope="col-1"> {{getRoom(course)}} </td>
-                                            <td scope="col-1"> {{course.enrolled.length}} / {{course.slots}}</td>
-                                            <td scope="col-3"> {{course.professor}} </td>
+                                            <td v-if="j == 0" :rowspan="course.classtimes.length" scope="col"> {{course.code}} </td>
+                                            <td v-if="j == 0" :rowspan="course.classtimes.length" scope="col"> {{course.section}} </td>
+                                            <td v-if="j == 0" :rowspan="course.classtimes.length" scope="col"> {{course.name}} </td>
+                                            <td> {{ct.day == 'C' ? ct.date : ct.day}} </td>
+                                            <td> {{ct.time.from}}-{{ct.time.to}} </td>
+                                            <td> {{ct.room}} </td>
+                                            <td v-if="j == 0" :rowspan="course.classtimes.length" scope="col"> {{course.enrolled.length}} / {{course.slots}}</td>
+                                            <td v-if="j == 0" :rowspan="course.classtimes.length" scope="col"> {{course.professor}} </td>
                                         </tr>
-                                    </tbody>
-                                </table>
-                                <input class="btn btn-danger" type="submit" value="Remove courses" @click="dropCourses()" v-bind:disabled="courses.length == 0 || coursesToDelete == 0"> 
-                            </div>
-                        </form>
-                    </div>
+                                        <tr :key="i"></tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                            <input class="btn btn-danger" type="submit" value="Remove courses" @click="dropCourses()" v-bind:disabled="courses.length == 0 || coursesToDelete == 0"> 
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -96,8 +96,8 @@ require('@fullcalendar/timegrid/main.min.css')
 import FullCalendar from '@fullcalendar/vue'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
-import Spinner from './components/Spinner.vue'
-import Header from './components/student-header.vue'
+import Spinner from '../components/Spinner.vue'
+import Header from '../components/student-header.vue'
 
 export default {
     components: {
@@ -167,8 +167,8 @@ export default {
                     this.calendarEvents.push({
                         title: course.code,
                         daysOfWeek: [this.determineDay(classTime.day)],
-                        startTime: this.parseTime(classTime.time.from),
-                        endTime: this.parseTime(classTime.time.to)
+                        startTime: classTime.time.from,
+                        endTime: classTime.time.to
                     })
                 }
             }
@@ -235,8 +235,11 @@ export default {
 
 
 <style scoped>
-
-@import '../assets/css/student.css';
 @import '~@fullcalendar/core/main.css';
 @import '~@fullcalendar/daygrid/main.css';
+@import "../../assets/css/student.css";
+
+.odd {
+    background-color: rgba(0, 0, 0, 0.05);
+}
 </style>

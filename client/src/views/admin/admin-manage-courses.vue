@@ -11,7 +11,7 @@
                 <th>Course Name</th>
                 <th>Section</th>
                 <th>Days</th>
-                <th>TImeslot</th>
+                <th>Timeslot</th>
                 <th>Room</th>
                 <th>Slots</th>
                 <th>Professor</th>
@@ -20,7 +20,7 @@
             </thead>
             <tbody style="text-align: center;">
             <tr v-for="(course, i) in courses" v-bind:key="i">
-              <td scope="col-1" > {{course.code}} </td>
+                <td scope="col-1" > {{course.code}} </td>
                 <td scope="col-2"> {{course.name}} </td>
                 <td scope="col-1"> {{course.section}} </td>
                 <td scope="col-1"> {{getDays(course)}} </td>
@@ -28,7 +28,7 @@
                 <td scope="col-1"> {{getRoom(course)}} </td>
                 <td scope="col-1"> {{course.enrolled.length}} / {{course.slots}}</td>
                 <td scope="col-2"> {{course.professor}} </td>
-              <td><router-link :to="{name: 'adminEditCourse', params:{ classnum: course.classnum}}" class="btn btn-success" role="button">Manage</router-link></td>
+              <td><router-link :to="{name: 'adminEditCourse', params:{classnum: course.classnum}}" class="btn btn-success" role="button">Manage</router-link></td>
             </tr>
             </tbody>
           </table>
@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import Header from './components/admin-header.vue'
+import Header from '../components/admin-header.vue'
 
 export default {
   components: {
