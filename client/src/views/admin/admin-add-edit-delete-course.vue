@@ -65,7 +65,7 @@
                                 <th colspan="1">Start Time</th>
                                 <th colspan="1">End Time</th>
                                 <th colspan="1">Room</th>
-                                <th><button type="button" class="btn btn-outline-success" @click="addClassTime">Add</button></th>
+                                <th><button type="button" class="btn btn-success" @click="addClassTime">Add</button></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -102,10 +102,9 @@
             </div>
             <button class="btn btn-success" id="btnAdd" name="add" type="submit" v-if="action.type == 'ADD'" @click="addCourse">Add</button>
             <div v-else class="form-row text-center">
-                <button class="btn btn-success" id="btnUpdate" name="update" type="submit" @click="editCourse">Update</button>
-                <div class="m-1"></div>
-                <button class="btn btn-danger" id="btnDelete" name="delete" type="submit" @click="deleteCourse">Delete</button>
-                <div class="error"></div>
+                <button class="btn btn-outline-danger col-1" id="btnDelete" name="delete" type="submit" @click="deleteCourse">Delete</button>
+                <div class="col-9"></div>
+                <button class="btn btn-success col-2" id="btnUpdate" name="update" type="submit" @click="editCourse">Update</button>
             </div>
         </form>
         <div class="text-center h1 m-5" v-if="action.performed">
