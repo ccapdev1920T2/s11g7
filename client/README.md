@@ -50,12 +50,12 @@ This shows a calendar view of the currently logged in student's schedule. Here t
 
 #### Add course
 
-Input the details of the course as specified in the form and click the add course button.
+Input the details of the course as specified in the form and click the add button.
 
 #### Edit course
 
-*Not yet implemented.*
+Click on the manage button, edit the course as specified in the form and click the update button.
 
 #### Delete course
 
-*Not yet implemented.*
+Click on the manage button, then click on the delete button.
