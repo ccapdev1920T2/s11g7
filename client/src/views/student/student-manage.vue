@@ -43,8 +43,8 @@
                         </div>
                         <div class="table-responsive" v-show="coursesLoaded">
                             <p v-show="courses.length == 0"> You have no courses! </p>
-                            <table class="table table-sm table-light table-striped table-hover text-center" v-show="courses.length > 0">
-                                <thead class="thead-dark">
+                            <table class="table table-sm table-light table-hover text-center" v-show="courses.length > 0">
+                                <thead class="thead">
                                     <tr>
                                         <th scope="col-1"></th>
                                         <th scope="col-1">Code</th>
@@ -58,21 +58,24 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="(course, i) in courses" v-bind:key="i">
-                                        <td scope="col-1">
-                                            <div class="form-check">
-                                                <input class="form-check-input position-static" type="checkbox" v-bind:value="course.classnum" v-model="coursesToDelete">
-                                            </div>
-                                        </td>
-                                        <td scope="col-1"> {{course.code}} </td>
-                                        <td scope="col-1"> {{course.section}} </td>
-                                        <td scope="col-3"> {{course.name}} </td>
-                                        <td scope="col-1"> {{getDays(course)}} </td>
-                                        <td scope="col-1"> {{getTimeSlot(course)}} </td>
-                                        <td scope="col-1"> {{getRoom(course)}} </td>
-                                        <td scope="col-1"> {{course.enrolled.length}} / {{course.slots}}</td>
-                                        <td scope="col-3"> {{course.professor}} </td>
-                                    </tr>
+                                    <template v-for="(course, i) in courses">
+                                        <tr v-for="(ct, j) in course.classtimes" :key="j" :class="i % 2 == 0 ? 'odd' : ''">
+                                            <td v-if="j == 0" :rowspan="course.classtimes.length" scope="col">
+                                                <div class="form-check">
+                                                    <input class="form-check-input position-static" type="checkbox" v-bind:value="course.classnum" v-model="coursesToDelete">
+                                                </div>
+                                            </td>
+                                            <td v-if="j == 0" :rowspan="course.classtimes.length" scope="col"> {{course.code}} </td>
+                                            <td v-if="j == 0" :rowspan="course.classtimes.length" scope="col"> {{course.section}} </td>
+                                            <td v-if="j == 0" :rowspan="course.classtimes.length" scope="col"> {{course.name}} </td>
+                                            <td> {{ct.day == 'C' ? ct.date : ct.day}} </td>
+                                            <td> {{ct.time.from}}-{{ct.time.to}} </td>
+                                            <td> {{ct.room}} </td>
+                                            <td v-if="j == 0" :rowspan="course.classtimes.length" scope="col"> {{course.enrolled.length}} / {{course.slots}}</td>
+                                            <td v-if="j == 0" :rowspan="course.classtimes.length" scope="col"> {{course.professor}} </td>
+                                        </tr>
+                                        <tr :key="i"></tr>
+                                    </template>
                                 </tbody>
                             </table>
                             <input class="btn btn-danger" type="submit" value="Remove courses" @click="dropCourses()" v-bind:disabled="courses.length == 0 || coursesToDelete == 0"> 
@@ -164,8 +167,8 @@ export default {
                     this.calendarEvents.push({
                         title: course.code,
                         daysOfWeek: [this.determineDay(classTime.day)],
-                        startTime: this.parseTime(classTime.time.from),
-                        endTime: this.parseTime(classTime.time.to)
+                        startTime: classTime.time.from,
+                        endTime: classTime.time.to
                     })
                 }
             }
@@ -235,4 +238,8 @@ export default {
 @import '~@fullcalendar/core/main.css';
 @import '~@fullcalendar/daygrid/main.css';
 @import "../../assets/css/student.css";
+
+.odd {
+    background-color: rgba(0, 0, 0, 0.05);
+}
 </style>

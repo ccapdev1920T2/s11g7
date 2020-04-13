@@ -28,41 +28,44 @@
             </div>
             <form class="form" id="add-course" @submit.prevent v-show="resultsReady">
                 <h1 class="d-flex justify-content-left">Search results</h1>
-                <p v-show="filteredCourses.length == 0">No results found.</p>
-                <div class="table-responsive" v-show="filteredCourses.length > 0">
-                    <table class="rounded table table-light table-striped table-hover table-bordered text-center">
-                        <thead class="thead">
+                <div class="table-responsive" v-if="filteredCourses.length > 0">
+                    <table class="rounded table table-light table-bordered text-center  table-hover">
+                        <thead class="thead thead-dark">
                             <tr>
-                                <th scope="col-1"></th>
-                                <th scope="col-1">Code</th>
-                                <th scope="col-1">Section</th>
-                                <th scope="col-2">Course Name</th>
-                                <th scope="col-1">Days</th>
-                                <th scope="col-1">Timeslot</th>
-                                <th scope="col-1">Room</th>
-                                <th scope="col-1">Slots</th>
-                                <th scope="col-2">Professor</th>
+                                <th scope="col"></th>
+                                <th scope="col">Code</th>
+                                <th scope="col">Section</th>
+                                <th scope="col">Course Name</th>
+                                <th scope="col">Days</th>
+                                <th scope="col">Timeslot</th>
+                                <th scope="col">Room</th>
+                                <th scope="col">Slots</th>
+                                <th scope="col">Professor</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(course, i) in filteredCourses" :key="i">
-                                <td scope="col-1">
-                                    <div class="form-check">
-                                        <input class="form-check-input position-static" type="checkbox" v-bind:value="course.classnum" v-model="coursesToEnlist">
-                                    </div>
-                                </td>
-                                <td scope="col-1" > {{course.code}} </td>
-                                <td scope="col-1"> {{course.section}} </td>
-                                <td scope="col-2"> {{course.name}} </td>
-                                <td scope="col-1"> {{getDays(course)}} </td>
-                                <td scope="col-2"> {{getTimeSlot(course)}} </td>
-                                <td scope="col-1"> {{getRoom(course)}} </td>
-                                <td scope="col-1"> {{course.enrolled.length}} / {{course.slots}}</td>
-                                <td scope="col-2"> {{course.professor}} </td>
-                            </tr>
+                            <template v-for="(course, i) in filteredCourses">
+                                <tr v-for="(ct, j) in course.classtimes" :key="j" :class="i % 2 == 0 ? 'odd' : ''">
+                                    <td v-if="j == 0" :rowspan="course.classtimes.length" scope="col">
+                                        <div class="form-check">
+                                            <input class="form-check-input position-static" type="checkbox" v-bind:value="course.classnum" v-model="coursesToEnlist">
+                                        </div>
+                                    </td>
+                                    <td v-if="j == 0" :rowspan="course.classtimes.length" scope="col"> {{course.code}} </td>
+                                    <td v-if="j == 0" :rowspan="course.classtimes.length" scope="col"> {{course.section}} </td>
+                                    <td v-if="j == 0" :rowspan="course.classtimes.length" scope="col"> {{course.name}} </td>
+                                    <td> {{ct.day == 'C' ? ct.date : ct.day}} </td>
+                                    <td> {{ct.time.from}}-{{ct.time.to}} </td>
+                                    <td> {{ct.room}} </td>
+                                    <td v-if="j == 0" :rowspan="course.classtimes.length" scope="col"> {{course.enrolled.length}} / {{course.slots}}</td>
+                                    <td v-if="j == 0" :rowspan="course.classtimes.length" scope="col"> {{course.professor}} </td>
+                                </tr>
+                                <tr :key="i"></tr>
+                            </template>
                         </tbody>
                     </table>
                 </div>
+                <p v-else>No results found.</p>
                 <input class="btn btn-success" type="submit" value="Add courses" @click="enlistCourses()" v-bind:disabled="courses.length == 0 || coursesToEnlist == 0">
             </form>
         </div>
@@ -90,21 +93,6 @@ export default {
         }
     },
     methods: {
-        getDays: (course) => {
-            var days = ''
-            for(var i = 0; i < course.classtimes.length; i++){
-                days += course.classtimes[i].day
-            }
-            return days
-        },
-        // assumes all classtimes have the same time
-        getTimeSlot: (course) =>{
-            return course.classtimes[0].time.from + '-' + course.classtimes[0].time.to
-        },
-        // assumes all classtimes have the same room
-        getRoom: (course) =>{
-            return course.classtimes[0].room
-        },
         filterCourses: function(){
             this.filteredCourses = this.courses.filter((course)=>{
                 return course.code.match(this.input)
@@ -150,4 +138,7 @@ export default {
 
 
 <style scoped>
+    .odd {
+        background-color: rgba(0, 0, 0, 0.05);
+    }
 </style>

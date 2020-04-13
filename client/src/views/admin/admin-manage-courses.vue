@@ -11,7 +11,7 @@
                 <th>Course Name</th>
                 <th>Section</th>
                 <th>Days</th>
-                <th>TImeslot</th>
+                <th>Timeslot</th>
                 <th>Room</th>
                 <th>Slots</th>
                 <th>Professor</th>
