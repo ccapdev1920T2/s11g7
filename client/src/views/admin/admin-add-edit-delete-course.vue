@@ -100,11 +100,15 @@
                     </table>
                 </div>
             </div>
-            <button class="btn btn-success" id="btnAdd" name="add" type="submit" v-if="action.type == 'ADD'" @click="addCourse">Add</button>
+            <div class="form-row text-center" v-if="action.type == 'ADD'">
+                <div class="col-md-10"></div>
+                <button class="btn btn-success col-md-2 col-12" id="btnAdd" name="add" type="submit" @click="addCourse">Add Course</button>
+            </div>
+            
             <div v-else class="form-row text-center">
-                <button class="btn btn-outline-danger col-1" id="btnDelete" name="delete" type="submit" @click="deleteCourse">Delete</button>
-                <div class="col-9"></div>
-                <button class="btn btn-success col-2" id="btnUpdate" name="update" type="submit" @click="editCourse">Update</button>
+                <button class="btn btn-outline-danger col-md-1 col-3" id="btnDelete" name="delete" type="submit" @click="deleteCourse">Delete Course</button>
+                <span class="col-md-9 col-1"></span>
+                <button class="btn btn-success col-md-2 col-8" id="btnUpdate" name="update" type="submit" @click="editCourse">Update Course</button>
             </div>
         </form>
         <div class="text-center h1 m-5" v-if="action.performed">
