@@ -142,6 +142,9 @@ export default {
             showFailureAlert: false
         }
     },
+    mounted(){
+        localStorage.idnum = ''
+    },
     methods: {
         getDays: (course) => {
             var days = ''
