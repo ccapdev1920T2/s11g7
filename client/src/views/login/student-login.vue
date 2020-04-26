@@ -33,10 +33,10 @@ export default {
     },
     methods: {
         login(){
-            this.axios.get('http://localhost:5656/api/students/' + this.input.idnum).then((result)=>{
-                console.log(result.data)
+            // this.axios.get('http://localhost:5656/api/students/' + this.input.idnum).then((result)=>{
+                // console.log(result.data)
                 // if id num is found in db
-                if(result.data != null){
+                // if(result.data != null){
                     // checks validity of password (not working)
                     // if(result.data.password != this.input.password){
                     //     this.errorMessage = 'Wrong Password'
@@ -44,14 +44,12 @@ export default {
                     // else{
                         localStorage.idnum = this.input.idnum
                         console.log(localStorage.idnum)
-                        this.$router.push('Search')
+                        this.$router.push('search')
                     // }
-                }
-                else{
-                    this.errorMessage = 'Invalid ID Number'
-                    console.log("registering account...")
-                    
-                }
+                // }
+                // else{
+                //     this.errorMessage = 'Invalid ID Number'                    
+                // }
             })
 
             
