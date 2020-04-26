@@ -107,6 +107,7 @@ export default {
     },
     data(){
         return{
+            idnum: '',
             courses: [ // sample
                 {
                     classnum: 1544,
@@ -143,7 +144,10 @@ export default {
         }
     },
     mounted(){
-        localStorage.idnum = ''
+        if(localStorage.idnum){
+            this.idnum = localStorage.idnum
+            console.log("MANAGE PAGE:" + this.idnum)
+        }
     },
     methods: {
         getDays: (course) => {
