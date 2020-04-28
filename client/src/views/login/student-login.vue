@@ -28,14 +28,12 @@ export default {
             errorMessage: ''
         }
     },
-    mounted(){
-        localStorage.idnum = ''
-    },
     methods: {
         login(){
             this.axios.post('http://localhost:5656/api/students/login', this.input).then((result)=>{
                 console.log(result.status)
                 this.errorMessage = ""
+                // this.$router.push('search')
             }).catch((error)=>{
                 console.log(error)
                 this.errorMessage = "Invalid ID Number/Password"

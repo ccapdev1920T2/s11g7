@@ -17,6 +17,8 @@ After cloning this project via Git, please navigate to the respective folders to
 ## Server
 - bcrypt
 - express
+- express-session
+- connect-mongo
 - mongoose
 - nodemon
 - Node.js

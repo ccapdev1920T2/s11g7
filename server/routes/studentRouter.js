@@ -27,6 +27,12 @@ studentRouter.route('/register')
     .post(studentController.registerStudent)
 
 studentRouter.route('/login')
-    .post(studentController.getStudentLoginInfo)
+    .post(studentController.loginStudent)
+
+studentRouter.route('/authenticate-session')
+    .get(studentController.getStudentLogin)
+
+studentRouter.route('/logout')
+    .get(studentController.logoutStudent)
 
 module.exports = studentRouter

@@ -155,11 +155,11 @@ studentController = {
     },
 
     /**
-     * TODO: Compares the login info with input and checks if authentication is correct.
+     * Compares the login info with input
      */
-    getStudentLoginInfo: async (req, res) => {
+    loginStudent: async (req, res) => {
         try {
-            let input = req.body
+            let input = req.body;
             let student = await Student.findOne({ idnum: input.idnum })
 
             // checks if idnum is valid
@@ -168,20 +168,45 @@ studentController = {
                 bcrypt.compare(input.password, student.password, function(err,equal){
                     // if password input and password in db match
                     if(equal){
+                        // saves user idnum to current session
+                        req.session.idnum = input.idnum;
+                        console.log(req.session)
+
                         res.json(student);
                     }
                     else{
-                        res.status(404).json({ message: 'Invalid ID Number/Password' })
+                        res.status(404).json({ message: 'Invalid ID Number/Password' });
                     }
                 })
             }
             else{
-                res.status(404).json({ message: 'Invalid ID Number/Password' })
+                res.status(404).json({ message: 'Invalid ID Number/Password' });
             }
         } catch (err) {
             console.log(err);
-            res.status(500).json(err)
+            res.status(500).json(err);
         }        
+    },
+
+    /**
+     * checks if user is currently logged in or not
+     */
+    getStudentLogin: async (req,res) => {
+        if(req.session.idnum){
+            res.json(req.session.idnum);
+        }
+        else{
+            res.status(404).json({ message: 'Not Logged In' });
+        }
+    },
+
+    /**
+     * logs out current user by clearing current session
+     */
+    logoutStudent: async (req,res) => {
+        req.session.destroy(function(err){
+            if(err) throw err;
+        })
     }
 
 }
