@@ -158,7 +158,30 @@ studentController = {
      * TODO: Compares the login info with input and checks if authentication is correct.
      */
     getStudentLoginInfo: async (req, res) => {
-        res.status(501).json({ message: 'Feature to be implemented!' })
+        try {
+            let input = req.body
+            let student = await Student.findOne({ idnum: input.idnum })
+
+            // checks if idnum is valid
+            if(student){
+                // checks if password is valid
+                bcrypt.compare(input.password, student.password, function(err,equal){
+                    // if password input and password in db match
+                    if(equal){
+                        res.json(student);
+                    }
+                    else{
+                        res.status(404).json({ message: 'Invalid ID Number/Password' })
+                    }
+                })
+            }
+            else{
+                res.status(404).json({ message: 'Invalid ID Number/Password' })
+            }
+        } catch (err) {
+            console.log(err);
+            res.status(500).json(err)
+        }        
     }
 
 }

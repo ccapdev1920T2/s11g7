@@ -26,4 +26,7 @@ studentRouter.route('/:idnum/courses')
 studentRouter.route('/register')
     .post(studentController.registerStudent)
 
+studentRouter.route('/login')
+    .post(studentController.getStudentLoginInfo)
+
 module.exports = studentRouter
