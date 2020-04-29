@@ -8,6 +8,18 @@ const studentRouter = express.Router();
 studentRouter.route('/')
     .get(studentController.getAllStudents)
 
+studentRouter.route('/register')
+    .post(studentController.registerStudent)
+
+studentRouter.route('/login')
+    .post(studentController.loginStudent)
+    
+studentRouter.route('/authenticate-session')
+    .get(studentController.getStudentLogin)
+
+studentRouter.route('/logout')
+    .get(studentController.logoutStudent)
+
 /**
  * Use a GET request on http://localhost:5656/api/students/:idnum to get
  * the specific student with the matching idnum.
@@ -22,17 +34,5 @@ studentRouter.route('/:idnum')
 studentRouter.route('/:idnum/courses')
     .get(studentController.getCoursesOfStudent)
     .patch(studentController.modifyCoursesOfStudent)
-
-studentRouter.route('/register')
-    .post(studentController.registerStudent)
-
-studentRouter.route('/login')
-    .post(studentController.loginStudent)
-
-studentRouter.route('/authenticate-session')
-    .get(studentController.getStudentLogin)
-
-studentRouter.route('/logout')
-    .get(studentController.logoutStudent)
 
 module.exports = studentRouter

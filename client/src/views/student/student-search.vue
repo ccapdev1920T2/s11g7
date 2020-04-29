@@ -20,19 +20,15 @@ export default {
         'student-header': Header,
         'search-courses': searchCourses
     },
-    mounted(){
-        // if(localStorage.idnum){
-        //     this.idnum = localStorage.idnum
-        //     console.log("SEARCH PAGE:" + this.idnum)
-        // }
-        this.axios.get('http://localhost:5656/api/students/authenticate-session').then((result) =>{
-            console.log(result)
-            // this.successMessage = "Account successfully registered! Going back to home page"
-            // window.location = "/"
-        }).catch((error)=>{
-            console.log(error)
-        })
-    }
+    // mounted(){
+    //     this.axios.get('http://localhost:5656/api/students/login').then((result) =>{
+    //         console.log("GET REQUEST:")
+    //         console.log(result.data)
+    //         // window.location = "/search"
+    //     }).catch((error)=>{
+    //         console.log(error)
+    //     })
+    // }
 }
 </script>
 

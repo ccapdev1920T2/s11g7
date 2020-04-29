@@ -102,7 +102,7 @@ export default {
         getCourses: function() {
             this.resultsReady = false
             this.axios.get('http://localhost:5656/api/courses/').then((result)=>{
-                console.log(result.data)
+                // console.log(result.data)
                 this.courses = result.data
                 this.resultsReady = true
             })
@@ -132,6 +132,16 @@ export default {
     },
     created(){
         this.getCourses()
+    },
+    mounted(){
+        this.axios.defaults.withCredentials = true;
+        this.axios.get('http://localhost:5656/api/students/authenticate-session', {headers:{withCredentials:true}}).then((result) =>{
+            console.log("GET REQUEST:")
+            console.log(result.data)
+            // this.currentUser = result.data.user_id
+        }).catch((error)=>{
+            console.log(error)
+        })
     }
 }
 </script>

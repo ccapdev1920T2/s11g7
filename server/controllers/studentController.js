@@ -166,13 +166,22 @@ studentController = {
             if(student){
                 // checks if password is valid
                 bcrypt.compare(input.password, student.password, function(err,equal){
-                    // if password input and password in db match
+                    // if password input and password inasdasd db match
                     if(equal){
                         // saves user idnum to current session
-                        req.session.idnum = input.idnum;
-                        console.log(req.session)
-
-                        res.json(student);
+                        req.session.user_id = input.idnum;
+                        console.log(req.session.user_id)
+                        console.log(req.sessionID)
+                        req.session.save(function(){
+                            // res.json(req.session);
+                            if(req.session.user_id){
+                                res.send('New Session Created')
+                            }
+                            else{
+                                res.send('Session was not created')
+                            }
+                        })
+                        
                     }
                     else{
                         res.status(404).json({ message: 'Invalid ID Number/Password' });
@@ -192,12 +201,17 @@ studentController = {
      * checks if user is currently logged in or not
      */
     getStudentLogin: async (req,res) => {
-        if(req.session.idnum){
-            res.json(req.session.idnum);
-        }
-        else{
-            res.status(404).json({ message: 'Not Logged In' });
-        }
+        console.log("GETSTUDENTLOGIN")
+        console.log(req.session.user_id)
+        console.log(req.sessionID)
+
+        res.status(200).json(req.session);
+        // if(req.session.user_id){
+        //     res.status(200).json(req.session);
+        // }
+        // else{
+        //     res.status(404).json({ message: 'Not Logged In' });
+        // }
     },
 
     /**
