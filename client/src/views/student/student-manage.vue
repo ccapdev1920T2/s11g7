@@ -107,46 +107,17 @@ export default {
     },
     data(){
         return{
-            idnum: '',
-            courses: [ // sample
-                {
-                    classnum: 1544,
-                    code: 'CCAPDEV', name: 'Web Application Development', 
-                    section: 'S11', 
-                    units: 3, 
-                    term:   { 
-                                acadyear:
-                                {
-                                    from: 2019,
-                                    to: 2020
-                                },
-                                termno: 2
-                            }, 
-                    classtimes: 
-                    [
-                        {day: 'M', time:{from:'1100', to:'1230'}, room: 'G304B'}, {day: 'W', time:{from:'1100', to:'1230'}, room: 'G304B'}
-                    ], 
-                    enrolled: [], 
-                    slots: 45, 
-                    professor: 'ANTIOQUIA, ARREN MATTHEW CAPUCHINO'
-                }
-            ],
+            courses: [],
             calendarPlugins:[
                 dayGridPlugin,
                 timeGridPlugin
             ],
             calendarEvents: [],
             coursesLoaded: false,
-            currentUser: "11828498",
+            currentUser: '',
             coursesToDelete: [],
             showSuccessAlert: false,
             showFailureAlert: false
-        }
-    },
-    mounted(){
-        if(localStorage.idnum){
-            this.idnum = localStorage.idnum
-            console.log("MANAGE PAGE:" + this.idnum)
         }
     },
     methods: {
@@ -157,13 +128,9 @@ export default {
             }
             return days
         },
-        // assumes all classtimes have the same time
-        getTimeSlot: (course) =>{
-            return course.classtimes[0].time.from + '-' + course.classtimes[0].time.to
-        },
-        // assumes all classtimes have the same room
-        getRoom: (course) =>{
-            return course.classtimes[0].room
+        convertTimeFormat:(time) =>{
+            var charArr = time.split('')
+            return charArr[0] + charArr[1] + ":" + charArr[2] + charArr[3] + ":00"
         },
         convertToEvents: function(courses){
             this.calendarEvents = []
@@ -172,14 +139,14 @@ export default {
                 for(var j = 0; j < course.classtimes.length; j++){
                     var classTime = course.classtimes[j]
                     this.calendarEvents.push({
-                        title: course.code,
+                        title: course.code + "\n" + classTime.room,
                         daysOfWeek: [this.determineDay(classTime.day)],
-                        startTime: classTime.time.from,
-                        endTime: classTime.time.to
+                        startTime: this.convertTimeFormat(classTime.time.from),
+                        endTime: this.convertTimeFormat(classTime.time.to)
                     })
                 }
             }
-            console.log(this.calendarEvents)
+           console.log(this.courses)
         },
         determineDay: (day) =>{
             if(day == 'M')
@@ -233,9 +200,14 @@ export default {
         }
     },
     created() {
-        // TODO: Implement current login
-        this.coursesLoaded = false
-        this.updateCourses()
+        this.axios.defaults.withCredentials = true;
+        this.axios.get('http://localhost:5656/api/students/authenticate-session', {headers:{withCredentials:true}}).then((result) =>{
+            console.log("User ID from session: " + result.data.user_id)
+            this.currentUser = result.data.user_id
+            this.updateCourses()
+        }).catch((error)=>{
+            console.log(error)
+        })
     }
 }
 </script>
