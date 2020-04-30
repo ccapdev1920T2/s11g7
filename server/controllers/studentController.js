@@ -173,7 +173,6 @@ studentController = {
                         console.log(req.session.user_id)
                         console.log(req.sessionID)
                         req.session.save(function(){
-                            // res.json(req.session);
                             if(req.session.user_id){
                                 res.send('New Session Created')
                             }
@@ -201,28 +200,20 @@ studentController = {
      * checks if user is currently logged in or not
      */
     getStudentLogin: async (req,res) => {
-        console.log("GETSTUDENTLOGIN")
         console.log(req.session.user_id)
         console.log(req.sessionID)
-
         res.status(200).json(req.session);
-        // if(req.session.user_id){
-        //     res.status(200).json(req.session);
-        // }
-        // else{
-        //     res.status(404).json({ message: 'Not Logged In' });
-        // }
     },
 
     /**
      * logs out current user by clearing current session
      */
     logoutStudent: async (req,res) => {
-        req.session.destroy(function(err){
-            if(err) throw err;
-        })
+        console.log(req.session)
+        req.session.destroy()
+        console.log(req.session)
+        res.send('Session removed')
     }
-
 }
 
 /**

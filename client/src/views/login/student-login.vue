@@ -34,7 +34,7 @@ export default {
                 console.log(result.data)
                 // result
                 this.errorMessage = ""
-                this.$router.push('search')
+                this.$router.push({name: 'Search'})
             }).catch((error)=>{
                 console.log(error)
                 this.errorMessage = "Invalid ID Number/Password"

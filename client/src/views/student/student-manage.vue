@@ -202,9 +202,14 @@ export default {
     created() {
         this.axios.defaults.withCredentials = true;
         this.axios.get('http://localhost:5656/api/students/authenticate-session', {headers:{withCredentials:true}}).then((result) =>{
-            console.log("User ID from session: " + result.data.user_id)
-            this.currentUser = result.data.user_id
-            this.updateCourses()
+            if(result.data.user_id){
+                console.log("User ID from session: " + result.data.user_id)
+                this.currentUser = result.data.user_id
+                this.updateCourses()
+            }
+            else{
+                this.$router.push({name: 'loginStudent'})
+            }
         }).catch((error)=>{
             console.log(error)
         })
