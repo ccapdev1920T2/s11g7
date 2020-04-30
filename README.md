@@ -20,3 +20,6 @@ After cloning this project via Git, please navigate to the respective folders to
 - mongoose
 - nodemon
 - Node.js
+- express-session
+- connect-mongo
+- cors
