@@ -89,7 +89,7 @@ export default {
             coursesToEnlist: [],
             showSuccessAlert: false,
             showFailureAlert: false,
-            currentUser: "11828498"
+            currentUser: ''
         }
     },
     methods: {
@@ -132,13 +132,10 @@ export default {
     },
     created(){
         this.getCourses()
-    },
-    mounted(){
         this.axios.defaults.withCredentials = true;
         this.axios.get('http://localhost:5656/api/students/authenticate-session', {headers:{withCredentials:true}}).then((result) =>{
-            console.log("GET REQUEST:")
-            console.log(result.data)
-            // this.currentUser = result.data.user_id
+            console.log("User ID from session: " + result.data.user_id)
+            this.currentUser = result.data.user_id
         }).catch((error)=>{
             console.log(error)
         })
