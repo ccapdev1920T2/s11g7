@@ -5,7 +5,7 @@
             <div class="box my-3 p-3">
                 <div class="col-12 p-3">
                     <h1 class="d-flex justify-content-left">Your class schedule</h1>
-                    <Spinner v-show="!coursesLoaded"/>
+                    <spinner v-show="!coursesLoaded"/>
                     <div id="calendar" v-show="coursesLoaded">
                         <FullCalendar
                             defaultView = "timeGridWeek"
@@ -28,7 +28,7 @@
                 <div class="col-12 p-3">
                     <form class="form" @submit.prevent>
                         <h1 class="d-flex justify-content-left">Courses</h1>
-                        <Spinner v-show="!coursesLoaded"/>
+                        <spinner v-show="!coursesLoaded"/>
                         <div class="alert alert-success" role="alert" v-show="showSuccessAlert">
                             Course(s) successfully dropped!
                             <button type="button" class="close" @click="showSuccessAlert = false">
@@ -96,14 +96,14 @@ require('@fullcalendar/timegrid/main.min.css')
 import FullCalendar from '@fullcalendar/vue'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
-import Spinner from '../components/Spinner.vue'
+import spinner from '../components/spinner.vue'
 import Header from '../components/student-header.vue'
 
 export default {
     components: {
         'student-header': Header,
         FullCalendar,
-        Spinner
+        spinner
     },
     data(){
         return{

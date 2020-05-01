@@ -13,7 +13,7 @@
         </div>
         
         <div class="box m-3 m-lg-5 p-lg-5 col-12 py-3" v-show="showResults">
-            <Spinner v-show="!resultsReady"/>
+            <spinner v-show="!resultsReady"/>
             <div class="alert alert-success" role="alert" v-show="showSuccessAlert">
                 Course(s) successfully added!
                 <button type="button" class="close" @click="showSuccessAlert = false">
@@ -73,11 +73,11 @@
 </template>
 
 <script>
-import Spinner from './Spinner.vue'
+import spinner from './spinner.vue'
 
 export default {
     components: {
-        Spinner
+        spinner
     },
     data() {
         return {
