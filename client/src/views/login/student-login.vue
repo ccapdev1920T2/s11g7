@@ -40,6 +40,20 @@ export default {
                 this.errorMessage = "Invalid ID Number/Password"
             })
         }
+    },
+    created(){
+        this.axios.defaults.withCredentials = true;
+        this.axios.get('http://localhost:5656/api/students/authenticate-session', {headers:{withCredentials:true}}).then((result) =>{
+            if(result.data.user_id){
+                console.log("User ID from previous session: " + result.data.user_id)
+                this.$router.push({name: 'Search'})
+            }
+            else{
+                console.log("No previous user logged in")
+            }
+        }).catch((error)=>{
+            console.log(error)
+        })
     }
 }
 
