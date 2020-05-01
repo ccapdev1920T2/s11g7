@@ -1,23 +1,17 @@
 <template>
 <div class="rounded-0 border-dark px-3 px-md-5 py-5 mx-md-5 my-md-5" id="content" style="background-color: #ffffff; box-shadow: 20px 20px 50px 10px black;">
     <div class="h1" >{{action[0].toUpperCase() + action.substr(1).toLowerCase()}} Course</div>
-    <div class="alert alert-success" role="alert">
-        A simple success alert—check it out!
-    </div>
-    <div class="alert alert-danger" role="alert">
-        A simple danger alert—check it out!
-    </div>
-    <div class="alert alert-warning" role="alert">
-        A simple warning alert—check it out!
-    </div>
-    <form method="post" novalidate v-on:submit.prevent>
+    <spinner v-if="loaded"/>
+    <form method="post" novalidate v-on:submit.prevent v-else>
+        <alert-box :kind="alert.kind" :message="alert.message" v-if="alert.show"/>
         <div class="form-row">
             <div class="form-group col-md-3">
                 <label class="text-left" for="CNum">Course Number</label>
                 <input 
                     v-model.trim="course.classnum" 
                     class="form-control" 
-                    :class="invalid.classnum ? 'is-invalid' : ''" type="text" 
+                    :class="invalid.classnum ? 'is-invalid' : ''" 
+                    type="text" 
                     id="CNum" 
                     required="" 
                     placeholder="Course Number" 
@@ -116,18 +110,18 @@
                         id="AYStart" 
                         required="" 
                         placeholder="Year From" 
-                        :class="invalid.term ? 'is-invalid' : ''"
-                        @change="course.term.acadyear.to = parseInt(course.term.acadyear.from) + 1">
+                        :class="invalid.term.acadyear.from ? 'is-invalid' : ''"
+                        @change="course.term.acadyear.to = parseInt(course.term.acadyear.from) + 1; isValidTerm()">
                     <input 
                         v-model="course.term.acadyear.to" 
                         class="form-control"
                         type="number" id="AYEnd" 
                         required="" 
                         placeholder="Year To" 
-                        :class="invalid.term ? 'is-invalid' : ''"
-                        @change="course.term.acadyear.from = parseInt(course.term.acadyear.to) - 1">
+                        :class="invalid.term.acadyear.to ? 'is-invalid' : ''"
+                        @change="course.term.acadyear.from = parseInt(course.term.acadyear.to) - 1; isValidTerm()">
                 </div>
-                <small class="form-text text-danger" v-if="invalid.term">{{invalid.term}}</small>
+                <small class="form-text text-danger" v-if="invalid.term.acadyear.from">{{invalid.term.acadyear.from}}</small>
             </div>
             <div class="form-group col-md-1">
                 <label class="text-left" for="TNo">Term</label>
@@ -234,7 +228,7 @@
                 name="add" 
                 type="submit" 
                 @click="addCourse"
-                :disabled="invalid.any">
+                :disabled="invalid.any && edited">
                     Add Course
             </button>
         </div>
@@ -265,6 +259,8 @@
 
 <script>
 import validator from 'validator'
+import alertBox from '../components/alert-box'
+import spinner from '../components/spinner'
 
 class ClassTime {
     day = "M";
@@ -279,7 +275,7 @@ class Course {
     section = "";
     units = 0;
     term = {
-        acadyear: {from: 2019, to: 2020},
+        acadyear: {from: new Date().getFullYear(), to: new Date().getFullYear() + 1},
         termno: 1
     };
     classtimes = [new ClassTime()];
@@ -290,6 +286,8 @@ class Course {
 
 export default {
     components: {
+        'alert-box': alertBox,
+        'spinner': spinner
     },
     props: {
         action: {
@@ -304,12 +302,24 @@ export default {
     data(){
         return {
             course: new Course(),
+            edited: false,
+            loaded: false,
+            alert: {
+                show: false,
+                kind: 'success',
+                message: ''
+            },
             invalid: {
                 classnum: false,
                 code: false,
                 name: false,
                 section: false,
-                term: false,
+                term: {
+                    acadyear: {
+                        from: false,
+                        to: false
+                    }
+                },
                 classtimes: [],
                 schedule: false,
                 slots: false,
@@ -460,23 +470,23 @@ export default {
         },
         isValidUnits() {
             this.invalid.units = false
-            if (!validator.isFloat(this.course.units, { min: 0 })) {
+            if (this.isValidField('units') && !validator.isDecimal(this.course.units, { min: 0 })) {
                 this.invalid.units = 'This must be a number greater than or equal to 0.'
             }
 
             return !this.invalid.units
         },
         isValidTerm() {
-            this.invalid.term = false
-            if (this.course.term.acadyear.from - this.course.term.acadyear.to == 1) {
-                this.invalid.term = 'Years must only be 1 year apart of each other.'
+            this.invalid.term.acadyear.from = false
+            if (this.isValidField('term.acadyear.from') && this.isValidField('term.acadyear.to') && this.course.term.acadyear.from - this.course.term.acadyear.to == 1) {
+                this.invalid.term.acadyear.from = 'Years must only be 1 year apart of each other.'
             }
 
-            return !this.invalid.term
+            return !this.invalid.term.acadyear.from
         },
         isValidSlots() {
             this.invalid.slots = false
-            if (!validator.isInt(this.course.slots, { min: 0 })) {
+            if (this.isValidField('slots') && !validator.isInt(this.course.slots, { min: 0 })) {
                 this.invalid.slots = 'This must be an integer greater than or equal to 0.'
             }
 
