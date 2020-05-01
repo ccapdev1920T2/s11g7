@@ -155,65 +155,12 @@ studentController = {
     },
 
     /**
-     * Compares the login info with input
+     * TODO: Compares the login info with input and checks if authentication is correct.
      */
-    loginStudent: async (req, res) => {
-        try {
-            let input = req.body;
-            let student = await Student.findOne({ idnum: input.idnum })
-
-            // checks if idnum is valid
-            if(student){
-                // checks if password is valid
-                bcrypt.compare(input.password, student.password, function(err,equal){
-                    // if password input and password inasdasd db match
-                    if(equal){
-                        // saves user idnum to current session
-                        req.session.user_id = input.idnum;
-                        console.log(req.session.user_id)
-                        console.log(req.sessionID)
-                        req.session.save(function(){
-                            if(req.session.user_id){
-                                res.send('New Session Created')
-                            }
-                            else{
-                                res.send('Session was not created')
-                            }
-                        })
-                        
-                    }
-                    else{
-                        res.status(404).json({ message: 'Invalid ID Number/Password' });
-                    }
-                })
-            }
-            else{
-                res.status(404).json({ message: 'Invalid ID Number/Password' });
-            }
-        } catch (err) {
-            console.log(err);
-            res.status(500).json(err);
-        }        
-    },
-
-    /**
-     * checks if user is currently logged in or not
-     */
-    getStudentLogin: async (req,res) => {
-        console.log(req.session.user_id)
-        console.log(req.sessionID)
-        res.status(200).json(req.session);
-    },
-
-    /**
-     * logs out current user by clearing current session
-     */
-    logoutStudent: async (req,res) => {
-        console.log(req.session)
-        req.session.destroy()
-        console.log(req.session)
-        res.send('Session removed')
+    getStudentLoginInfo: async (req, res) => {
+        res.status(501).json({ message: 'Feature to be implemented!' })
     }
+
 }
 
 /**

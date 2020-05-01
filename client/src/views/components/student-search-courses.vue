@@ -89,7 +89,7 @@ export default {
             coursesToEnlist: [],
             showSuccessAlert: false,
             showFailureAlert: false,
-            currentUser: ''
+            currentUser: "11828498"
         }
     },
     methods: {
@@ -102,7 +102,7 @@ export default {
         getCourses: function() {
             this.resultsReady = false
             this.axios.get('http://localhost:5656/api/courses/').then((result)=>{
-                // console.log(result.data)
+                console.log(result.data)
                 this.courses = result.data
                 this.resultsReady = true
             })
@@ -132,18 +132,6 @@ export default {
     },
     created(){
         this.getCourses()
-        this.axios.defaults.withCredentials = true;
-        this.axios.get('http://localhost:5656/api/students/authenticate-session', {headers:{withCredentials:true}}).then((result) =>{
-            if(result.data.user_id){
-                console.log("User ID from session: " + result.data.user_id)
-                this.currentUser = result.data.user_id
-            }
-            else{
-                this.$router.push({name: 'loginStudent'})
-            }
-        }).catch((error)=>{
-            console.log(error)
-        })
     }
 }
 </script>
