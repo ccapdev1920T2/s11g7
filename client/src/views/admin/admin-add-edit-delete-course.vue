@@ -275,17 +275,29 @@ export default {
         }
     },
     created() {
-        if(this.classnum == null){
-            this.action.type = "ADD"
-            this.course = new Course()
-            console.log("Adding New Course")
-            this.showSpinner = false
-        }
-        else{
-            this.action.type = "EDIT"
-            console.log("Editing Course #" + this.classnum)
-            this.loadData()
-        }
+        this.axios.defaults.withCredentials = true;
+        this.axios.get('http://localhost:5656/api/admin/authenticate-session', {headers:{withCredentials:true}}).then((result) =>{
+            if(result.data.admin_id){
+                console.log("Admin logged in")
+                if(this.classnum == null){
+                    this.action.type = "ADD"
+                    this.course = new Course()
+                    console.log("Adding New Course")
+                    this.showSpinner = false
+                }
+                else{
+                    this.action.type = "EDIT"
+                    console.log("Editing Course #" + this.classnum)
+                    this.loadData()
+                }
+            }
+            else{
+                console.log("Unauthorized access")
+                this.$router.push({name: 'loginAdmin'})
+            }
+        }).catch((error)=>{
+            console.log(error)
+        })
     }
 }
 </script>

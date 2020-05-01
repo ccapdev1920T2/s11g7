@@ -67,9 +67,21 @@ export default {
     },
   },
   created(){
-    this.axios.get('http://localhost:5656/api/courses/').then((result)=>{
-        console.log(result.data)
-        this.courses = result.data
+    this.axios.defaults.withCredentials = true;
+    this.axios.get('http://localhost:5656/api/admin/authenticate-session', {headers:{withCredentials:true}}).then((result) =>{
+        if(result.data.admin_id){
+            console.log("admin ID from session: " + result.data.admin_id)
+            this.axios.get('http://localhost:5656/api/courses/').then((result)=>{
+                console.log(result.data)
+                this.courses = result.data
+            })
+        }
+        else{
+            console.log("Unauthorized access")
+            this.$router.push({name: 'loginAdmin'})
+        }
+    }).catch((error)=>{
+        console.log(error)
     })
   }
 }

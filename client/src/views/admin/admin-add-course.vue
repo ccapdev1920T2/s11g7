@@ -216,19 +216,31 @@ export default {
         }
     },
     created(){
-        if(this.classnum == null){
-            this.edit = false
-            console.log("Adding New Course")
-        }
-        else{
-            this.edit = true
-            console.log("Editing Course #" + this.classnum)
-            this.axios.get('http://localhost:5656/api/courses/number/' + this.classnum).then((result)=>{
-                console.log(result.data)
-                this.course = result.data
-                this.loadData()
-            })
-        }
+        this.axios.defaults.withCredentials = true;
+        this.axios.get('http://localhost:5656/api/admin/authenticate-session', {headers:{withCredentials:true}}).then((result) =>{
+            if(result.data.admin_id){
+                console.log("Admin logged in")
+                if(this.classnum == null){
+                    this.edit = false
+                    console.log("Adding New Course")
+                }
+                else{
+                    this.edit = true
+                    console.log("Editing Course #" + this.classnum)
+                    this.axios.get('http://localhost:5656/api/courses/number/' + this.classnum).then((result)=>{
+                        console.log(result.data)
+                        this.course = result.data
+                        this.loadData()
+                    })
+                }
+            }
+            else{
+                console.log("Unauthorized access")
+                this.$router.push({name: 'loginAdmin'})
+            }
+        }).catch((error)=>{
+            console.log(error)
+        })
     }
 }
 </script>
