@@ -9,6 +9,8 @@ const port = process.env.PORT || 5656
 
 const studentRouter = require('./routes/studentRouter')
 const courseRouter = require('./routes/courseRouter')
+const adminRouter = require('./routes/adminRouter')
+
 
 const db = require('./models/db.js')
 db.connect()
@@ -31,19 +33,10 @@ app.use(session({
   store: new MongoStore({mongooseConnection: mongoose.connection})
 }));
 
-// app.use(function (req, res) {
-
-//   var details = {};
-
-//   if(req.session.idnum) {
-//       details.idnum = req.session.idnum;
-//   }
-//   // render error
-// });
-
 // Connect Routers
 app.use('/api/students', studentRouter)
 app.use('/api/courses', courseRouter)
+app.use('/api/admin', adminRouter)
 
 app.listen(port, () => {
     console.log(`http://localhost:${port}`)
