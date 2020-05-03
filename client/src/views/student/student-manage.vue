@@ -128,25 +128,26 @@ export default {
             }
             return days
         },
-        convertTimeFormat:(time) =>{
-            var charArr = time.split('')
-            return charArr[0] + charArr[1] + ":" + charArr[2] + charArr[3] + ":00"
-        },
+        // convertTimeFormat:(time) =>{
+        //     var charArr = time.split('')
+        //     return charArr[0] + charArr[1] + ":" + charArr[2] + charArr[3] + ":00"
+        // },
         convertToEvents: function(courses){
             this.calendarEvents = []
             for(var i = 0; i < courses.length; i++){
                 var course = courses[i]
                 for(var j = 0; j < course.classtimes.length; j++){
                     var classTime = course.classtimes[j]
+                    console.log(classTime)
                     this.calendarEvents.push({
                         title: course.code + "\n" + classTime.room,
                         daysOfWeek: [this.determineDay(classTime.day)],
-                        startTime: this.convertTimeFormat(classTime.time.from),
-                        endTime: this.convertTimeFormat(classTime.time.to)
+                        startTime: classTime.time.from,
+                        endTime: classTime.time.to
                     })
                 }
             }
-           console.log(this.courses)
+           console.log(this.calendarEvents)
         },
         determineDay: (day) =>{
             if(day == 'M')
