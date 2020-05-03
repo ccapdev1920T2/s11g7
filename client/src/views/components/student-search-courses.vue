@@ -48,7 +48,7 @@
                                 <tr v-for="(ct, j) in course.classtimes" :key="j" :class="i % 2 == 0 ? 'odd' : ''">
                                     <td v-if="j == 0" :rowspan="course.classtimes.length" scope="col">
                                         <div class="form-check">
-                                            <input class="form-check-input position-static" type="checkbox" v-bind:value="course.classnum" v-model="coursesToEnlist">
+                                            <input class="form-check-input position-static" type="checkbox" v-bind:value="{classnum: course.classnum, code: course.code}" v-model="coursesToEnlist">
                                         </div>
                                     </td>
                                     <td v-if="j == 0" :rowspan="course.classtimes.length" scope="col"> {{course.code}} </td>
@@ -107,27 +107,47 @@ export default {
                 this.resultsReady = true
             })
         },
+        validCourses: function(){
+            let courseCodes = this.coursesToEnlist.map(function(course){
+                return course['code']
+            })
+            let findDuplicates = arr => arr.filter((item, index) => arr.indexOf(item) != index)
+            return findDuplicates(courseCodes).length == 0
+        },
         enlistCourses: function() {
             this.showSuccessAlert = false
             this.showFailureAlert = false
             this.resultsReady = false
 
-            this.axios.patch('http://localhost:5656/api/students/' + this.currentUser + '/courses', 
-            {
-                action: "ENLIST",
-                courses: this.coursesToEnlist
+            var courseNums = this.coursesToEnlist.map(function(course){
+                return course['classnum']
             })
-            .then(() => {
-                this.showSuccessAlert = true
-                console.log("succeeded!")
-            })
-            .catch((err) => {
+
+            if(this.validCourses()){
+                this.axios.patch('http://localhost:5656/api/students/' + this.currentUser + '/courses', 
+                {
+                    action: "ENLIST",
+                    // courses: this.coursesToEnlist
+                    courses: courseNums
+                })
+                .then(() => {
+                    this.showSuccessAlert = true
+                    console.log("succeeded!")
+                })
+                .catch((err) => {
+                    this.showFailureAlert = true
+                    console.log(err)
+                })
+                .finally(() => {
+                    this.resultsReady = true
+                })
+            }
+            else{
+                console.log("Trying to enlist to the same course subject!")
                 this.showFailureAlert = true
-                console.log(err)
-            })
-            .finally(() => {
                 this.resultsReady = true
-            })
+                scroll(0,0)
+            }
         }
     },
     created(){
