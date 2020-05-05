@@ -16,12 +16,6 @@ const db = require('./models/db.js')
 db.connect()
 
 // Middleware
-app.use(session({
-  'secret': 'ccapdev-session',
-  'resave': false,
-  'saveUninitialized': false,
-  store: new MongoStore({mongooseConnection: mongoose.connection})
-}));
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cors({ credentials: true, origin: true }))

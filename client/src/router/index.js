@@ -9,7 +9,8 @@ import studentSearch from '../views/student/student-search.vue'
 import studentManage from '../views/student/student-manage.vue'
 
 import adminManage from '../views/admin/admin-manage-courses.vue'
-import adminAddEditDelete from '../views/admin/admin-add-edit-delete-course.vue'
+import adminAdd from '../views/admin/admin-add.vue'
+import adminEditDelete from '../views/admin/admin-edit-delete-course.vue'
 
 Vue.use(VueRouter)
 
@@ -45,18 +46,18 @@ const routes = [
   {
     path: '/admin-add',
     name: 'adminAdd',
-    component: adminAddEditDelete
+    component: adminAdd
   },
   {
     path: '/admin-edit/:classnum',
     name: 'adminEditCourse',
-    component: adminAddEditDelete
+    component: adminEditDelete
   },
   {
     path: '/admin-manage',
     name: 'adminManage',
     component: adminManage
-  },
+  }
 ]
 
 const router = new VueRouter({
