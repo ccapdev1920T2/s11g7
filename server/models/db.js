@@ -4,8 +4,8 @@ const mongoose = require('mongoose')
 const Admin = require('./Admin.js')
 const Course = require('./Course.js')
 const Student = require('./Student.js')
-
-const url = 'mongodb+srv://admin:RLk30SKMbnrFnCrB@animosis-zgfw3.mongodb.net/animosis?retryWrites=true&w=majority'
+const url = 'mongodb://localhost:27017/animosis'
+// const url = 'mongodb+srv://admin:RLk30SKMbnrFnCrB@animosis-zgfw3.mongodb.net/animosis?retryWrites=true&w=majority'
 const options = {
     useUnifiedTopology: true,
     useNewUrlParser: true,

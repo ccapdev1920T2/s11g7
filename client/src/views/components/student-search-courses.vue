@@ -32,15 +32,15 @@
                     <table class="rounded table table-light table-bordered text-center  table-hover">
                         <thead class="thead thead-dark">
                             <tr>
-                                <th scope="col"></th>
-                                <th scope="col">Code</th>
-                                <th scope="col">Section</th>
-                                <th scope="col">Course Name</th>
-                                <th scope="col">Days</th>
-                                <th scope="col">Timeslot</th>
-                                <th scope="col">Room</th>
-                                <th scope="col">Slots</th>
-                                <th scope="col">Professor</th>
+                                <th scope="col-1"></th>
+                                <th scope="col-1">Code</th>
+                                <th scope="col-1">Section</th>
+                                <th scope="col-3">Course Name</th>
+                                <th scope="col-1">Day</th>
+                                <th scope="col-1">Timeslot</th>
+                                <th scope="col-1">Room</th>
+                                <th scope="col-1">Slots</th>
+                                <th scope="col-2">Professor</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -89,7 +89,7 @@ export default {
             coursesToEnlist: [],
             showSuccessAlert: false,
             showFailureAlert: false,
-            currentUser: "11828498"
+            currentUser: ''
         }
     },
     methods: {
@@ -132,6 +132,18 @@ export default {
     },
     created(){
         this.getCourses()
+        this.axios.defaults.withCredentials = true;
+        this.axios.get('http://localhost:5656/api/students/authenticate-session', {headers:{withCredentials:true}}).then((result) =>{
+            if(result.data.user_id){
+                console.log("User ID from session: " + result.data.user_id)
+                this.currentUser = result.data.user_id
+            }
+            else{
+                this.$router.push({name: 'loginStudent'})
+            }
+        }).catch((error)=>{
+            console.log(error)
+        })
     }
 }
 </script>

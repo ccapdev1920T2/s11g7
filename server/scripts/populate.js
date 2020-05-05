@@ -8,7 +8,7 @@ const Student = require('../models/Student.js')
 // Data for population
 let adminData = {
     "username": "admin",
-    "password": "admin"
+    "password": bcrypt.hashSync("admin", 10)
 }
 
 let currentTerm = 
