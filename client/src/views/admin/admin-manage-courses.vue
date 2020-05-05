@@ -4,8 +4,8 @@
     <div class="rounded-0 border-dark px-2 px-md-5 py-5 mx-md-5 my-md-5" id="content" style="background-color: #ffffff; box-shadow: 20px 20px 50px 10px black;">
         <h1 class="">Course List</h1>
         <div class="table-responsive">
-          <table class="table table-striped table-bordered table-sm">
-            <thead style="background-color: #000000;color: rgb(255,255,255); text-align: center;">
+          <table class="table table-striped allign-text-center text-center allign-middle">
+            <thead>
               <tr>
                 <th>Code</th>
                 <th>Course Name</th>
@@ -18,7 +18,7 @@
                 <th></th>
               </tr>
             </thead>
-            <tbody style="text-align: center;">
+            <tbody>
             <tr v-for="(course, i) in courses" v-bind:key="i">
                 <td scope="col-1" > {{course.code}} </td>
                 <td scope="col-2"> {{course.name}} </td>
@@ -28,7 +28,7 @@
                 <td scope="col-1"> {{getRoom(course)}} </td>
                 <td scope="col-1"> {{course.enrolled.length}} / {{course.slots}}</td>
                 <td scope="col-2"> {{course.professor}} </td>
-              <td><router-link :to="{name: 'adminEditCourse', params:{classnum: course.classnum}}" class="btn btn-success" role="button">Manage</router-link></td>
+                <td><router-link :to="{name: 'adminEditCourse', params: {classnum: course.classnum}}" class="btn btn-success" role="button">Manage</router-link></td>
             </tr>
             </tbody>
           </table>

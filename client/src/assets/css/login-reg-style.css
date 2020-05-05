@@ -46,11 +46,6 @@
     margin: auto;
 }
 
-.success {
-    color: #009445;
-    margin: auto;
-}
-
 .form button {
     font-family: "Roboto", sans-serif;
     text-transform: uppercase;
@@ -143,6 +138,8 @@
     color: rgb(224, 224, 224);
     background-color: rgb(45, 104, 47);;
 }
+
+
 
 .main{
     height: 100vh;

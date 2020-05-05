@@ -5,7 +5,7 @@
             <div class="box my-3 p-3">
                 <div class="col-12 p-3">
                     <h1 class="d-flex justify-content-left">Your class schedule</h1>
-                    <Spinner v-show="!coursesLoaded"/>
+                    <spinner v-show="!coursesLoaded"/>
                     <div id="calendar" v-show="coursesLoaded">
                         <FullCalendar
                             defaultView = "timeGridWeek"
@@ -28,7 +28,7 @@
                 <div class="col-12 p-3">
                     <form class="form" @submit.prevent>
                         <h1 class="d-flex justify-content-left">Courses</h1>
-                        <Spinner v-show="!coursesLoaded"/>
+                        <spinner v-show="!coursesLoaded"/>
                         <div class="alert alert-success" role="alert" v-show="showSuccessAlert">
                             Course(s) successfully dropped!
                             <button type="button" class="close" @click="showSuccessAlert = false">
@@ -96,25 +96,47 @@ require('@fullcalendar/timegrid/main.min.css')
 import FullCalendar from '@fullcalendar/vue'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
-import Spinner from '../components/Spinner.vue'
+import spinner from '../components/spinner.vue'
 import Header from '../components/student-header.vue'
 
 export default {
     components: {
         'student-header': Header,
         FullCalendar,
-        Spinner
+        spinner
     },
     data(){
         return{
-            courses: [],
+            courses: [ // sample
+                {
+                    classnum: 1544,
+                    code: 'CCAPDEV', name: 'Web Application Development', 
+                    section: 'S11', 
+                    units: 3, 
+                    term:   { 
+                                acadyear:
+                                {
+                                    from: 2019,
+                                    to: 2020
+                                },
+                                termno: 2
+                            }, 
+                    classtimes: 
+                    [
+                        {day: 'M', time:{from:'1100', to:'1230'}, room: 'G304B'}, {day: 'W', time:{from:'1100', to:'1230'}, room: 'G304B'}
+                    ], 
+                    enrolled: [], 
+                    slots: 45, 
+                    professor: 'ANTIOQUIA, ARREN MATTHEW CAPUCHINO'
+                }
+            ],
             calendarPlugins:[
                 dayGridPlugin,
                 timeGridPlugin
             ],
             calendarEvents: [],
             coursesLoaded: false,
-            currentUser: '',
+            currentUser: "11828498",
             coursesToDelete: [],
             showSuccessAlert: false,
             showFailureAlert: false
@@ -128,9 +150,13 @@ export default {
             }
             return days
         },
-        convertTimeFormat:(time) =>{
-            var charArr = time.split('')
-            return charArr[0] + charArr[1] + ":" + charArr[2] + charArr[3] + ":00"
+        // assumes all classtimes have the same time
+        getTimeSlot: (course) =>{
+            return course.classtimes[0].time.from + '-' + course.classtimes[0].time.to
+        },
+        // assumes all classtimes have the same room
+        getRoom: (course) =>{
+            return course.classtimes[0].room
         },
         convertToEvents: function(courses){
             this.calendarEvents = []
@@ -139,14 +165,14 @@ export default {
                 for(var j = 0; j < course.classtimes.length; j++){
                     var classTime = course.classtimes[j]
                     this.calendarEvents.push({
-                        title: course.code + "\n" + classTime.room,
+                        title: course.code,
                         daysOfWeek: [this.determineDay(classTime.day)],
-                        startTime: this.convertTimeFormat(classTime.time.from),
-                        endTime: this.convertTimeFormat(classTime.time.to)
+                        startTime: classTime.time.from,
+                        endTime: classTime.time.to
                     })
                 }
             }
-           console.log(this.courses)
+            console.log(this.calendarEvents)
         },
         determineDay: (day) =>{
             if(day == 'M')
@@ -200,19 +226,9 @@ export default {
         }
     },
     created() {
-        this.axios.defaults.withCredentials = true;
-        this.axios.get('http://localhost:5656/api/students/authenticate-session', {headers:{withCredentials:true}}).then((result) =>{
-            if(result.data.user_id){
-                console.log("User ID from session: " + result.data.user_id)
-                this.currentUser = result.data.user_id
-                this.updateCourses()
-            }
-            else{
-                this.$router.push({name: 'loginStudent'})
-            }
-        }).catch((error)=>{
-            console.log(error)
-        })
+        // TODO: Implement current login
+        this.coursesLoaded = false
+        this.updateCourses()
     }
 }
 </script>

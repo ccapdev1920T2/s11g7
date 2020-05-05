@@ -19,7 +19,7 @@
             </ul>
             <ul class="navbar-nav mt-2 mt-lg-0 justify-content-end">
                 <li class="nav-item active">
-                <button v-on:click="logout" class="astext nav-link">Logout</button>
+                    <router-link class="nav-link" :to="{name: 'loginStudent'}">Logout</router-link>
                 </li>
             </ul>
         </div>
@@ -28,27 +28,10 @@
 
 <script>
 export default {
-    methods: {
-        logout(){
-            console.log("User logging out...")
-            this.axios.defaults.withCredentials = true;
-            this.axios.get('http://localhost:5656/api/students/logout', {headers:{withCredentials:true}}).then((result) =>{
-                console.log(result.data)
-                this.$router.push({name: 'loginStudent'})
-            }).catch((error)=>{
-                console.log(error)
-            })
-        }
-    }
+    
 }
 </script>
 
 <style scoped>
-.astext {
-    background:none;
-    border:none;
-    margin:0;
-    padding:0;
-    cursor: pointer;
-}
+
 </style>
