@@ -15,6 +15,8 @@ const adminRouter = require('./routes/adminRouter')
 const db = require('./models/db.js')
 db.connect()
 
+
+
 // Middleware
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
