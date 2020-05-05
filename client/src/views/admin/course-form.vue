@@ -1,8 +1,8 @@
 <template>
 <div class="rounded-0 border-dark px-3 px-md-5 py-5 mx-md-5 my-md-5" id="content" style="background-color: #ffffff; box-shadow: 20px 20px 50px 10px black;">
     <div class="h1" >{{action[0].toUpperCase() + action.substr(1).toLowerCase()}} Course</div>
-    <spinner v-if="loaded"/>
-    <form method="post" novalidate v-on:submit.prevent v-else>
+    <spinner v-if="!loaded && !deleted"/>
+    <form method="post" novalidate v-on:submit.prevent v-if="loaded">
         <alert-box :kind="alert.kind" :message="alert.message" v-if="alert.show"/>
         <div class="form-row">
             <div class="form-group col-md-3">
@@ -52,7 +52,7 @@
                     :class="invalid.slots ? 'is-invalid' : ''" 
                     type="number" 
                     id="CSlots" 
-                    min="0" 
+                    min="1" 
                     placeholder="Number of Slots"
                     @change="isValidSlots">
                 <small class="form-text text-danger" v-if="invalid.slots">{{invalid.slots}}</small>
@@ -183,8 +183,7 @@
                                     class="form-control" 
                                     id="CSTime" 
                                     type="time" 
-                                    required="" 
-                                    @change="isValidSchedule">
+                                    required="">
                             </td>
                             <td>
                                 <input 
@@ -193,8 +192,7 @@
                                     class="form-control" 
                                     id="CETime" 
                                     type="time" 
-                                    required="" 
-                                    @change="isValidSchedule">
+                                    required="">
                             </td>
                             <td>
                                 <input 
@@ -203,8 +201,7 @@
                                     type="text" 
                                     id="CRoom"  
                                     placeholder="Room" 
-                                    required=""
-                                    @change="isValidSchedule">
+                                    required="">
                             </td>
                             <td>
                                 <button 
@@ -228,7 +225,7 @@
                 name="add" 
                 type="submit" 
                 @click="addCourse"
-                :disabled="invalid.any && edited">
+                :disabled="invalid.any">
                     Add Course
             </button>
         </div>
@@ -253,6 +250,10 @@
             </button>
         </div>
     </form>
+    <div class="h2 text-center" v-if="deleted">
+        <div class="m-4">Course deleted successfully.</div>
+        <router-link class="nav-link" :to="{name: 'adminManage'}"><button class="btn btn-success">Return to course listing</button></router-link>
+    </div>
 </div>
 </template>
 
@@ -280,7 +281,7 @@ class Course {
     };
     classtimes = [new ClassTime()];
     enrolled = [];
-    slots = 0;
+    slots = 1;
     professor = "";
 }
 
@@ -299,11 +300,11 @@ export default {
             default: 1
         }
     },
-    data(){
+    data() {
         return {
             course: new Course(),
-            edited: false,
             loaded: false,
+            deleted: false,
             alert: {
                 show: false,
                 kind: 'success',
@@ -326,7 +327,16 @@ export default {
                 professor: false,
                 units: false,
                 get any() {
-                    return this.classnum || this.code || this.name || this.section || this.term || this.schedule || this.slots || this.professor || this.units
+                    return this.classnum || 
+                           this.code || 
+                           this.name || 
+                           this.section || 
+                           this.term.acadyear.from || 
+                           this.term.acadyear.to || 
+                           this.schedule || 
+                           this.slots || 
+                           this.professor || 
+                           this.units
                 }
             }
         }
@@ -334,37 +344,68 @@ export default {
     methods: {
         addCourse() {
             if (this.validateInfo()) {
-                this.axios.post('http://localhost:5656/api/courses/', this.course).then((result) =>{
-                        console.log(result.data.message)
-                    }).catch((error)=>{
-                        console.log(error)
+                this.loaded = false
+                this.alert.show = false
+                this.axios.post('http://localhost:5656/api/courses/', this.course)
+                .then((result) => {
+                    console.log(result.data.message)
+                    this.alert.kind = 'success'
+                    this.alert.message = 'Course added successfully!'
+                    this.course = new Course()
+                }).catch((error) => {
+                    this.alert.kind = 'danger'
+                    this.alert.message = error
+                }).finally(() => {
+                    this.alert.show = true
+                    this.loaded = true
                 })
             }
         },
         editCourse() {
             if (this.validateInfo()) {
-                this.axios.put('http://localhost:5656/api/courses/number/' + this.course.classnum, this.course).then( (result) =>{
-                        console.log(result.data.message)
-                    }).catch((error)=>{
-                        console.log(error)
+                this.loaded = false
+                this.alert.show = false
+                this.axios.put('http://localhost:5656/api/courses/number/' + this.course.classnum, this.course)
+                .then((result) =>{
+                    this.alert.kind = 'success'
+                    this.alert.message = 'Course updated successfully!'
+                    console.log(result.data.message)
+                }).catch((error) => {
+                    this.alert.kind = 'danger'
+                    this.alert.message = error
+                }).finally(() => {
+                    this.alert.show = true
+                    this.loaded = true
                 })
             }
         },
         deleteCourse() {
-            this.axios.delete('http://localhost:5656/api/courses/number/' + this.course.classnum, this.course).then( (result) =>{
+            this.loaded = false
+            this.alert.show = false
+            this.axios.delete('http://localhost:5656/api/courses/number/' + this.course.classnum, this.course)
+            .then((result) =>{
                 console.log(result.data.message)
+                this.deleted = true
             }).catch((error)=>{
-                console.log(error)
-            }).finally(() => {
-                console.log('done')
+                this.alert.kind = 'danger'
+                this.alert.message = error
+                this.alert.show = true
+                this.loaded = true
             })
         },
         loadCourse(classnum) {
+            this.loaded = false
+            this.alert.show = false
+
             this.axios.get('http://localhost:5656/api/courses/number/' + classnum)
             .then((result) => {
+                this.loaded = true
                 return this.course = result.data
             }).catch((error) => {
-                console.log(error)
+                this.alert.kind = 'danger'
+                this.alert.message = error
+                this.alert.show = true
+                this.loaded = true
             })
         },
         addClassTime() {
@@ -412,9 +453,8 @@ export default {
         },
         isValidField(fieldname) {
             this.invalid[fieldname] = false
-            let field = this.course[fieldname]
 
-            if (validator.isEmpty(field)) {
+            if (typeof this.course[fieldname] === 'string' && validator.isEmpty(this.course[fieldname])) {
                 this.invalid[fieldname] = "This is required."
                 return false
             }
@@ -470,24 +510,29 @@ export default {
         },
         isValidUnits() {
             this.invalid.units = false
-            if (this.isValidField('units') && !validator.isDecimal(this.course.units, { min: 0 })) {
+            if (this.isValidField('units') && this.course.units < 0) {
                 this.invalid.units = 'This must be a number greater than or equal to 0.'
             }
 
             return !this.invalid.units
         },
         isValidTerm() {
-            this.invalid.term.acadyear.from = false
-            if (this.isValidField('term.acadyear.from') && this.isValidField('term.acadyear.to') && this.course.term.acadyear.from - this.course.term.acadyear.to == 1) {
-                this.invalid.term.acadyear.from = 'Years must only be 1 year apart of each other.'
+            this.invalid.term.acadyear.from = this.invalid.term.acadyear.to = false
+            if (this.course.term.acadyear.from <= 0 && this.course.term.acadyear.to <= 0) {
+                this.invalid.term.acadyear.from = this.invalid.term.acadyear.to = 'Years must be a positive integer.'
+            }
+            if (this.isValidField('term.acadyear.from') 
+                && this.isValidField('term.acadyear.to') && this.course.term.acadyear.from - this.course.term.acadyear.to == 1) {
+
+                this.invalid.term.acadyear.from = this.invalid.term.acadyear.to = 'Years must only be 1 year apart of each other.'
             }
 
             return !this.invalid.term.acadyear.from
         },
         isValidSlots() {
             this.invalid.slots = false
-            if (this.isValidField('slots') && !validator.isInt(this.course.slots, { min: 0 })) {
-                this.invalid.slots = 'This must be an integer greater than or equal to 0.'
+            if (this.isValidField('slots') && this.course.slots <= 0) {
+                this.invalid.slots = 'This must be an integer greater than 0.'
             }
 
             return !this.invalid.slots
@@ -496,21 +541,31 @@ export default {
             this.course.classtimes.splice(ct, 1)
             this.isValidSchedule() 
         },
+        checkBlanks() {
+            Object.values(this.course).forEach(v => {
+                console.log(v)
+            })
+        },
         validateInfo() {
-            return this.isValidUnits() && 
-                   this.isValidTerm() &&
-                   this.isValidSlots() &&  
-                   this.isValidSchedule() && 
-                   this.isValidClassNum() && 
-                   this.isValidCode() &&
-                   this.isValidField('name') &&
-                   this.isValidField('section') &&
-                   this.isValidField('professor')
+            let valid = true
+            valid = this.isValidUnits() && valid
+            valid = this.isValidTerm() && valid
+            valid = this.isValidSlots() && valid
+            valid = this.isValidSchedule() && valid
+            valid = this.isValidClassNum() && valid
+            valid = this.isValidCode() && valid
+            valid = this.isValidField('name') && valid
+            valid = this.isValidField('section') && valid
+            valid = this.isValidField('professor') && valid
+
+            return valid
         }
     },
     created() {
         if (this.action == 'EDIT')
             this.loadCourse(this.classnum)
+        else
+            this.loaded = true
     }
 }
 </script>
