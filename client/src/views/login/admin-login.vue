@@ -2,10 +2,10 @@
 <div class="main">
     <div class="login-page">
         <div class="form">
-            <form class="login-form" v-on:submit.prevent="login">
-                <input required v-model="input.username" id="text" type="text" placeholder="Username"/>
-                <input required v-model="input.password" id="password" type="password" placeholder="Password"/>
-                <button type="submit" id="login"><b>login</b></button>
+            <form class="login-form">
+                <input id="text" type="text" placeholder="Username"/>
+                <input id="password" type="password" placeholder="Password"/>
+                <router-link :to="{name: 'adminManage'}"><button type="submit" id="login"><b>login</b></button></router-link>
                 <p class="message"><router-link :to="{name: 'loginStudent'}">Login as Student</router-link></p>
                 <p class="error">{{errorMessage}}</p>
             </form>
