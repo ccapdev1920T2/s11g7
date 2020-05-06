@@ -115,7 +115,7 @@ let studentData = [
 
 async function populate(adminData, courseData, studentData) {
     // Connect to Database
-    const url = 'mongodb://localhost:27017/animosis'
+    const url = process.env.MONGODB_URI || 'mongodb://localhost:27017/animosis'
     const options = {
         useUnifiedTopology: true,
         useNewUrlParser: true,
