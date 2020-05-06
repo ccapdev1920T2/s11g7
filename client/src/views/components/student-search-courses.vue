@@ -3,9 +3,16 @@
         <div class="box p-lg-5 p-3 col-12" id="search-box">
             <h1>Search courses</h1>
             <div class="input-group">
-                <input v-model="input" class="form-control form-control-lg" type="text" placeholder="Type a course code... (e.g. CCAPDEV, MOBIDEV)" id="courses" name="courses"> 
+                <input 
+                    v-model.trim="input" 
+                    class="form-control form-control-lg" 
+                    type="text" 
+                    placeholder="Type a course code... (e.g. CCAPDEV, MOBIDEV)" 
+                    id="courses" 
+                    name="courses"
+                    @keyup.enter="searchCourses"> 
                 <div class="input-group-append" id="search">
-                    <button v-on:click="filterCourses" class="btn btn-success">
+                    <button v-on:click="searchCourses" class="btn btn-success" :disabled="input.length <= 0">
                         <span style="font-size:20px; vertical-align: middle;">Search</span>
                     </button>
                 </div>
@@ -21,16 +28,16 @@
                 </button>
             </div>
             <div class="alert alert-danger" role="alert" v-show="showFailureAlert">
-                A problem occurred when adding the course(s)! Please contact ITS for more information.
+                {{alertMsg}}
                 <button type="button" class="close" @click="showFailureAlert = false">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <form class="form" id="add-course" @submit.prevent v-show="resultsReady">
                 <h1 class="d-flex justify-content-left">Search results</h1>
-                <div class="table-responsive" v-if="filteredCourses.length > 0">
-                    <table class="rounded table table-light table-bordered text-center  table-hover">
-                        <thead class="thead thead-dark">
+                <div class="table-responsive" v-if="courses.length > 0">
+                    <table class="rounded table table-light table-bordered text-center">
+                        <thead class="thead">
                             <tr>
                                 <th scope="col-1"></th>
                                 <th scope="col-1">Code</th>
@@ -44,11 +51,15 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <template v-for="(course, i) in filteredCourses">
-                                <tr v-for="(ct, j) in course.classtimes" :key="j" :class="i % 2 == 0 ? 'odd' : ''">
+                            <template v-for="(course, i) in courses">
+                                <tr v-for="(ct, j) in course.classtimes" :key="i + '-' + j" :class="i % 2 == 0 ? 'odd' : ''">
                                     <td v-if="j == 0" :rowspan="course.classtimes.length" scope="col">
-                                        <div class="form-check">
-                                            <input class="form-check-input position-static" type="checkbox" v-bind:value="{classnum: course.classnum, code: course.code}" v-model="coursesToEnlist">
+                                        <div class="form-check" disabled data-toggle="tooltip" title="aaaa" data-placement="right">
+                                            <input 
+                                                class="form-check-input position-static" 
+                                                type="checkbox" 
+                                                v-bind:value="course.classnum" 
+                                                v-model="coursesToEnlist">
                                         </div>
                                     </td>
                                     <td v-if="j == 0" :rowspan="course.classtimes.length" scope="col"> {{course.code}} </td>
@@ -57,7 +68,7 @@
                                     <td> {{ct.day == 'C' ? ct.date : ct.day}} </td>
                                     <td> {{ct.time.from}}-{{ct.time.to}} </td>
                                     <td> {{ct.room}} </td>
-                                    <td v-if="j == 0" :rowspan="course.classtimes.length" scope="col"> {{course.enrolled.length}} / {{course.slots}}</td>
+                                    <td v-if="j == 0" :rowspan="course.classtimes.length" scope="col"> <span class="h4">{{course.enrolled.length}}</span> / {{course.slots}}</td>
                                     <td v-if="j == 0" :rowspan="course.classtimes.length" scope="col"> {{course.professor}} </td>
                                 </tr>
                                 <tr :key="i"></tr>
@@ -84,26 +95,36 @@ export default {
             input: '',
             showResults: false,
             courses: [],
-            filteredCourses: [],
             resultsReady: false,
             coursesToEnlist: [],
             showSuccessAlert: false,
             showFailureAlert: false,
-            currentUser: ''
+            currentUser: '',
+            alertMsg: '',
+            enlistedCourses: []
         }
     },
     methods: {
-        filterCourses: function(){
-            this.filteredCourses = this.courses.filter((course)=>{
-                return course.code.match(this.input)
-            })
+        searchCourses: function() {
             this.showResults = true
-        },
-        getCourses: function() {
             this.resultsReady = false
-            this.axios.get('http://localhost:5656/api/courses/').then((result)=>{
+            this.showFailureAlert = false
+            this.axios.get('http://localhost:5656/api/courses/code/' + this.input)
+            .then((result)=>{
                 console.log(result.data)
                 this.courses = result.data
+                console.log(this.courses)
+            }).catch((err) => {
+                this.showFailureAlert = true
+                this.alertMsg = err.message
+            }).finally(() => {
+                this.resultsReady = true
+            })
+        },
+        getCourses: function() {
+            this.axios.get('http://localhost:5656/api/students/' + this.currentUser + '/courses').then((result)=>{
+                console.log(result.data)
+                this.enlistedCourses = result.data
                 this.resultsReady = true
             })
         },
@@ -135,6 +156,7 @@ export default {
                     console.log("succeeded!")
                 })
                 .catch((err) => {
+                    this.alertMsg = err.message
                     this.showFailureAlert = true
                     console.log(err)
                 })
@@ -144,6 +166,7 @@ export default {
             }
             else{
                 console.log("Trying to enlist to the same course subject!")
+                this.alertMsg = "You cannot enlist in the same subject!"
                 this.showFailureAlert = true
                 this.resultsReady = true
                 scroll(0,0)
@@ -151,14 +174,14 @@ export default {
         }
     },
     created(){
-        this.getCourses()
         this.axios.defaults.withCredentials = true;
         this.axios.get('http://localhost:5656/api/students/authenticate-session', {headers:{withCredentials:true}}).then((result) =>{
             if(result.data.user_id){
                 console.log("User ID from session: " + result.data.user_id)
                 this.currentUser = result.data.user_id
+                this.getCourses()
             }
-            else{
+            else {
                 this.$router.push({name: 'loginStudent'})
             }
         }).catch((error)=>{

@@ -10,15 +10,18 @@ var CourseSchema = mongoose.Schema({
     },
     code: {
         type: String,
-        required: true
+        required: true,
+        index: true
     },
     name: {
         type: String,
-        required: true
+        required: true,
+        index: true
     },
     section: {
         type: String,
-        required: true
+        required: true,
+        index: true
     },
     units: {
         type: Number,
@@ -43,7 +46,8 @@ var CourseSchema = mongoose.Schema({
     },
     professor: {
         type: String,
-        required: true
+        required: true,
+        index: true
     }
 })
 

@@ -137,12 +137,13 @@ async function populate(adminData, courseData, studentData) {
         await Student.insertMany(studentData)
     
         console.log('Database populated \\o/')
+    } catch (err) {
+        throw err
+    } finally {
         mongoose.connection.close(() => {
             console.log('Disconnected from MongoDB, bye o/')
             process.exit(0)
         })
-    } catch (err) {
-        throw err
     }
 }
 

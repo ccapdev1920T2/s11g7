@@ -99,7 +99,7 @@ studentController = {
         
                                 conflictFound = true
                                 error.status = 409
-                                error.message = "Student can't enroll in the following courses."
+                                error.message = "Can't enroll in the following courses."
                                 error.courses.push({
                                     number: course.classnum,
                                     reason: "Already enlisted"
@@ -107,7 +107,7 @@ studentController = {
                             } else if (course.enrolled.length >= course.slots) {
                                 conflictFound = true
                                 error.status = 409
-                                error.message = "Student can't enroll in the following courses."
+                                error.message = "Can't enroll in the following courses."
                                 error.courses.push({
                                     number: course.classnum,
                                     reason: "Already full"
