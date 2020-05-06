@@ -88,12 +88,15 @@ studentController = {
                 let student = req.params.idnum
 
                 let studentDoc = await Student.findOne({ idnum: student }, { idnum: 1, courses: 1 })
-                let courseDocs = await Course.find({ classnum: { $in: courses } }, { classnum: 1, enrolled: 1, slots: 1 })
-
+                let courseDocs = await Course.find({ classnum: { $in: courses } }, { classnum: 1, code: 1, enrolled: 1, slots: 1 })
+                let coursesEnrolledDocs = await Course.find({ classnum: {$in: studentDoc.courses}}, { code: 1 })
+                
                 switch (action.toUpperCase()) {
                     case "ENLIST": {
                         courseDocs.forEach((course) => {
-                            if (studentDoc.courses.includes(course.classnum)) {
+                            if (studentDoc.courses.includes(course.classnum) || 
+                                coursesEnrolledDocs.some(courseEnrolled => courseEnrolled.code === course.code)) {
+        
                                 conflictFound = true
                                 error.status = 409
                                 error.message = "Student can't enroll in the following courses."
