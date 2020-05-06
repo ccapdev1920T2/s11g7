@@ -21,7 +21,13 @@ courseController = {
      */
     getCoursesByCode: async (req, res) => {
         try {
-            let courses = await Course.find({ code: req.params.courseCode })
+            let courses = await Course.find({
+                    code: { 
+                        $regex: req.params.courseCode.replace(/[^A-Za-z0-9_]/g, '\\$&'), //removes regex chars
+                        $options: 'i' 
+                    } 
+                })
+            //let courses = await Course.find({ $text: { $search: req.params.courseCode } })
             res.json(courses)
         } catch (err) {
             console.log(err)
