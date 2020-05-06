@@ -4,9 +4,10 @@
     <div class="rounded-0 border-dark px-2 px-md-5 py-5 mx-md-5 my-md-5" id="content" style="background-color: #ffffff; box-shadow: 20px 20px 50px 10px black;">
         <h1 class="">Course List</h1>
         <div class="table-responsive">
-          <table class="table table-striped allign-text-center text-center allign-middle">
+          <table class="table allign-text-center text-center allign-middle">
             <thead>
               <tr>
+                <th>Class Number</th>
                 <th>Code</th>
                 <th>Course Name</th>
                 <th>Section</th>
@@ -19,17 +20,21 @@
               </tr>
             </thead>
             <tbody>
-            <tr v-for="(course, i) in courses" v-bind:key="i">
-                <td scope="col-1" > {{course.code}} </td>
-                <td scope="col-2"> {{course.name}} </td>
-                <td scope="col-1"> {{course.section}} </td>
-                <td scope="col-1"> {{getDays(course)}} </td>
-                <td scope="col-2"> {{getTimeSlot(course)}} </td>
-                <td scope="col-1"> {{getRoom(course)}} </td>
-                <td scope="col-1"> {{course.enrolled.length}} / {{course.slots}}</td>
-                <td scope="col-2"> {{course.professor}} </td>
-                <td><router-link :to="{name: 'adminEditCourse', params: {classnum: course.classnum}}" class="btn btn-success" role="button">Manage</router-link></td>
-            </tr>
+              <template v-for="(course, i) in courses">
+                <tr v-for="(ct, j) in course.classtimes" :key="i + '-' + j" :class="i % 2 == 0 ? 'odd' : ''" >
+                    <td v-if="j == 0" :rowspan="course.classtimes.length" scope="col"> {{course.classnum}} </td>
+                    <td v-if="j == 0" :rowspan="course.classtimes.length" scope="col"> {{course.code}} </td>
+                    <td v-if="j == 0" :rowspan="course.classtimes.length" scope="col"> {{course.section}} </td>
+                    <td v-if="j == 0" :rowspan="course.classtimes.length" scope="col"> {{course.name}} </td>
+                    <td> {{ct.day == 'C' ? ct.date : ct.day}} </td>
+                    <td> {{ct.time.from}}-{{ct.time.to}} </td>
+                    <td> {{ct.room}} </td>
+                    <td v-if="j == 0" :rowspan="course.classtimes.length" scope="col"> <span class="h4">{{course.enrolled.length}}</span> / {{course.slots}}</td>
+                    <td v-if="j == 0" :rowspan="course.classtimes.length" scope="col"> {{course.professor}} </td>
+                    <td v-if="j == 0" :rowspan="course.classtimes.length" scope="col"><router-link :to="{name: 'adminEditCourse', params: {classnum: course.classnum}}" class="btn btn-success" role="button">Manage</router-link></td>
+                </tr>
+                <tr :key="i"></tr>
+              </template>
             </tbody>
           </table>
       </div>
@@ -73,7 +78,9 @@ export default {
             console.log("admin ID from session: " + result.data.admin_id)
             this.axios.get('http://localhost:5656/api/courses/').then((result)=>{
                 console.log(result.data)
-                this.courses = result.data
+                this.courses = result.data.sort((courseA, courseB) => {
+                  return courseA.classnum - courseB.classnum
+                })
             })
         }
         else{
@@ -88,6 +95,8 @@ export default {
 </script>
 
 <style scoped>
-
+.odd {
+  background-color: rgba(0, 0, 0, 0.05);
+}
 
 </style>
