@@ -36,14 +36,14 @@
                             </button>
                         </div>
                         <div class="alert alert-danger" role="alert" v-show="showFailureAlert">
-                            A problem occurred when dropping the course(s)! Please contact ITS for more information.
+                            {{alertMsg}}
                             <button type="button" class="close" @click="showFailureAlert = false">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="table-responsive" v-show="coursesLoaded">
                             <p v-show="courses.length == 0"> You have no courses! </p>
-                            <table class="table table-sm table-light table-hover text-center" v-show="courses.length > 0">
+                            <table class="table table-sm table-light text-center" v-show="courses.length > 0">
                                 <thead class="thead">
                                     <tr>
                                         <th scope="col-1"></th>
@@ -53,7 +53,6 @@
                                         <th scope="col-1">Day</th>
                                         <th scope="col-1">Timeslot</th>
                                         <th scope="col-1">Room</th>
-                                        <th scope="col-1">Slots</th>
                                         <th scope="col-2">Professor</th>
                                     </tr>
                                 </thead>
@@ -71,7 +70,6 @@
                                             <td> {{ct.day == 'C' ? ct.date : ct.day}} </td>
                                             <td> {{ct.time.from}}-{{ct.time.to}} </td>
                                             <td> {{ct.room}} </td>
-                                            <td v-if="j == 0" :rowspan="course.classtimes.length" scope="col"> {{course.enrolled.length}} / {{course.slots}}</td>
                                             <td v-if="j == 0" :rowspan="course.classtimes.length" scope="col"> {{course.professor}} </td>
                                         </tr>
                                         <tr :key="i"></tr>
@@ -117,21 +115,11 @@ export default {
             currentUser: '',
             coursesToDelete: [],
             showSuccessAlert: false,
-            showFailureAlert: false
+            showFailureAlert: false,
+            alertMsg: ''
         }
     },
     methods: {
-        getDays: (course) => {
-            var days = ''
-            for (var i = 0; i < course.classtimes.length; i++) {
-                days += course.classtimes[i].day
-            }
-            return days
-        },
-        // convertTimeFormat:(time) =>{
-        //     var charArr = time.split('')
-        //     return charArr[0] + charArr[1] + ":" + charArr[2] + charArr[3] + ":00"
-        // },
         convertToEvents: function(courses){
             this.calendarEvents = []
             for(var i = 0; i < courses.length; i++){
@@ -140,7 +128,7 @@ export default {
                     var classTime = course.classtimes[j]
                     console.log(classTime)
                     this.calendarEvents.push({
-                        title: course.code + "\n" + classTime.room,
+                        title: course.code + " " + course.section + "\n" + classTime.room,
                         daysOfWeek: [this.determineDay(classTime.day)],
                         startTime: classTime.time.from,
                         endTime: classTime.time.to
@@ -162,9 +150,8 @@ export default {
                 return '5'
             else if(day == 'S')
                 return '6'
-        },
-        parseTime: (time) => {
-            return time[0] + time[1] + ":" + time[2] + time[3] + ":00"
+            else if(day == 'L')
+                return '0'
         },
         updateCourses: function() {
             this.coursesLoaded = false
@@ -193,6 +180,7 @@ export default {
                 this.showSuccessAlert = true
             })
             .catch((err) => {
+                this.alertMsg = err
                 this.showFailureAlert = true
                 console.log(err)
             }).finally(() => {
