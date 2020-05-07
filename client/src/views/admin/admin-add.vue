@@ -16,7 +16,7 @@ export default {
     },
     created(){
         this.axios.defaults.withCredentials = true;
-        this.axios.get('http://localhost:5656/api/admin/authenticate-session', {headers:{withCredentials:true}}).then((result) =>{
+        this.axios.get('api/admin/authenticate-session', {headers:{withCredentials:true}}).then((result) =>{
             if(result.data.admin_id){
                 console.log("Admin logged in")
             }

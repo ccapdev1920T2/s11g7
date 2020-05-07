@@ -27,7 +27,7 @@ export default {
     },
     methods:{
         login(){
-            this.axios.post('http://localhost:5656/api/admin/login', this.input).then((result)=>{
+            this.axios.post('api/admin/login', this.input).then((result)=>{
                 console.log(result.data)
                 // result
                 this.errorMessage = ""
@@ -40,7 +40,7 @@ export default {
     },
     created(){
         this.axios.defaults.withCredentials = true;
-        this.axios.get('http://localhost:5656/api/admin/authenticate-session', {headers:{withCredentials:true}}).then((result) =>{
+        this.axios.get('api/admin/authenticate-session', {headers:{withCredentials:true}}).then((result) =>{
             if(result.data.admin_id){
                 // console.log("User ID from previous session: " + result.data.user_id)
                 this.$router.push({name: 'adminManage'})

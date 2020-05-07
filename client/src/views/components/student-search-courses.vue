@@ -109,7 +109,7 @@ export default {
             this.showResults = true
             this.resultsReady = false
             this.showFailureAlert = false
-            this.axios.get('http://localhost:5656/api/courses/code/' + this.input)
+            this.axios.get('api/courses/code/' + this.input)
             .then((result)=>{
                 console.log(result.data)
                 this.courses = result.data
@@ -122,7 +122,7 @@ export default {
             })
         },
         getCourses: function() {
-            this.axios.get('http://localhost:5656/api/students/' + this.currentUser + '/courses').then((result)=>{
+            this.axios.get('api/students/' + this.currentUser + '/courses').then((result)=>{
                 console.log(result.data)
                 this.enlistedCourses = result.data
                 this.resultsReady = true
@@ -145,7 +145,7 @@ export default {
             })
 
             if(this.validCourses()){
-                this.axios.patch('http://localhost:5656/api/students/' + this.currentUser + '/courses', 
+                this.axios.patch('api/students/' + this.currentUser + '/courses', 
                 {
                     action: "ENLIST",
                     // courses: this.coursesToEnlist
@@ -182,7 +182,7 @@ export default {
     },
     created(){
         this.axios.defaults.withCredentials = true;
-        this.axios.get('http://localhost:5656/api/students/authenticate-session', {headers:{withCredentials:true}}).then((result) =>{
+        this.axios.get('api/students/authenticate-session', {headers:{withCredentials:true}}).then((result) =>{
             if(result.data.user_id){
                 console.log("User ID from session: " + result.data.user_id)
                 this.currentUser = result.data.user_id

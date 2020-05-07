@@ -16,7 +16,6 @@ const db = require('./models/db.js')
 db.connect()
 
 
-
 // Middleware
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
@@ -33,6 +32,15 @@ app.use(session({
 app.use('/api/students', studentRouter)
 app.use('/api/courses', courseRouter)
 app.use('/api/admin', adminRouter)
+
+// Handle Production
+if (process.env.NODE_ENV === 'production') {
+    // Static Folder
+    app.use(express.static(__dirname + '/public/'))
+
+    // Handle SPA
+    app.get(/.*/, (req, res) => res.sendFile(__dirname + '/public/index.html'))
+}
 
 app.listen(port, () => {
     console.log(`http://localhost:${port}`)

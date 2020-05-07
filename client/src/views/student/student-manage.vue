@@ -155,7 +155,7 @@ export default {
         },
         updateCourses: function() {
             this.coursesLoaded = false
-            this.axios.get('http://localhost:5656/api/students/' + this.currentUser + '/courses')
+            this.axios.get('api/students/' + this.currentUser + '/courses')
                 .then((courses) => {
                     this.courses = courses.data
                     this.convertToEvents(this.courses)
@@ -168,7 +168,7 @@ export default {
             this.showFailureAlert = false
             this.coursesLoaded = false
             
-            this.axios.patch('http://localhost:5656/api/students/' + this.currentUser + '/courses', 
+            this.axios.patch('api/students/' + this.currentUser + '/courses', 
             {
                 action: "DROP",
                 courses: this.coursesToDelete
@@ -190,7 +190,7 @@ export default {
     },
     created() {
         this.axios.defaults.withCredentials = true;
-        this.axios.get('http://localhost:5656/api/students/authenticate-session', {headers:{withCredentials:true}}).then((result) =>{
+        this.axios.get('api/students/authenticate-session', {headers:{withCredentials:true}}).then((result) =>{
             if(result.data.user_id){
                 console.log("User ID from session: " + result.data.user_id)
                 this.currentUser = result.data.user_id
