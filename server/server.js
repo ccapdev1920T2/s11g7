@@ -11,10 +11,8 @@ const studentRouter = require('./routes/studentRouter')
 const courseRouter = require('./routes/courseRouter')
 const adminRouter = require('./routes/adminRouter')
 
-
 const db = require('./models/db.js')
 db.connect()
-
 
 // Middleware
 app.use(express.json())
