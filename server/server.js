@@ -16,7 +16,11 @@ db.connect()
 // Middleware
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-app.use(cors({ credentials: true, origin: true }))
+app.use(cors({ 
+  credentials: true, 
+  origin: true,
+  methods: true, 
+}))
 app.use(session({
   'secret': 'ccapdev-session',
   'resave': false,
