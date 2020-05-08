@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 
 import studentLogin from '../views/login/student-login.vue'
 import studentRegister from '../views/login/student-register.vue'
+import studentRegisterSuccess from '../views/login/student-register-success.vue'
 import adminLogin from '../views/login/admin-login.vue'
 
 import studentSearch from '../views/student/student-search.vue'
@@ -28,6 +29,14 @@ const routes = [
     path: '/register',
     name: 'Register',
     component: studentRegister,
+    meta: {
+      title: 'ANIMOSIS | Register'
+    }
+  },
+  {
+    path: '/registerSuccess',
+    name: 'RegisterSuccess',
+    component: studentRegisterSuccess,
     meta: {
       title: 'ANIMOSIS | Register'
     }

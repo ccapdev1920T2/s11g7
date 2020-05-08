@@ -25,7 +25,7 @@ export default {
             if(result.data.admin_id){
                 console.log("Admin logged in")
             }
-            else{
+            else {
                 console.log("Unauthorized access")
                 this.$router.push({name: 'loginAdmin'})
             }
