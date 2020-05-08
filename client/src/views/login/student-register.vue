@@ -55,7 +55,7 @@ export default {
                             courses: []
                            }
 
-            this.axios.get('api/students/' + this.idnum).then((result)=>{
+            this.axios.get('http://localhost:5656/api/students/' + this.idnum).then((result)=>{
                 console.log(result.data)
                 if(result.data != null){
                     this.errorMessage = "ID Number already registered!"
@@ -63,7 +63,7 @@ export default {
                 else{
                     this.errorMessage = ''
                     console.log("registering account...")
-                    this.axios.post('api/students/register', student).then((result) =>{
+                    this.axios.post('http://localhost:5656/api/students/register', student).then((result) =>{
                         console.log(result)
                         this.successMessage = "Account successfully registered! Going back to home page"
                         window.location = "/registerSuccess"

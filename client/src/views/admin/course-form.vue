@@ -368,7 +368,7 @@ export default {
             if (this.validateInfo()) {
                 this.loaded = false
                 this.alert.show = false
-                this.axios.post('api/courses/', this.course)
+                this.axios.post('http://localhost:5656/api/courses/', this.course)
                 .then((result) => {
                     console.log(result.data.message)
                     this.alert.kind = 'success'
@@ -387,7 +387,7 @@ export default {
             if (this.validateInfo()) {
                 this.loaded = false
                 this.alert.show = false
-                this.axios.put('api/courses/number/' + this.course.classnum, this.course)
+                this.axios.put('http://localhost:5656/api/courses/number/' + this.course.classnum, this.course)
                 .then((result) =>{
                     this.alert.kind = 'success'
                     this.alert.message = 'Course updated successfully!'
@@ -404,7 +404,7 @@ export default {
         deleteCourse() {
             this.loaded = false
             this.alert.show = false
-            this.axios.delete('api/courses/number/' + this.course.classnum, this.course)
+            this.axios.delete('http://localhost:5656/api/courses/number/' + this.course.classnum, this.course)
             .then((result) =>{
                 console.log(result.data.message)
                 this.deleted = true
@@ -419,7 +419,7 @@ export default {
             this.loaded = false
             this.alert.show = false
 
-            this.axios.get('api/courses/number/' + classnum)
+            this.axios.get('http://localhost:5656/api/courses/number/' + classnum)
             .then((result) => {
                 this.loaded = true
                 return this.course = result.data
@@ -443,7 +443,7 @@ export default {
                     return false
                 }
                 if (this.action == 'ADD') {
-                    this.axios.get('api/courses/number/' + classnum).then((result)=>{
+                    this.axios.get('http://localhost:5656/api/courses/number/' + classnum).then((result)=>{
                         if (result.data) {
                             this.invalid.classnum = "Number is already taken."
                             return false
