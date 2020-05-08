@@ -368,7 +368,7 @@ export default {
             if (this.validateInfo()) {
                 this.loaded = false
                 this.alert.show = false
-                this.axios.post('http://animoapi.herokuapp.com/api/courses/', this.course)
+                this.axios.post('https://animoapi.herokuapp.com/api/courses/', this.course)
                 .then((result) => {
                     console.log(result.data.message)
                     this.alert.kind = 'success'
@@ -387,7 +387,7 @@ export default {
             if (this.validateInfo()) {
                 this.loaded = false
                 this.alert.show = false
-                this.axios.put('http://animoapi.herokuapp.com/api/courses/number/' + this.course.classnum, this.course)
+                this.axios.put('https://animoapi.herokuapp.com/api/courses/number/' + this.course.classnum, this.course)
                 .then((result) =>{
                     this.alert.kind = 'success'
                     this.alert.message = 'Course updated successfully!'
@@ -404,7 +404,7 @@ export default {
         deleteCourse() {
             this.loaded = false
             this.alert.show = false
-            this.axios.delete('http://animoapi.herokuapp.com/api/courses/number/' + this.course.classnum, this.course)
+            this.axios.delete('https://animoapi.herokuapp.com/api/courses/number/' + this.course.classnum, this.course)
             .then((result) =>{
                 console.log(result.data.message)
                 this.deleted = true
@@ -419,7 +419,7 @@ export default {
             this.loaded = false
             this.alert.show = false
 
-            this.axios.get('http://animoapi.herokuapp.com/api/courses/number/' + classnum)
+            this.axios.get('https://animoapi.herokuapp.com/api/courses/number/' + classnum)
             .then((result) => {
                 this.loaded = true
                 return this.course = result.data
@@ -443,7 +443,7 @@ export default {
                     return false
                 }
                 if (this.action == 'ADD') {
-                    this.axios.get('http://animoapi.herokuapp.com/api/courses/number/' + classnum).then((result)=>{
+                    this.axios.get('https://animoapi.herokuapp.com/api/courses/number/' + classnum).then((result)=>{
                         if (result.data) {
                             this.invalid.classnum = "Number is already taken."
                             return false
