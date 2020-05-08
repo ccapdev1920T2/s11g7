@@ -108,6 +108,7 @@ export default {
         searchCourses: function() {
             this.showResults = true
             this.resultsReady = false
+            this.showSuccessAlert = false
             this.showFailureAlert = false
             this.axios.get('api/courses/code/' + this.input)
             .then((result)=>{
