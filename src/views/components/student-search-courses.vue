@@ -140,19 +140,21 @@ export default {
             this.showSuccessAlert = false
             this.showFailureAlert = false
             this.resultsReady = false
-
+            /*
             var courseNums = this.coursesToEnlist.map(function(course){
                 return course['classnum']
             })
+            console.log(courseNums) */
 
             if(this.validCourses()){
                 this.axios.patch('http://animoapi.herokuapp.com/api/students/' + this.currentUser + '/courses', 
                 {
                     action: "ENLIST",
-                    // courses: this.coursesToEnlist
-                    courses: courseNums
+                    courses: this.coursesToEnlist
+                    
                 })
                 .then(() => {
+                    this.searchCourses()
                     this.showSuccessAlert = true
                     console.log("succeeded!")
                 })
