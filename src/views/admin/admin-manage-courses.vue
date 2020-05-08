@@ -73,10 +73,10 @@ export default {
   },
   created(){
     this.axios.defaults.withCredentials = true;
-    this.axios.get('http://localhost:5656/api/admin/authenticate-session', {headers:{withCredentials:true}}).then((result) =>{
+    this.axios.get('http://animoapi.herokuapp.com/api/admin/authenticate-session', {headers:{withCredentials:true}}).then((result) =>{
         if(result.data.admin_id){
             console.log("admin ID from session: " + result.data.admin_id)
-            this.axios.get('http://localhost:5656/api/courses/').then((result)=>{
+            this.axios.get('http://animoapi.herokuapp.com/api/courses/').then((result)=>{
                 console.log(result.data)
                 this.courses = result.data.sort((courseA, courseB) => {
                   return courseA.classnum - courseB.classnum

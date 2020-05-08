@@ -30,7 +30,7 @@ export default {
     },
     methods: {
         login(){
-            this.axios.post('http://localhost:5656/api/students/login', this.input).then((result)=>{
+            this.axios.post('http://animoapi.herokuapp.com/api/students/login', this.input).then((result)=>{
                 console.log(result.data)
                 // result
                 this.errorMessage = ""
@@ -43,7 +43,7 @@ export default {
     },
     created(){
         this.axios.defaults.withCredentials = true;
-        this.axios.get('http://localhost:5656/api/students/authenticate-session', {headers:{withCredentials:true}}).then((result) =>{
+        this.axios.get('http://animoapi.herokuapp.com/api/students/authenticate-session', {headers:{withCredentials:true}}).then((result) =>{
             if(result.data.user_id){
                 console.log("User ID from previous session: " + result.data.user_id)
                 this.$router.push({name: 'Search'})

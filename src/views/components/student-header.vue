@@ -32,7 +32,7 @@ export default {
         logout(){
             console.log("User logging out...")
             this.axios.defaults.withCredentials = true;
-            this.axios.get('http://localhost:5656/api/students/logout', {headers:{withCredentials:true}}).then((result) =>{
+            this.axios.get('http://animoapi.herokuapp.com/api/students/logout', {headers:{withCredentials:true}}).then((result) =>{
                 console.log(result.data)
                 this.$router.push({name: 'loginStudent'})
             }).catch((error)=>{
