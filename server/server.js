@@ -25,7 +25,10 @@ app.use(session({
   'secret': 'ccapdev-session',
   'resave': false,
   'saveUninitialized': false,
-  cookie: { secure: false },
+  cookie: { 
+    secure: false,
+    httpOnly: false
+  },
   store: new MongoStore({mongooseConnection: mongoose.connection})
 }));
 
