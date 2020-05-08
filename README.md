@@ -1,22 +1,27 @@
-# [Machine Project Specifications](Group7%20S11%20MP%20Specifications.pdf)
+# ANIMOSIS Backend
 
-The project is split into [client](./client) for the Vue frontend, and the [server](./server) for Node/Express/MongoDB backend. The client folder contains the views of the project, while the server folder contains the models and controllers. 
-After cloning this project via Git, please navigate to the respective folders to see their respective setup instructions.
+This is the backend API server which connects to the MongoDB. Use axios to send requests for data and present them via Vue.
+Check the [```routes```](./routes) folder and their respective files for the router links and how to make HTTP requests from the server. Check the [```models```](./models) folder and their respective files to view the database setup for this API. *Note that authentication is not yet implemented.*
 
-# Dependencies Used
-## Client
-- Vue
-- Vue-router
-- Axios
-- Bootstrap
-- jQuery
-- Node.js
-- mongoose
-- FullCalendar
+# Server Setup
 
-## Server
-- bcrypt
-- express
-- mongoose
-- nodemon
-- Node.js
+To install node.js, run:
+```
+npm install
+```
+
+To run the server for development, navigate to this folder then type:
+```
+npm run dev
+```
+
+This will run the backend server at [```http://localhost:5656```](http://localhost:5656).
+Note: Run this server in a seperate command prompt with the Vue server, then make requests to this server for the data.
+
+# Populate Database
+
+To populate the database, run:
+```
+npm run populate-database
+```
+This will fill the database with the data found in [```./scripts/populate.js```](./scripts/populate.js)
