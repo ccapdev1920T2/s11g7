@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 
 import studentLogin from '../views/login/student-login.vue'
 import studentRegister from '../views/login/student-register.vue'
+import studentRegisterSuccess from '../views/login/student-register-success.vue'
 import adminLogin from '../views/login/admin-login.vue'
 
 import studentSearch from '../views/student/student-search.vue'
@@ -19,44 +20,76 @@ const routes = [
   {
     path: '/',
     name: 'loginStudent',
-    component: studentLogin
+    component: studentLogin,
+    meta: {
+      title: 'ANIMOSIS'
+    }
   },
   {
     path: '/register',
     name: 'Register',
-    component: studentRegister
+    component: studentRegister,
+    meta: {
+      title: 'ANIMOSIS | Register'
+    }
+  },
+  {
+    path: '/registerSuccess',
+    name: 'RegisterSuccess',
+    component: studentRegisterSuccess,
+    meta: {
+      title: 'ANIMOSIS | Register'
+    }
   },
   {
     path: '/search',
     name: 'Search',
-    component: studentSearch
+    component: studentSearch,
+    meta: {
+      title: 'ANIMOSIS | Search'
+    }
   },
   {
     path: '/manage',
     name: 'Manage',
-    component: studentManage
+    component: studentManage,
+    meta: {
+      title: 'ANIMOSIS | Manage Courses'
+    }
   },
 
   // admin routes
   {
     path: '/admin',
     name: 'loginAdmin',
-    component: adminLogin
+    component: adminLogin,
+    meta: {
+      title: 'ANIMOSIS | Admin Login'
+    }
   },
   {
     path: '/admin-add',
     name: 'adminAdd',
-    component: adminAdd
+    component: adminAdd,
+    meta: {
+      title: 'ANIMOSIS | Admin Course Form'
+    }
   },
   {
     path: '/admin-edit/:classnum',
     name: 'adminEditCourse',
-    component: adminEditDelete
+    component: adminEditDelete,
+    meta: {
+      title: 'ANIMOSIS | Admin Course Form'
+    }
   },
   {
     path: '/admin-manage',
     name: 'adminManage',
-    component: adminManage
+    component: adminManage,
+    meta: {
+      title: 'ANIMOSIS | Admin Manage Courses'
+    }
   }
 ]
 

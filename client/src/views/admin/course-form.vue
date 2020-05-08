@@ -235,7 +235,8 @@
                 id="btnDelete" 
                 name="delete" 
                 type="submit" 
-                @click="deleteCourse">
+                data-toggle="modal"
+                data-target="#deleteCourseModal">
                     Delete Course
             </button>
             <span class="col-md-9 col-1"></span>
@@ -253,6 +254,27 @@
     <div class="h2 text-center" v-if="deleted">
         <div class="m-4">Course deleted successfully.</div>
         <router-link class="nav-link" :to="{name: 'adminManage'}"><button class="btn btn-success">Return to course listing</button></router-link>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="deleteCourseModal" tabindex="-1" role="dialog" aria-labelledby="deleteCourseModelLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="deleteCourseModelLabel">Confirm deletion of course</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            Are you sure you want to delete this course?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-danger" @click="deleteCourse" data-dismiss="modal">Delete Course</button>
+          </div>
+        </div>
+      </div>
     </div>
 </div>
 </template>

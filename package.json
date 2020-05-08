@@ -5,8 +5,9 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "populate-database": "node ./scripts/populate.js",
-    "dev": "nodemon server.js"
+    "populate-database": "node ./server/scripts/populate.js",
+    "dev": "nodemon ./server/server.js",
+    "start": "node ./server/server.js"
   },
   "author": "",
   "license": "ISC",

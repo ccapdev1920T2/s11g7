@@ -14,7 +14,6 @@ let StudentSchema = mongoose.Schema({
         required: true
     },
     
-
     address: {
         type: String,
         required: true

@@ -66,7 +66,7 @@ export default {
                     this.axios.post('http://localhost:5656/api/students/register', student).then((result) =>{
                         console.log(result)
                         this.successMessage = "Account successfully registered! Going back to home page"
-                        window.location = "/"
+                        window.location = "/registerSuccess"
                     }).catch((error)=>{
                         console.log(error)
                     })

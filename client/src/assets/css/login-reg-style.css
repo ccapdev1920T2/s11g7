@@ -166,3 +166,13 @@
 #lastname {
     width: 26%
 }
+
+.message-large {
+    color: #b3b3b3;
+    font-size: 20px;
+}
+
+.link {
+    color: #4CAF50;
+    text-decoration: none;
+}

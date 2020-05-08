@@ -54,7 +54,7 @@
                             <template v-for="(course, i) in courses">
                                 <tr v-for="(ct, j) in course.classtimes" :key="i + '-' + j" :class="i % 2 == 0 ? 'odd' : ''">
                                     <td v-if="j == 0" :rowspan="course.classtimes.length" scope="col">
-                                        <div class="form-check" disabled data-toggle="tooltip" title="aaaa" data-placement="right">
+                                        <div class="form-check">
                                             <input 
                                                 class="form-check-input position-static" 
                                                 type="checkbox" 
@@ -108,6 +108,7 @@ export default {
         searchCourses: function() {
             this.showResults = true
             this.resultsReady = false
+            this.showSuccessAlert = false
             this.showFailureAlert = false
             this.axios.get('http://localhost:5656/api/courses/code/' + this.input)
             .then((result)=>{
@@ -115,8 +116,8 @@ export default {
                 this.courses = result.data
                 console.log(this.courses)
             }).catch((err) => {
+                this.alertMsg = err
                 this.showFailureAlert = true
-                this.alertMsg = err.message
             }).finally(() => {
                 this.resultsReady = true
             })
@@ -171,6 +172,13 @@ export default {
                 this.resultsReady = true
                 scroll(0,0)
             }
+        },
+        isSelectable(course) {
+            let classnums = this.enlistedCourses.map((course) => {
+                return course.classnum
+            })
+
+            return !classnums.includes(course.classnum)                   
         }
     },
     created(){
