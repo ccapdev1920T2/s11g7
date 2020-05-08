@@ -5,7 +5,6 @@ const session = require('express-session')
 const MongoStore = require('connect-mongo')(session);
 
 const app = express()
-const port = process.env.PORT || 5656
 
 const studentRouter = require('./routes/studentRouter')
 const courseRouter = require('./routes/courseRouter')
@@ -39,6 +38,8 @@ if (process.env.NODE_ENV === 'production') {
     // Handle SPA
     app.get(/.*/, (req, res) => res.sendFile(__dirname + '/public/index.html'))
 }
+
+const port = process.env.PORT || 5656
 
 app.listen(port, () => {
     console.log(`http://localhost:${port}`)
