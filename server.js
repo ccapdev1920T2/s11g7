@@ -19,7 +19,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(cors({ 
   credentials: true, 
   origin: true,
-  methods: true, 
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE", 
 }))
 app.use(session({
   'secret': 'ccapdev-session',
