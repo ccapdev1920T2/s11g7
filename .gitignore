@@ -1,6 +1,5 @@
 .DS_Store
 node_modules
-/dist
 
 # local env files
 .env.local
@@ -120,4 +119,3 @@ dist
 # TernJS port file
 .tern-port
 
-# client
