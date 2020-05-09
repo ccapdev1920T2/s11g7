@@ -144,17 +144,10 @@ export default {
                     }
                 }
             }
-
-            let findDuplicates = arr => arr.filter((item, index) => arr.indexOf(item) != index)
-            console.log(findDuplicates(courseCodes).length)
-            if (findDuplicates(courseCodes).length > 0){
-                valid = false
-                this.errorType = 'duplicate'
-            }
             
             for(var k = 0; k < this.enlistedCourses.length; k++){
-                
                 var enlistedCourse = this.enlistedCourses[k]
+                courseCodes.push(enlistedCourse.code)
                 for(var l = 0; l < courseObjectsToEnlist.length; l++){
                     console.log('enlistedCourse:')
                     console.log(enlistedCourse)
@@ -173,8 +166,15 @@ export default {
                         console.log('no conflict')
                     }
                 }
-
             }
+
+            let findDuplicates = arr => arr.filter((item, index) => arr.indexOf(item) != index)
+            console.log(findDuplicates(courseCodes).length)
+            if (findDuplicates(courseCodes).length > 0){
+                valid = false
+                this.errorType = 'duplicate'
+            }
+
             console.log('validity: ' + valid)
             return valid
         },
