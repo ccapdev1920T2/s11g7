@@ -101,7 +101,8 @@ export default {
             showFailureAlert: false,
             currentUser: '',
             alertMsg: '',
-            enlistedCourses: []
+            enlistedCourses: [],
+            errorType: ''
         }
     },
     methods: {
@@ -130,11 +131,68 @@ export default {
             })
         },
         validCourses: function(){
-            let courseCodes = this.coursesToEnlist.map(function(course){
-                return course['code']
-            })
+            var courseCodes = []
+            var courseObjectsToEnlist = []
+            var valid = true
+
+            for(var i = 0; i < this.courses.length; i++){
+                var courseA = this.courses[i]
+                for(var j = 0; j < this.coursesToEnlist.length; j++){
+                    if(courseA.classnum == this.coursesToEnlist[j]){
+                        courseCodes.push(courseA.code)
+                        courseObjectsToEnlist.push(courseA)
+                    }
+                }
+            }
+
             let findDuplicates = arr => arr.filter((item, index) => arr.indexOf(item) != index)
-            return findDuplicates(courseCodes).length == 0
+            console.log(findDuplicates(courseCodes).length)
+            if (findDuplicates(courseCodes).length > 0){
+                valid = false
+                this.errorType = 'duplicate'
+            }
+            
+            for(var k = 0; k < this.enlistedCourses.length; k++){
+                
+                var enlistedCourse = this.enlistedCourses[k]
+                for(var l = 0; l < courseObjectsToEnlist.length; l++){
+                    console.log('enlistedCourse:')
+                    console.log(enlistedCourse)
+
+                    console.log('courseObjectToEnlist:')
+                    console.log(courseObjectsToEnlist[l])
+
+                    var courseToEnlist = courseObjectsToEnlist[l]
+                    console.log('conflict status: ')
+                    if(this.hasConflicts(enlistedCourse, courseToEnlist)){
+                        valid = false
+                        this.errorType = 'conflict'
+                        console.log('has conflict')
+                    }
+                    else{
+                        console.log('no conflict')
+                    }
+                }
+
+            }
+            console.log('validity: ' + valid)
+            return valid
+        },
+
+        hasConflicts: function(courseA, courseB){
+            for(var i = 0; i < courseA.classtimes.length; i++){
+                var classtimeA = courseA.classtimes[i]
+                for(var j = 0; j < courseB.classtimes.length; j++){
+                    var classtimeB = courseB.classtimes[j]
+                    if(classtimeA.day == classtimeB.day){
+                        if( classtimeA.time.from == classtimeB.time.from || 
+                            (classtimeA.time.from <= classtimeB.time.from && classtimeA.time.to > classtimeB.time.from) || (classtimeB.time.from <= classtimeA.time.from && classtimeB.time.to > classtimeA.time.from) || 
+                            (classtimeA.time.from >= classtimeB.time.from && classtimeA.time.to <= classtimeB.time.from) || (classtimeB.time.from >= classtimeA.time.from && classtimeB.time.to <= classtimeA.time.from) )
+                        return true
+                    }
+                }
+            }
+            return false
         },
         enlistCourses: function() {
             this.showSuccessAlert = false
@@ -168,8 +226,14 @@ export default {
                 })
             }
             else{
-                console.log("Trying to enlist to the same course subject!")
-                this.alertMsg = "You cannot enlist in the same subject!"
+                if(this.errorType == 'conflict'){
+                    console.log("Course has conflict with enlisted courses!")
+                    this.alertMsg = "There is a time conflict with your enlisted courses!"
+                }
+                else{
+                    console.log("Trying to enlist to the same course subject!")
+                    this.alertMsg = "You cannot enlist in the same subject!"
+                }
                 this.showFailureAlert = true
                 this.resultsReady = true
                 scroll(0,0)
