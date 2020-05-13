@@ -21,7 +21,14 @@ npm run serve
 #### Log in
 
 Login with the details used to register.
-A dummy account that can be used is ID number ```11828498``` and password ```platinum123```.
+The following dummy accounts can be used:
+
+Username | Password
+--- | ---
+11828498 | platinum123
+11857072 | Na9slDq
+11583673 | ls2qXomojuR
+12004847 | NKw6Dv
 
 #### Register
 
