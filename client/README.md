@@ -11,20 +11,8 @@ npm install
 ```
 npm run serve
 ```
-### ---------------------------------
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### 3) Naviagate to the given link, namely ```http://localhost:3000/```
 
 ## Views
 
@@ -59,8 +47,8 @@ Input the details of the course as specified in the form and click the add butto
 
 #### Edit course
 
-Click on the manage button, edit the course as specified in the form and click the update button.
+Click on the manage button of a course, edit the course as specified in the form and click the update button.
 
 #### Delete course
 
-Click on the manage button, then click on the delete button.
+Click on the manage button of a course, then click on the delete button. Click on the delete button that appears in the pop-up to confirm deletion.
